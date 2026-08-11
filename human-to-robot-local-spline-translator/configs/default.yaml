@@ -144,9 +144,15 @@ loss:
 training:
   seed: 2027
   device: cuda
+  distributed:
+    enabled: auto
+    gpu_ids: null
+    backend: nccl
+    master_addr: 127.0.0.1
+    master_port: null
   epochs: 4
   pairing_slot_schedule: [0, 1, 2, 3]
-  batch_size: 4
+  batch_size: 4  # per GPU / per process when distributed is enabled
   num_workers: 4
   pin_memory: true
   persistent_workers: false

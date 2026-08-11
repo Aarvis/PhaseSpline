@@ -4,7 +4,7 @@ import argparse
 from pathlib import Path
 
 from human_to_robot_local_spline_translator.config import load_config
-from human_to_robot_local_spline_translator.training import train
+from human_to_robot_local_spline_translator.training import launch_training
 
 
 DEFAULT_CONFIG = Path(__file__).resolve().parent / "configs" / "default.yaml"
@@ -16,7 +16,7 @@ def main() -> None:
     parser.add_argument("--set", action="append", default=[], metavar="KEY=VALUE")
     parser.add_argument("--resume", default=None)
     args = parser.parse_args()
-    checkpoint = train(load_config(args.config, args.set), resume=args.resume)
+    checkpoint = launch_training(load_config(args.config, args.set), resume=args.resume)
     print(f"Training complete: {checkpoint}")
 
 
