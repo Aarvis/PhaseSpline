@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-import math
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -9,10 +8,10 @@ from typing import Any
 import numpy as np
 import pyarrow.parquet as pq
 import torch
-from torch.utils.data import Dataset, Sampler
+from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 
-from .utils import EpisodeLRUCache, RunningMoments, atomic_json_dump, atomic_npz_dump
+from .utils import EpisodeLRUCache, RunningMoments, atomic_json_dump
 
 
 STATE_COLUMN = "observation.state"
@@ -80,10 +79,6 @@ class RobotEpisodeBundle:
     exact_local_num_knots: np.ndarray
     paired_human_episode_indices: np.ndarray
     predicted_human_u: np.ndarray | None
-    human_gt_start_u: np.ndarray | None = None
-    human_gt_end_u: np.ndarray | None = None
-    interval_valid_mask: np.ndarray | None = None
-    category_index: int | None = None
 
 
 def canonical_category_id(value: str) -> str:
@@ -141,10 +136,6 @@ def human_spline_npz_path(root: Path, episode_index: int) -> Path:
     return root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "spline.npz"
 
 
-def consolidated_human_spline_npz_path(cache_root: Path, episode_index: int) -> Path:
-    return cache_root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "human_spline_cache.npz"
-
-
 def checkpoint_json_path(dataset_root: Path, episode_index: int) -> Path:
     return (
         dataset_root
@@ -162,10 +153,6 @@ def robot_parquet_path(dataset_root: Path, episode_index: int) -> Path:
 
 def exact_human_interval_npz_path(cache_root: Path, episode_index: int) -> Path:
     return cache_root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "exact_human_interval_cache.npz"
-
-
-def consolidated_robot_episode_npz_path(cache_root: Path, episode_index: int) -> Path:
-    return cache_root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "robot_episode_cache.npz"
 
 
 def read_dataset_info(root: Path) -> dict[str, Any]:
@@ -434,9 +421,8 @@ def precompute_exact_human_interval_cache(
                 else:
                     invalid_samples += 1
                 total_samples += 1
-        atomic_npz_dump(
+        np.savez_compressed(
             out_path,
-            compressed=True,
             frame_indices=frame_indices.astype(np.int32, copy=False),
             paired_human_episode_indices=paired_human_episode_indices.astype(np.int32, copy=False),
             human_gt_start_u=human_gt_start_u.astype(np.float32, copy=False),
@@ -470,254 +456,6 @@ def load_exact_human_interval_cache(path: Path) -> ExactHumanIntervalCache:
         )
 
 
-def prepare_consolidated_human_spline_cache(
-    human_episode_ids: list[int],
-    human_bspline_root: Path,
-    consolidated_cache_root: Path,
-    *,
-    overwrite: bool,
-    compressed: bool,
-) -> dict[str, Any]:
-    consolidated_cache_root.mkdir(parents=True, exist_ok=True)
-    total_episodes = 0
-    total_coefficients = 0
-    total_knots = 0
-    for episode_index in tqdm(human_episode_ids, desc="precompute/human-spline-cache", unit="episode"):
-        out_path = consolidated_human_spline_npz_path(consolidated_cache_root, episode_index)
-        if out_path.exists() and not overwrite:
-            continue
-        with np.load(human_spline_npz_path(human_bspline_root, episode_index), allow_pickle=False) as archive:
-            coefficients = np.asarray(archive["global_coefficients"], dtype=np.float32)
-            knots = np.asarray(archive["global_knots"], dtype=np.float32)
-            degree = int(np.asarray(archive["global_degree"]).reshape(-1)[0])
-        atomic_npz_dump(
-            out_path,
-            compressed=compressed,
-            global_coefficients=coefficients.astype(np.float32, copy=False),
-            global_knots=knots.astype(np.float32, copy=False),
-            global_degree=np.asarray(degree, dtype=np.int32),
-        )
-        total_episodes += 1
-        total_coefficients += int(coefficients.shape[0])
-        total_knots += int(knots.shape[0])
-    return {
-        "episodes_written": int(total_episodes),
-        "coefficients_written": int(total_coefficients),
-        "knots_written": int(total_knots),
-        "compressed": bool(compressed),
-    }
-
-
-def prepare_consolidated_robot_episode_cache(
-    robot_episode_ids: list[int],
-    sim_dataset_root: Path,
-    robot_embedding_root: Path,
-    robot_spline_root: Path,
-    robot_local_window_root: Path,
-    robot_pairing_root: Path,
-    exact_human_interval_cache_root: Path,
-    consolidated_cache_root: Path,
-    state_dims: list[int],
-    state_mean: np.ndarray,
-    state_std: np.ndarray,
-    robot_embedding_key: str,
-    robot_state_source: str,
-    predicted_human_u_root: Path | None,
-    categories: list[CategoryConfig],
-    category_to_index: dict[str, int],
-    verify_alignment: bool,
-    overwrite: bool,
-    compressed: bool,
-) -> dict[str, Any]:
-    consolidated_cache_root.mkdir(parents=True, exist_ok=True)
-    total_episodes = 0
-    total_frames = 0
-    total_valid_samples = 0
-    total_invalid_samples = 0
-    state_dims_array = np.asarray(state_dims, dtype=np.int64)
-    state_mean = np.asarray(state_mean, dtype=np.float32)
-    state_std = np.asarray(state_std, dtype=np.float32)
-
-    for episode_index in tqdm(robot_episode_ids, desc="precompute/robot-episode-cache", unit="episode"):
-        out_path = consolidated_robot_episode_npz_path(consolidated_cache_root, episode_index)
-        if out_path.exists() and not overwrite:
-            continue
-
-        with np.load(robot_embedding_npz_path(robot_embedding_root, episode_index), allow_pickle=False) as embed_archive:
-            embeddings = np.asarray(embed_archive[robot_embedding_key], dtype=np.float32)
-            frame_indices = np.asarray(embed_archive["frame_indices"], dtype=np.int64)
-            state_from_embedding = np.asarray(embed_archive["state"], dtype=np.float32) if "state" in embed_archive.files else None
-
-        if robot_state_source == "embedding_file":
-            if state_from_embedding is None:
-                raise KeyError(f"Robot embedding file does not contain state for episode {episode_index}")
-            states = np.asarray(state_from_embedding[:, state_dims_array], dtype=np.float32)
-        else:
-            table = pq.read_table(robot_parquet_path(sim_dataset_root, episode_index), columns=[STATE_COLUMN, "frame_index"])
-            states = np.asarray(table[STATE_COLUMN].to_pylist(), dtype=np.float32)[:, state_dims_array]
-            parquet_frame_indices = np.asarray(table["frame_index"].to_numpy(), dtype=np.int64)
-            if verify_alignment and not np.array_equal(frame_indices, parquet_frame_indices):
-                raise ValueError(f"Frame-index mismatch between embeddings and parquet for robot episode {episode_index}")
-        normalized_states = (states - state_mean) / state_std
-
-        with np.load(robot_spline_npz_path(robot_spline_root, episode_index), allow_pickle=False) as spline_archive:
-            global_coefficients = np.asarray(spline_archive["global_coefficients"], dtype=np.float32)
-            global_knots = np.asarray(spline_archive["global_knots"], dtype=np.float32)
-            degree = int(np.asarray(spline_archive["global_degree"]).reshape(-1)[0])
-            spline_frame_indices = np.asarray(spline_archive["frame_indices"], dtype=np.int64)
-        if verify_alignment and not np.array_equal(frame_indices, spline_frame_indices):
-            raise ValueError(f"Frame-index mismatch between embeddings and fitted spline for robot episode {episode_index}")
-
-        with np.load(robot_local_window_npz_path(robot_local_window_root, episode_index), allow_pickle=False) as local_archive:
-            local_frame_indices = np.asarray(local_archive["frame_indices"], dtype=np.int64)
-            local_start_frame_index = np.asarray(local_archive["local_start_frame_index"], dtype=np.int32)
-            local_end_frame_index = np.asarray(local_archive["local_end_frame_index"], dtype=np.int32)
-            global_local_start_u = np.asarray(local_archive["global_local_start_u"], dtype=np.float32)
-            global_local_end_u = np.asarray(local_archive["global_local_end_u"], dtype=np.float32)
-            exact_local_spline_valid = np.asarray(local_archive["exact_local_spline_valid"], dtype=bool)
-            exact_local_knot_local_u_flat = np.asarray(local_archive["exact_local_spline_knot_local_u"], dtype=np.float32)
-            exact_local_knot_offsets = np.asarray(local_archive["exact_local_spline_knot_offsets"], dtype=np.int32)
-            exact_local_num_knots = np.asarray(local_archive["exact_local_spline_num_knots"], dtype=np.int32)
-        if verify_alignment and not np.array_equal(frame_indices, local_frame_indices):
-            raise ValueError(f"Frame-index mismatch between embeddings and local windows for robot episode {episode_index}")
-
-        with np.load(pairing_npz_path(robot_pairing_root, episode_index), allow_pickle=False) as pair_archive:
-            pairing_frame_indices = np.asarray(pair_archive["frame_indices"], dtype=np.int64)
-            paired_human_episode_indices = np.asarray(pair_archive["paired_human_episode_indices"], dtype=np.int32)
-        if verify_alignment and not np.array_equal(frame_indices, pairing_frame_indices):
-            raise ValueError(f"Frame-index mismatch between embeddings and pairings for robot episode {episode_index}")
-
-        interval_cache = load_exact_human_interval_cache(exact_human_interval_npz_path(exact_human_interval_cache_root, episode_index))
-        if verify_alignment and not np.array_equal(frame_indices, interval_cache.frame_indices.astype(np.int64, copy=False)):
-            raise ValueError(f"Frame-index mismatch between embeddings and exact-human-interval cache for robot episode {episode_index}")
-        if verify_alignment and not np.array_equal(
-            paired_human_episode_indices,
-            interval_cache.paired_human_episode_indices.astype(np.int32, copy=False),
-        ):
-            raise ValueError(f"Paired-human-episode mismatch between pairings and exact-human-interval cache for robot episode {episode_index}")
-
-        predicted_human_u = np.full(paired_human_episode_indices.shape, fill_value=np.nan, dtype=np.float32)
-        if predicted_human_u_root is not None:
-            episode_predicted_path = predicted_human_u_npz_path(predicted_human_u_root, episode_index)
-            if episode_predicted_path.exists():
-                with np.load(episode_predicted_path, allow_pickle=False) as predicted_archive:
-                    predicted_frame_indices = np.asarray(predicted_archive["frame_indices"], dtype=np.int64)
-                    if verify_alignment and not np.array_equal(frame_indices, predicted_frame_indices):
-                        raise ValueError(f"Frame-index mismatch between embeddings and predicted human u for robot episode {episode_index}")
-                    predicted_human_u = np.asarray(predicted_archive["predicted_human_u"], dtype=np.float32)
-
-        category = category_for_robot_episode(episode_index, categories)
-        category_index = int(category_to_index[category.category_id])
-
-        atomic_npz_dump(
-            out_path,
-            compressed=compressed,
-            frame_indices=frame_indices.astype(np.int32, copy=False),
-            embeddings=embeddings.astype(np.float32, copy=False),
-            normalized_states=normalized_states.astype(np.float32, copy=False),
-            global_coefficients=global_coefficients.astype(np.float32, copy=False),
-            global_knots=global_knots.astype(np.float32, copy=False),
-            global_degree=np.asarray(degree, dtype=np.int32),
-            local_start_frame_index=local_start_frame_index.astype(np.int32, copy=False),
-            local_end_frame_index=local_end_frame_index.astype(np.int32, copy=False),
-            global_local_start_u=global_local_start_u.astype(np.float32, copy=False),
-            global_local_end_u=global_local_end_u.astype(np.float32, copy=False),
-            exact_local_spline_valid=exact_local_spline_valid,
-            exact_local_spline_knot_local_u=exact_local_knot_local_u_flat.astype(np.float32, copy=False),
-            exact_local_spline_knot_offsets=exact_local_knot_offsets.astype(np.int32, copy=False),
-            exact_local_spline_num_knots=exact_local_num_knots.astype(np.int32, copy=False),
-            paired_human_episode_indices=paired_human_episode_indices.astype(np.int32, copy=False),
-            human_gt_start_u=interval_cache.human_gt_start_u.astype(np.float32, copy=False),
-            human_gt_end_u=interval_cache.human_gt_end_u.astype(np.float32, copy=False),
-            interval_valid_mask=interval_cache.interval_valid_mask,
-            predicted_human_u=predicted_human_u.astype(np.float32, copy=False),
-            category_index=np.asarray(category_index, dtype=np.int32),
-        )
-        total_episodes += 1
-        total_frames += int(frame_indices.shape[0])
-        valid_mask = interval_cache.interval_valid_mask & exact_local_spline_valid[:, None]
-        total_valid_samples += int(np.count_nonzero(valid_mask))
-        total_invalid_samples += int(valid_mask.size - np.count_nonzero(valid_mask))
-
-    return {
-        "episodes_written": int(total_episodes),
-        "frames_written": int(total_frames),
-        "valid_samples_written": int(total_valid_samples),
-        "invalid_samples_written": int(total_invalid_samples),
-        "compressed": bool(compressed),
-    }
-
-
-class EpisodeChunkBatchSampler(Sampler[list[int]]):
-    def __init__(
-        self,
-        dataset: "TranslatorDataset",
-        batch_size: int,
-        *,
-        shuffle: bool,
-        drop_last: bool,
-        seed: int,
-        rank: int = 0,
-        world_size: int = 1,
-    ) -> None:
-        self.dataset = dataset
-        self.batch_size = max(1, int(batch_size))
-        self.shuffle = bool(shuffle)
-        self.drop_last = bool(drop_last)
-        self.seed = int(seed)
-        self.rank = int(rank)
-        self.world_size = max(1, int(world_size))
-        self.epoch = 0
-
-    def set_epoch(self, epoch: int) -> None:
-        self.epoch = int(epoch)
-
-    def _build_global_batches(self) -> list[list[int]]:
-        batches: list[list[int]] = []
-        for start, end in self.dataset.episode_sample_ranges:
-            sample_count = int(end - start)
-            if sample_count <= 0:
-                continue
-            full_batches = sample_count // self.batch_size
-            for batch_offset in range(full_batches):
-                chunk_start = start + batch_offset * self.batch_size
-                batches.append(list(range(chunk_start, chunk_start + self.batch_size)))
-            remainder = sample_count % self.batch_size
-            if remainder > 0 and not self.drop_last:
-                batches.append(list(range(end - remainder, end)))
-        if self.shuffle and batches:
-            rng = np.random.default_rng(self.seed + self.epoch)
-            rng.shuffle(batches)
-        return batches
-
-    def __iter__(self):
-        batches = self._build_global_batches()
-        if self.world_size > 1:
-            if self.drop_last:
-                usable = (len(batches) // self.world_size) * self.world_size
-                batches = batches[:usable]
-            elif batches:
-                pad = (-len(batches)) % self.world_size
-                if pad > 0:
-                    batches.extend(batches[:pad])
-            batches = batches[self.rank :: self.world_size]
-        return iter(batches)
-
-    def __len__(self) -> int:
-        total_batches = 0
-        for start, end in self.dataset.episode_sample_ranges:
-            sample_count = max(0, int(end - start))
-            if self.drop_last:
-                total_batches += sample_count // self.batch_size
-            else:
-                total_batches += int(math.ceil(sample_count / float(self.batch_size))) if sample_count > 0 else 0
-        if self.world_size <= 1:
-            return total_batches
-        if self.drop_last:
-            return total_batches // self.world_size
-        return int(math.ceil(total_batches / float(self.world_size)))
-
-
 class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
     def __init__(
         self,
@@ -746,33 +484,19 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         self.verify_alignment = bool(config["data"]["verify_alignment"])
         self.use_predicted_human_u = bool(config["human_input_u"]["use_predicted_human_u"])
         self.require_predicted_human_u = bool(config["human_input_u"]["require_predicted_human_u"])
-        self.use_consolidated_human_cache = bool(config["data"].get("use_consolidated_human_cache", False))
-        self.use_consolidated_robot_cache = bool(config["data"].get("use_consolidated_robot_cache", False))
-        self.human_cache = EpisodeLRUCache(capacity=int(config["data"].get("human_cache_capacity", 64)))
-        self.robot_cache = EpisodeLRUCache(capacity=int(config["data"].get("robot_cache_capacity", 8)))
-        self.interval_cache = EpisodeLRUCache(capacity=int(config["data"].get("interval_cache_capacity", 8)))
+        self.human_cache = EpisodeLRUCache(capacity=32)
+        self.robot_cache = EpisodeLRUCache(capacity=8)
+        self.interval_cache = EpisodeLRUCache(capacity=8)
         self.sample_index: list[tuple[int, int, int]] = []
-        self.episode_sample_ranges: list[tuple[int, int]] = []
         for episode_index in tqdm(self.robot_episode_ids, desc=f"dataset/slot{self.pairing_slot}", unit="episode", leave=False):
             category = category_for_robot_episode(episode_index, self.categories)
             category_index = self.category_to_index[category.category_id]
-            range_start = len(self.sample_index)
+            interval_cache = self._load_interval_cache(episode_index)
             robot_episode = self._load_robot_episode(episode_index)
-            if self.use_consolidated_robot_cache:
-                if robot_episode.interval_valid_mask is None:
-                    raise ValueError(f"Consolidated robot cache is missing interval_valid_mask for episode {episode_index}")
-                valid_rows = np.flatnonzero(
-                    robot_episode.interval_valid_mask[:, self.pairing_slot] & robot_episode.exact_local_spline_valid
-                ).astype(np.int64)
-            else:
-                interval_cache = self._load_interval_cache(episode_index)
-                valid_rows = np.flatnonzero(
-                    interval_cache.interval_valid_mask[:, self.pairing_slot] & robot_episode.exact_local_spline_valid
-                ).astype(np.int64)
+            valid_rows = np.flatnonzero(
+                interval_cache.interval_valid_mask[:, self.pairing_slot] & robot_episode.exact_local_spline_valid
+            ).astype(np.int64)
             self.sample_index.extend((episode_index, int(row), int(category_index)) for row in valid_rows.tolist())
-            range_end = len(self.sample_index)
-            if range_end > range_start:
-                self.episode_sample_ranges.append((range_start, range_end))
 
     def __len__(self) -> int:
         return len(self.sample_index)
@@ -781,14 +505,7 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         cached = self.human_cache.get(episode_index)
         if cached is not None:
             return cached
-        if self.use_consolidated_human_cache:
-            consolidated_root = self.paths.get("consolidated_human_cache_root")
-            if consolidated_root is None:
-                raise KeyError("paths['consolidated_human_cache_root'] is required when use_consolidated_human_cache=true")
-            source_path = consolidated_human_spline_npz_path(consolidated_root, episode_index)
-        else:
-            source_path = human_spline_npz_path(self.paths["human_bspline_root"], episode_index)
-        with np.load(source_path, allow_pickle=False) as archive:
+        with np.load(human_spline_npz_path(self.paths["human_bspline_root"], episode_index), allow_pickle=False) as archive:
             result = HumanSplineEpisode(
                 episode_index=episode_index,
                 coefficients=np.asarray(archive["global_coefficients"], dtype=np.float32),
@@ -802,38 +519,6 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         cached = self.robot_cache.get(episode_index)
         if cached is not None:
             return cached
-
-        if self.use_consolidated_robot_cache:
-            consolidated_root = self.paths.get("consolidated_robot_cache_root")
-            if consolidated_root is None:
-                raise KeyError("paths['consolidated_robot_cache_root'] is required when use_consolidated_robot_cache=true")
-            with np.load(consolidated_robot_episode_npz_path(consolidated_root, episode_index), allow_pickle=False) as archive:
-                result = RobotEpisodeBundle(
-                    episode_index=episode_index,
-                    frame_indices=np.asarray(archive["frame_indices"], dtype=np.int64),
-                    embeddings=np.asarray(archive["embeddings"], dtype=np.float32),
-                    states=np.asarray(archive["normalized_states"], dtype=np.float32),
-                    global_coefficients=np.asarray(archive["global_coefficients"], dtype=np.float32),
-                    global_knots=np.asarray(archive["global_knots"], dtype=np.float32),
-                    degree=int(np.asarray(archive["global_degree"]).reshape(-1)[0]),
-                    local_start_frame_index=np.asarray(archive["local_start_frame_index"], dtype=np.int32),
-                    local_end_frame_index=np.asarray(archive["local_end_frame_index"], dtype=np.int32),
-                    global_local_start_u=np.asarray(archive["global_local_start_u"], dtype=np.float32),
-                    global_local_end_u=np.asarray(archive["global_local_end_u"], dtype=np.float32),
-                    exact_local_spline_valid=np.asarray(archive["exact_local_spline_valid"], dtype=bool),
-                    exact_local_knot_local_u_flat=np.asarray(archive["exact_local_spline_knot_local_u"], dtype=np.float32),
-                    exact_local_knot_offsets=np.asarray(archive["exact_local_spline_knot_offsets"], dtype=np.int32),
-                    exact_local_num_knots=np.asarray(archive["exact_local_spline_num_knots"], dtype=np.int32),
-                    paired_human_episode_indices=np.asarray(archive["paired_human_episode_indices"], dtype=np.int32),
-                    predicted_human_u=np.asarray(archive["predicted_human_u"], dtype=np.float32),
-                    human_gt_start_u=np.asarray(archive["human_gt_start_u"], dtype=np.float32),
-                    human_gt_end_u=np.asarray(archive["human_gt_end_u"], dtype=np.float32),
-                    interval_valid_mask=np.asarray(archive["interval_valid_mask"], dtype=bool),
-                    category_index=int(np.asarray(archive["category_index"]).reshape(-1)[0]),
-                )
-            self.robot_cache.put(episode_index, result)
-            return result
-
         with np.load(robot_embedding_npz_path(self.paths["robot_embedding_root"], episode_index), allow_pickle=False) as embed_archive:
             embeddings = np.asarray(embed_archive[self.robot_embedding_key], dtype=np.float32)
             frame_indices = np.asarray(embed_archive["frame_indices"], dtype=np.int64)
@@ -923,24 +608,14 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
 
     def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
         episode_index, row_index, category_index = self.sample_index[index]
+        interval_cache = self._load_interval_cache(episode_index)
         robot_episode = self._load_robot_episode(episode_index)
-        if self.use_consolidated_robot_cache:
-            if robot_episode.human_gt_start_u is None or robot_episode.human_gt_end_u is None:
-                raise ValueError(f"Consolidated robot cache missing human GT u arrays for episode {episode_index}")
-            human_gt_start_u = float(robot_episode.human_gt_start_u[row_index, self.pairing_slot])
-            human_gt_end_u = float(robot_episode.human_gt_end_u[row_index, self.pairing_slot])
-        else:
-            interval_cache = self._load_interval_cache(episode_index)
-            human_gt_start_u = float(interval_cache.human_gt_start_u[row_index, self.pairing_slot])
-            human_gt_end_u = float(interval_cache.human_gt_end_u[row_index, self.pairing_slot])
-
-        human_episode_index = int(robot_episode.paired_human_episode_indices[row_index, self.pairing_slot])
+        human_episode_index = int(interval_cache.paired_human_episode_indices[row_index, self.pairing_slot])
         human_episode = self._load_human_episode(human_episode_index)
         history_positions, history_valid_mask = self._history_positions_and_mask(row_index)
         robot_history_embeddings = robot_episode.embeddings[history_positions].astype(np.float32)
-        robot_history_states = robot_episode.states[history_positions][:, self.state_dims].astype(np.float32) if not self.use_consolidated_robot_cache else robot_episode.states[history_positions].astype(np.float32)
-        if not self.use_consolidated_robot_cache:
-            robot_history_states = (robot_history_states - self.state_mean) / self.state_std
+        robot_history_states = robot_episode.states[history_positions][:, self.state_dims].astype(np.float32)
+        robot_history_states = (robot_history_states - self.state_mean) / self.state_std
         robot_current_embedding = robot_episode.embeddings[row_index].astype(np.float32)
         exact_knot_offset = int(robot_episode.exact_local_knot_offsets[row_index])
         exact_knot_count = int(robot_episode.exact_local_num_knots[row_index])
@@ -955,8 +630,8 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
             "robot_current_embedding": torch.from_numpy(robot_current_embedding),
             "human_global_coefficients": torch.from_numpy(human_episode.coefficients),
             "human_global_knots": torch.from_numpy(human_episode.knots),
-            "human_gt_start_u": torch.tensor(human_gt_start_u, dtype=torch.float32),
-            "human_gt_end_u": torch.tensor(human_gt_end_u, dtype=torch.float32),
+            "human_gt_start_u": torch.tensor(float(interval_cache.human_gt_start_u[row_index, self.pairing_slot]), dtype=torch.float32),
+            "human_gt_end_u": torch.tensor(float(interval_cache.human_gt_end_u[row_index, self.pairing_slot]), dtype=torch.float32),
             "predicted_human_start_u": torch.tensor(float(predicted_human_start_u), dtype=torch.float32),
             "robot_global_coefficients": torch.from_numpy(robot_episode.global_coefficients),
             "robot_global_knots": torch.from_numpy(robot_episode.global_knots),

@@ -23,7 +23,6 @@ from tqdm.auto import tqdm
 
 from .config import save_resolved_config
 from .data import (
-    EpisodeChunkBatchSampler,
     TranslatorDataset,
     as_path,
     collect_human_episode_ids_from_pairings,
@@ -32,8 +31,6 @@ from .data import (
     exact_human_interval_npz_path,
     load_category_configs,
     load_exact_human_interval_cache,
-    prepare_consolidated_human_spline_cache,
-    prepare_consolidated_robot_episode_cache,
     precompute_exact_human_interval_cache,
     read_dataset_info,
     resolve_state_dims,
@@ -220,10 +217,7 @@ def _unwrap_model(model: torch.nn.Module) -> torch.nn.Module:
 
 def _barrier(runtime: DistributedContext) -> None:
     if runtime.enabled:
-        if runtime.device.type == "cuda" and runtime.device.index is not None:
-            dist.barrier(device_ids=[int(runtime.device.index)])
-        else:
-            dist.barrier()
+        dist.barrier()
 
 
 def _reduce_metric_averages(
@@ -264,7 +258,6 @@ def _paths(config: dict[str, Any]) -> dict[str, Path]:
         "sim_embedding_root": sim_embedding_root,
         "human_dataset_root": as_path(config["paths"]["human_dataset_root"]),
         "human_bspline_root": as_path(config["paths"]["human_bspline_root"]),
-        "consolidated_human_cache_root": output_root / str(preprocessing["consolidated_human_cache_dirname"]),
         "robot_embedding_root": sim_embedding_root / "frame_embeddings",
         "robot_spline_root": sim_embedding_root / "fitted_bspline_splines",
         "robot_local_window_root": sim_embedding_root / str(config["paths"]["robot_local_window_dirname"]),
@@ -272,7 +265,6 @@ def _paths(config: dict[str, Any]) -> dict[str, Path]:
         "predicted_human_u_root": predicted_u_root,
         "output_root": output_root,
         "exact_human_interval_cache_root": output_root / str(preprocessing["exact_human_interval_cache_dirname"]),
-        "consolidated_robot_cache_root": output_root / str(preprocessing["consolidated_robot_cache_dirname"]),
         "checkpoints_root": output_root / "checkpoints",
         "logs_root": output_root / "logs",
         "splits_path": output_root / str(preprocessing["splits_filename"]),
@@ -554,43 +546,7 @@ def train(
             paths["exact_human_interval_cache_root"],
             overwrite=bool(config["preprocessing"]["overwrite"]),
         )
-        if bool(config["data"].get("use_consolidated_human_cache", False)):
-            preprocessing_summary["consolidated_human_cache"] = prepare_consolidated_human_spline_cache(
-                human_episode_ids,
-                paths["human_bspline_root"],
-                paths["consolidated_human_cache_root"],
-                overwrite=bool(
-                    config["preprocessing"].get("consolidated_human_cache_overwrite", False)
-                    or config["preprocessing"]["overwrite"]
-                ),
-                compressed=bool(config["preprocessing"].get("consolidated_human_cache_compressed", False)),
-            )
         state_norm = _state_norm_payload(config, paths, train_episode_ids)
-        if bool(config["data"].get("use_consolidated_robot_cache", False)):
-            preprocessing_summary["consolidated_robot_cache"] = prepare_consolidated_robot_episode_cache(
-                train_episode_ids + val_episode_ids,
-                paths["sim_dataset_root"],
-                paths["robot_embedding_root"],
-                paths["robot_spline_root"],
-                paths["robot_local_window_root"],
-                paths["robot_pairing_root"],
-                paths["exact_human_interval_cache_root"],
-                paths["consolidated_robot_cache_root"],
-                state_dims=state_norm["state_dims"],
-                state_mean=np.asarray(state_norm["state_mean"], dtype=np.float32),
-                state_std=np.asarray(state_norm["state_std"], dtype=np.float32),
-                robot_embedding_key=str(config["data"]["robot_embedding_key"]),
-                robot_state_source=str(config["data"]["robot_state_source"]),
-                predicted_human_u_root=paths["predicted_human_u_root"],
-                categories=categories,
-                category_to_index=category_to_index,
-                verify_alignment=bool(config["data"]["verify_alignment"]),
-                overwrite=bool(
-                    config["preprocessing"].get("consolidated_robot_cache_overwrite", False)
-                    or config["preprocessing"]["overwrite"]
-                ),
-                compressed=bool(config["preprocessing"].get("consolidated_robot_cache_compressed", False)),
-            )
         category_metadata = {
             "category_order": [category.category_id for category in categories],
             "train_episode_count": len(train_episode_ids),
@@ -646,32 +602,27 @@ def train(
     _barrier(runtime)
 
     loader_kwargs = {
+        "batch_size": batch_size,
         "num_workers": int(config["training"]["num_workers"]),
         "pin_memory": bool(config["training"]["pin_memory"]) and runtime.device.type == "cuda",
         "persistent_workers": bool(config["training"]["persistent_workers"]) and int(config["training"]["num_workers"]) > 0,
         "collate_fn": translator_collate,
     }
-    if int(config["training"]["num_workers"]) > 0 and config["training"].get("prefetch_factor") is not None:
-        loader_kwargs["prefetch_factor"] = int(config["training"]["prefetch_factor"])
 
     dataset_paths = {
         "sim_dataset_root": paths["sim_dataset_root"],
         "human_bspline_root": paths["human_bspline_root"],
-        "consolidated_human_cache_root": paths["consolidated_human_cache_root"],
         "robot_embedding_root": paths["robot_embedding_root"],
         "robot_spline_root": paths["robot_spline_root"],
         "robot_local_window_root": paths["robot_local_window_root"],
         "robot_pairing_root": paths["robot_pairing_root"],
         "predicted_human_u_root": paths["predicted_human_u_root"],
         "exact_human_interval_cache_root": paths["exact_human_interval_cache_root"],
-        "consolidated_robot_cache_root": paths["consolidated_robot_cache_root"],
     }
     min_input_width = float(config["human_input_u"]["min_interval_width"])
     validation_predicted_u_alpha = float(config["human_input_u"]["validation_predicted_u_alpha"])
     validation_teacher_forcing_alpha = float(config["validation"]["teacher_forcing_alpha"])
     validation_loss_weights = _effective_derivative_weights(config, derivative_weight_schedules, 1.0)
-    batching_mode = str(config["data"].get("batching_mode", "random")).strip().lower()
-    use_episode_chunk_batches = batching_mode == "episode_chunks"
 
     for epoch_index in range(start_epoch, int(config["training"]["epochs"])):
         pairing_slot = pairing_slot_schedule[epoch_index % len(pairing_slot_schedule)]
@@ -698,69 +649,36 @@ def train(
             config=config,
         )
 
-        if use_episode_chunk_batches:
-            train_batch_sampler = EpisodeChunkBatchSampler(
+        train_sampler = (
+            DistributedSampler(
                 train_dataset,
-                batch_size=batch_size,
+                num_replicas=runtime.world_size,
+                rank=runtime.rank,
                 shuffle=True,
                 drop_last=False,
-                seed=int(config["training"]["seed"]),
+            )
+            if runtime.enabled
+            else None
+        )
+        val_sampler = (
+            DistributedSampler(
+                val_dataset,
+                num_replicas=runtime.world_size,
                 rank=runtime.rank,
-                world_size=runtime.world_size,
-            )
-            train_batch_sampler.set_epoch(epoch_index)
-            train_loader = DataLoader(train_dataset, batch_sampler=train_batch_sampler, **loader_kwargs)
-            val_loader = None
-            if len(val_dataset) > 0:
-                val_batch_sampler = EpisodeChunkBatchSampler(
-                    val_dataset,
-                    batch_size=batch_size,
-                    shuffle=False,
-                    drop_last=False,
-                    seed=int(config["training"]["seed"]),
-                    rank=runtime.rank,
-                    world_size=runtime.world_size,
-                )
-                val_batch_sampler.set_epoch(epoch_index)
-                val_loader = DataLoader(val_dataset, batch_sampler=val_batch_sampler, **loader_kwargs)
-        else:
-            train_sampler = (
-                DistributedSampler(
-                    train_dataset,
-                    num_replicas=runtime.world_size,
-                    rank=runtime.rank,
-                    shuffle=True,
-                    drop_last=False,
-                )
-                if runtime.enabled
-                else None
-            )
-            val_sampler = (
-                DistributedSampler(
-                    val_dataset,
-                    num_replicas=runtime.world_size,
-                    rank=runtime.rank,
-                    shuffle=False,
-                    drop_last=False,
-                )
-                if runtime.enabled and len(val_dataset) > 0
-                else None
-            )
-            train_loader = DataLoader(
-                train_dataset,
-                batch_size=batch_size,
-                shuffle=train_sampler is None,
-                sampler=train_sampler,
+                shuffle=False,
                 drop_last=False,
-                **loader_kwargs,
             )
-            val_loader = (
-                DataLoader(val_dataset, batch_size=batch_size, shuffle=False, sampler=val_sampler, drop_last=False, **loader_kwargs)
-                if len(val_dataset) > 0
-                else None
-            )
-            if train_sampler is not None:
-                train_sampler.set_epoch(epoch_index)
+            if runtime.enabled and len(val_dataset) > 0
+            else None
+        )
+        train_loader = DataLoader(train_dataset, shuffle=train_sampler is None, sampler=train_sampler, drop_last=False, **loader_kwargs)
+        val_loader = (
+            DataLoader(val_dataset, shuffle=False, sampler=val_sampler, drop_last=False, **loader_kwargs)
+            if len(val_dataset) > 0
+            else None
+        )
+        if train_sampler is not None:
+            train_sampler.set_epoch(epoch_index)
 
         model.train()
         averages = MetricAverages()
