@@ -13,6 +13,11 @@ data:
   robot_embedding_key: mean
   robot_state_source: parquet
   state_dims: all
+  use_consolidated_robot_cache: true
+  batching_mode: episode_chunks
+  human_cache_capacity: 64
+  robot_cache_capacity: 8
+  interval_cache_capacity: 8
   history_length: 6
   history_stride: 10
   local_phase_grid_size: 200
@@ -36,6 +41,9 @@ validation:
 preprocessing:
   overwrite: false
   exact_human_interval_cache_dirname: precomputed_exact_human_interval_cache
+  consolidated_robot_cache_dirname: precomputed_consolidated_robot_episode_cache
+  consolidated_robot_cache_overwrite: false
+  consolidated_robot_cache_compressed: false
   splits_filename: episode_splits.json
   state_norm_filename: state_normalization.json
   category_metadata_filename: category_metadata.json
@@ -155,7 +163,8 @@ training:
   batch_size: 4  # per GPU / per process when distributed is enabled
   num_workers: 4
   pin_memory: true
-  persistent_workers: false
+  persistent_workers: true
+  prefetch_factor: 4
   amp: true
   gradient_accumulation_steps: 1
   learning_rate: 1.0e-4

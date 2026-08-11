@@ -31,6 +31,19 @@ def atomic_json_dump(payload: dict[str, Any], path: str | Path) -> None:
     os.replace(tmp_name, path)
 
 
+def atomic_npz_dump(path: str | Path, *, compressed: bool = False, **arrays: Any) -> None:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    suffix = ".npz"
+    with tempfile.NamedTemporaryFile("wb", delete=False, dir=path.parent, suffix=suffix) as handle:
+        tmp_name = handle.name
+        if compressed:
+            np.savez_compressed(handle, **arrays)
+        else:
+            np.savez(handle, **arrays)
+    os.replace(tmp_name, path)
+
+
 class RunningMoments:
     def __init__(self, dimension: int) -> None:
         self.dimension = int(dimension)
