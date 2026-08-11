@@ -9,12 +9,15 @@ PYTHON_VERSION="${PYTHON_VERSION:-3.10.18}"
 PYTORCH_INDEX_URL="${PYTORCH_INDEX_URL:-https://download.pytorch.org/whl/cu121}"
 MINICONDA_DIR="${MINICONDA_DIR:-${HOME}/miniconda3}"
 MINICONDA_INSTALLER_URL="${MINICONDA_INSTALLER_URL:-https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh}"
+TRANSFORMERS_VERSION="${TRANSFORMERS_VERSION:-4.57.1}"
+HUGGINGFACE_HUB_VERSION="${HUGGINGFACE_HUB_VERSION:-0.36.0}"
 
 echo "Repo root: ${REPO_ROOT}"
 echo "Conda env: ${ENV_NAME}"
 echo "Python   : ${PYTHON_VERSION}"
 echo "PyTorch  : ${PYTORCH_INDEX_URL}"
 echo "Miniconda: ${MINICONDA_DIR}"
+echo "HF Hub   : ${HUGGINGFACE_HUB_VERSION}"
 
 if ! command -v conda >/dev/null 2>&1; then
   echo "conda not found on PATH. Installing Miniconda..."
@@ -63,9 +66,9 @@ python -m pip install \
   tqdm==4.68.3 \
   pillow==12.1.1 \
   opencv-python==5.0.0.93 \
-  transformers==4.57.1 \
+  "transformers==${TRANSFORMERS_VERSION}" \
   safetensors==0.6.2 \
-  huggingface-hub==1.27.0 \
+  "huggingface-hub==${HUGGINGFACE_HUB_VERSION}" \
   imageio-ffmpeg==0.6.0 \
   matplotlib==3.10.7 \
   wandb==0.25.1
@@ -127,3 +130,7 @@ echo "   - human-to-robot-local-spline-translator"
 echo "   - lehome_human_spline_generation"
 echo "   - lehome_robot_sim_embedding"
 echo "   - lehome_robot_sim_spline_dataset_prep"
+echo
+echo "4) If you expected Python 3.10.18 but the script prints a different version, check whether PYTHON_VERSION is already set in the shell."
+echo "   Example:"
+echo "   PYTHON_VERSION=3.10.18 ./setup_remote_linux_env.sh"
