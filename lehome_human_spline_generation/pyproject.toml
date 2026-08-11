@@ -19,6 +19,9 @@ dependencies = [
   "transformers>=4.56",
 ]
 
+[tool.setuptools]
+packages = ["lehome_spline"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
@@ -26,4 +29,3 @@ addopts = "-q"
 [tool.ruff]
 line-length = 110
 target-version = "py310"
-

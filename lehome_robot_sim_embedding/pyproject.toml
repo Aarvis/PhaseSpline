@@ -19,7 +19,9 @@ dependencies = [
   "transformers>=4.56",
 ]
 
+[tool.setuptools]
+packages = ["lehome_robot_sim_embedding"]
+
 [tool.ruff]
 line-length = 110
 target-version = "py310"
-
