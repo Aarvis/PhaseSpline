@@ -1,0 +1,33 @@
+datasets:
+  sim:
+    dataset_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180
+    embeddings_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_epoch/frame_embeddings
+    annotations_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/annotations/temporal_checkpoints
+    output_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/DTW-Transfer/outputs
+    video_prefix: sim_episode
+    default_category_ranges:
+      shorts: [250, 499]
+      top_long_sleeve: [500, 749]
+      top_short_sleeve: [750, 999]
+  human:
+    dataset_root: D:/pretrain_lehome_all_garment_data_z180
+    embeddings_root: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/frame_embeddings
+    annotations_root: D:/pretrain_lehome_all_garment_data_z180/annotations/temporal_checkpoints
+    output_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/DTW-Transfer/outputs
+    video_prefix: human_episode
+    default_category_ranges:
+      shorts: [1018, 2038]
+      top_long_sleeve: [2039, 2874]
+      top_short_sleeve: [2875, 4179]
+
+transfer:
+  embedding_key: mean
+  temporal_smoothing_window: 1
+  top_k: 10
+  temperature: 0.08
+  boundary_source_window: 3
+  candidate_policy: require_manifest
+
+output:
+  template_status: dtw_transferred_requires_review
+  write_reference_scores_csv: true

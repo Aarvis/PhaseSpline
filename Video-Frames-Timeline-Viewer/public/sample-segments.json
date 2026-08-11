@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "description": "Sample ordered checkpoint vocabulary for a pants-folding episode. This file defines labels only; frame boundaries are drawn in FrameLine.",
+  "task": {
+    "name": "pants folding",
+    "description": "Sequential semantic phases for a pants-folding demonstration.",
+    "garment_type": "pants"
+  },
+  "labels": [
+    "idle",
+    "Reach top pant half",
+    "Grasp top pant half",
+    "Fold top pant half",
+    "Ungrasp top pant half",
+    "Reach pant end",
+    "Grasp pant end",
+    "Fold pant end",
+    "Ungrasp pant end",
+    "Reset"
+  ]
+}

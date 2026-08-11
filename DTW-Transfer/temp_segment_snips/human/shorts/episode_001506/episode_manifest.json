@@ -1,0 +1,59 @@
+{
+  "episode_index": 1506,
+  "garment_type": "shorts",
+  "annotation_path": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001506\\checkpoints.json",
+  "template_status": "dtw_transferred_requires_review",
+  "source_file": "D:\\pretrain_lehome_all_garment_data_z180\\data\\chunk-001\\episode_001506.parquet",
+  "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506",
+  "num_segments": 6,
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Idle",
+      "start_frame": 0,
+      "end_frame_exclusive": 13,
+      "num_frames": 13,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506\\segment_00_Idle.mp4"
+    },
+    {
+      "segment_id": 1,
+      "label": "Reach first half",
+      "start_frame": 13,
+      "end_frame_exclusive": 24,
+      "num_frames": 11,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506\\segment_01_Reach_first_half.mp4"
+    },
+    {
+      "segment_id": 2,
+      "label": "Grasp first half",
+      "start_frame": 24,
+      "end_frame_exclusive": 33,
+      "num_frames": 9,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506\\segment_02_Grasp_first_half.mp4"
+    },
+    {
+      "segment_id": 3,
+      "label": "Fold first half",
+      "start_frame": 33,
+      "end_frame_exclusive": 40,
+      "num_frames": 7,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506\\segment_03_Fold_first_half.mp4"
+    },
+    {
+      "segment_id": 4,
+      "label": "Ungrasp first half",
+      "start_frame": 40,
+      "end_frame_exclusive": 56,
+      "num_frames": 16,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506\\segment_04_Ungrasp_first_half.mp4"
+    },
+    {
+      "segment_id": 5,
+      "label": "Reset",
+      "start_frame": 56,
+      "end_frame_exclusive": 68,
+      "num_frames": 12,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\human\\shorts\\episode_001506\\segment_05_Reset.mp4"
+    }
+  ]
+}

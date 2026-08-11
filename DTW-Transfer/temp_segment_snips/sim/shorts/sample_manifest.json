@@ -1,0 +1,562 @@
+{
+  "dataset": "sim",
+  "garment": "shorts",
+  "sample_count_requested": 5,
+  "sample_count_actual": 5,
+  "seed": 32489,
+  "fps": 30.0,
+  "annotations_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints",
+  "output_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts",
+  "ffmpeg_executable": "C:\\Users\\aakas\\miniconda3\\envs\\orpheus\\Library\\bin\\ffmpeg.EXE",
+  "skipped_discovery": [
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000250\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000250\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000252\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000252\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000253\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000253\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000256\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000256\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000257\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000257\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000258\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000258\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000259\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000259\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000263\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000263\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000264\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000264\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000266\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000266\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000276\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000276\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000296\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000296\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000297\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000297\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000299\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000299\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000307\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000307\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000314\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000314\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000323\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000323\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000325\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000325\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000328\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000328\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000333\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000333\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000352\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000352\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000354\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000354\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000355\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000355\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000356\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000356\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000358\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000358\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000360\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000360\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000364\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000364\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000367\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000367\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000372\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000372\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000376\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000376\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000380\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000380\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000381\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000381\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000393\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000393\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000394\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000394\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000399\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000399\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000402\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000402\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000405\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000405\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000410\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000410\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000415\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000415\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000416\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000416\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000419\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000419\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000425\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000425\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000427\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000427\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000430\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000430\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000431\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000431\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000432\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000432\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000435\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000435\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000438\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000438\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000444\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000444\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000450\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000450\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000455\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000455\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000456\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000456\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000458\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000458\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000460\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000460\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000463\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000463\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000464\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000464\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000465\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000465\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000468\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000468\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000469\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000469\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000470\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000470\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000480\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000480\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000488\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000488\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000489\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000489\\checkpoints.json"
+    }
+  ],
+  "episodes": [
+    {
+      "episode_index": 290,
+      "garment_type": "shorts",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000290\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000290.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290",
+      "num_segments": 6,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 20,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first half",
+          "start_frame": 20,
+          "end_frame_exclusive": 58,
+          "num_frames": 38,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290\\segment_01_Reach_first_half.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first half",
+          "start_frame": 58,
+          "end_frame_exclusive": 88,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290\\segment_02_Grasp_first_half.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first half",
+          "start_frame": 88,
+          "end_frame_exclusive": 107,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290\\segment_03_Fold_first_half.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first half",
+          "start_frame": 107,
+          "end_frame_exclusive": 132,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290\\segment_04_Ungrasp_first_half.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reset",
+          "start_frame": 132,
+          "end_frame_exclusive": 168,
+          "num_frames": 36,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000290\\segment_05_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 310,
+      "garment_type": "shorts",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000310\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000310.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310",
+      "num_segments": 6,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 19,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first half",
+          "start_frame": 19,
+          "end_frame_exclusive": 51,
+          "num_frames": 32,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310\\segment_01_Reach_first_half.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first half",
+          "start_frame": 51,
+          "end_frame_exclusive": 82,
+          "num_frames": 31,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310\\segment_02_Grasp_first_half.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first half",
+          "start_frame": 82,
+          "end_frame_exclusive": 99,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310\\segment_03_Fold_first_half.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first half",
+          "start_frame": 99,
+          "end_frame_exclusive": 117,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310\\segment_04_Ungrasp_first_half.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reset",
+          "start_frame": 117,
+          "end_frame_exclusive": 150,
+          "num_frames": 33,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000310\\segment_05_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 373,
+      "garment_type": "shorts",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000373\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000373.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373",
+      "num_segments": 6,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 19,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first half",
+          "start_frame": 19,
+          "end_frame_exclusive": 52,
+          "num_frames": 33,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_01_Reach_first_half.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first half",
+          "start_frame": 52,
+          "end_frame_exclusive": 77,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_02_Grasp_first_half.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first half",
+          "start_frame": 77,
+          "end_frame_exclusive": 92,
+          "num_frames": 15,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_03_Fold_first_half.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first half",
+          "start_frame": 92,
+          "end_frame_exclusive": 114,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_04_Ungrasp_first_half.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reset",
+          "start_frame": 114,
+          "end_frame_exclusive": 143,
+          "num_frames": 29,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_05_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 485,
+      "garment_type": "shorts",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000485\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000485.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485",
+      "num_segments": 6,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 20,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first half",
+          "start_frame": 20,
+          "end_frame_exclusive": 60,
+          "num_frames": 40,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485\\segment_01_Reach_first_half.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first half",
+          "start_frame": 60,
+          "end_frame_exclusive": 83,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485\\segment_02_Grasp_first_half.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first half",
+          "start_frame": 83,
+          "end_frame_exclusive": 97,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485\\segment_03_Fold_first_half.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first half",
+          "start_frame": 97,
+          "end_frame_exclusive": 116,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485\\segment_04_Ungrasp_first_half.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reset",
+          "start_frame": 116,
+          "end_frame_exclusive": 159,
+          "num_frames": 43,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000485\\segment_05_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 286,
+      "garment_type": "shorts",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000286\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000286.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286",
+      "num_segments": 6,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 18,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first half",
+          "start_frame": 18,
+          "end_frame_exclusive": 52,
+          "num_frames": 34,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286\\segment_01_Reach_first_half.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first half",
+          "start_frame": 52,
+          "end_frame_exclusive": 82,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286\\segment_02_Grasp_first_half.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first half",
+          "start_frame": 82,
+          "end_frame_exclusive": 103,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286\\segment_03_Fold_first_half.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first half",
+          "start_frame": 103,
+          "end_frame_exclusive": 126,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286\\segment_04_Ungrasp_first_half.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reset",
+          "start_frame": 126,
+          "end_frame_exclusive": 154,
+          "num_frames": 28,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000286\\segment_05_Reset.mp4"
+        }
+      ]
+    }
+  ]
+}

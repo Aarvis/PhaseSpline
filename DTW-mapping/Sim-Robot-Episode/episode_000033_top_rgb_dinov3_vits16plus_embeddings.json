@@ -1,0 +1,14 @@
+{
+  "source_video": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_top_rgb.mp4",
+  "model": "facebook/dinov3-vits16plus-pretrain-lvd1689m",
+  "embedding_type": "DINOv3 pooler output (CLS global image embedding)",
+  "normalized_embedding": "L2 normalization of embeddings along the feature dimension",
+  "frames": 269,
+  "embedding_dimension": 384,
+  "fps": 30.0,
+  "width": 640,
+  "height": 480,
+  "batch_size": 8,
+  "device": "cpu",
+  "npz_file": "episode_000033_top_rgb_dinov3_vits16plus_embeddings.npz"
+}

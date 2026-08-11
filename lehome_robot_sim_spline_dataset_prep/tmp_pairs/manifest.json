@@ -1,0 +1,25 @@
+{
+  "pair_images": [
+    "sample_00_shorts_end_pair.png",
+    "sample_00_shorts_start_pair.png",
+    "sample_01_shorts_end_pair.png",
+    "sample_01_shorts_start_pair.png",
+    "sample_02_shorts_end_pair.png",
+    "sample_02_shorts_start_pair.png",
+    "sample_03_shorts_end_pair.png",
+    "sample_03_shorts_start_pair.png",
+    "sample_04_shorts_end_pair.png",
+    "sample_04_shorts_start_pair.png",
+    "sample_05_top_long_sleeve_end_pair.png",
+    "sample_05_top_long_sleeve_start_pair.png",
+    "sample_06_top_long_sleeve_end_pair.png",
+    "sample_06_top_long_sleeve_start_pair.png",
+    "sample_07_top_long_sleeve_end_pair.png",
+    "sample_07_top_long_sleeve_start_pair.png",
+    "sample_08_top_long_sleeve_end_pair.png",
+    "sample_08_top_long_sleeve_start_pair.png",
+    "sample_09_top_long_sleeve_end_pair.png",
+    "sample_09_top_long_sleeve_start_pair.png"
+  ],
+  "count": 20
+}

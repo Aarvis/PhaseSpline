@@ -1,0 +1,2364 @@
+{
+  "dataset": "sim",
+  "garment": "top_long_sleeve",
+  "sample_count_requested": 15,
+  "sample_count_actual": 15,
+  "seed": 42,
+  "fps": 30.0,
+  "annotations_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints",
+  "output_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve",
+  "ffmpeg_executable": "C:\\Users\\aakas\\miniconda3\\envs\\orpheus\\Library\\bin\\ffmpeg.EXE",
+  "skipped_discovery": [
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000250\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000250\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000252\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000252\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000253\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000253\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000256\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000256\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000257\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000257\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000258\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000258\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000259\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000259\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000263\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000263\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000264\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000264\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000266\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000266\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000276\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000276\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000296\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000296\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000297\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000297\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000299\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000299\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000307\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000307\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000314\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000314\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000323\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000323\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000325\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000325\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000328\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000328\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000333\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000333\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000352\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000352\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000354\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000354\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000355\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000355\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000356\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000356\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000358\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000358\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000360\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000360\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000364\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000364\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000367\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000367\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000372\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000372\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000376\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000376\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000380\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000380\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000381\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000381\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000393\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000393\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000394\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000394\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000399\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000399\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000402\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000402\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000405\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000405\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000410\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000410\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000415\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000415\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000416\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000416\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000419\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000419\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000425\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000425\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000427\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000427\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000430\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000430\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000431\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000431\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000432\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000432\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000435\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000435\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000438\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000438\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000444\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000444\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000450\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000450\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000455\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000455\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000456\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000456\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000458\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000458\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000460\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000460\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000463\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000463\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000464\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000464\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000465\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000465\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000468\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000468\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000469\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000469\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000470\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000470\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000480\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000480\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000488\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000488\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000489\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000489\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000500\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000500\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000504\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000504\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000511\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000511\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000513\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000513\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000515\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000515\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000517\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000517\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000530\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000530\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000531\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000531\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000534\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000534\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000535\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000535\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000537\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000537\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000538\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000538\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000542\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000542\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000544\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000544\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000546\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000546\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000548\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000548\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000549\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000549\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000554\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000554\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000555\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000555\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000558\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000558\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000559\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000559\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000565\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000565\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000569\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000569\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000573\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000573\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000574\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000574\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000578\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000578\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000580\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000580\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000586\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000586\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000588\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000588\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000589\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000589\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000590\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000590\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000593\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000593\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000595\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000595\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000607\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000607\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000613\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000613\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000614\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000614\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000631\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000631\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000633\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000633\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000637\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000637\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000638\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000638\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000642\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000642\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000643\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000643\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000644\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000644\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000647\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000647\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000652\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000652\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000656\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000656\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000659\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000659\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000665\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000665\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000667\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000667\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000668\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000668\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000669\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000669\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000672\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000672\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000677\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000677\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000681\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000681\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000686\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000686\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000696\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000696\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000699\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000699\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000714\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000714\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000716\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000716\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000720\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000720\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000722\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000722\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000730\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000730\\checkpoints.json"
+    },
+    {
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000732\\checkpoints.json",
+      "reason": "Annotation is not DTW transferred: E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000732\\checkpoints.json"
+    }
+  ],
+  "episodes": [
+    {
+      "episode_index": 724,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000724\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000724.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 14,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 14,
+          "end_frame_exclusive": 32,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 32,
+          "end_frame_exclusive": 49,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 49,
+          "end_frame_exclusive": 58,
+          "num_frames": 9,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 58,
+          "end_frame_exclusive": 83,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 83,
+          "end_frame_exclusive": 100,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 100,
+          "end_frame_exclusive": 118,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 118,
+          "end_frame_exclusive": 128,
+          "num_frames": 10,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 128,
+          "end_frame_exclusive": 164,
+          "num_frames": 36,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 164,
+          "end_frame_exclusive": 196,
+          "num_frames": 32,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 196,
+          "end_frame_exclusive": 223,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 223,
+          "end_frame_exclusive": 237,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 237,
+          "end_frame_exclusive": 256,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 256,
+          "end_frame_exclusive": 290,
+          "num_frames": 34,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000724\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 540,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000540\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000540.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 11,
+          "num_frames": 11,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 11,
+          "end_frame_exclusive": 35,
+          "num_frames": 24,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 35,
+          "end_frame_exclusive": 57,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 57,
+          "end_frame_exclusive": 70,
+          "num_frames": 13,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 70,
+          "end_frame_exclusive": 118,
+          "num_frames": 48,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 118,
+          "end_frame_exclusive": 136,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 136,
+          "end_frame_exclusive": 158,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 158,
+          "end_frame_exclusive": 177,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 177,
+          "end_frame_exclusive": 207,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 207,
+          "end_frame_exclusive": 234,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 234,
+          "end_frame_exclusive": 260,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 260,
+          "end_frame_exclusive": 277,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 277,
+          "end_frame_exclusive": 302,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 302,
+          "end_frame_exclusive": 343,
+          "num_frames": 41,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000540\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 508,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000508\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000508.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 11,
+          "num_frames": 11,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 11,
+          "end_frame_exclusive": 27,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 27,
+          "end_frame_exclusive": 48,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 48,
+          "end_frame_exclusive": 62,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 62,
+          "end_frame_exclusive": 110,
+          "num_frames": 48,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 110,
+          "end_frame_exclusive": 120,
+          "num_frames": 10,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 120,
+          "end_frame_exclusive": 139,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 139,
+          "end_frame_exclusive": 156,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 156,
+          "end_frame_exclusive": 183,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 183,
+          "end_frame_exclusive": 212,
+          "num_frames": 29,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 212,
+          "end_frame_exclusive": 239,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 239,
+          "end_frame_exclusive": 251,
+          "num_frames": 12,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 251,
+          "end_frame_exclusive": 267,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 267,
+          "end_frame_exclusive": 307,
+          "num_frames": 40,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000508\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 603,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000603\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000603.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 26,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 26,
+          "end_frame_exclusive": 60,
+          "num_frames": 34,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 60,
+          "end_frame_exclusive": 87,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 87,
+          "end_frame_exclusive": 102,
+          "num_frames": 15,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 102,
+          "end_frame_exclusive": 146,
+          "num_frames": 44,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 146,
+          "end_frame_exclusive": 156,
+          "num_frames": 10,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 156,
+          "end_frame_exclusive": 180,
+          "num_frames": 24,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 180,
+          "end_frame_exclusive": 198,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 198,
+          "end_frame_exclusive": 225,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 225,
+          "end_frame_exclusive": 256,
+          "num_frames": 31,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 256,
+          "end_frame_exclusive": 286,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 286,
+          "end_frame_exclusive": 302,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 302,
+          "end_frame_exclusive": 322,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 322,
+          "end_frame_exclusive": 365,
+          "num_frames": 43,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000603\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 594,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000594\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000594.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 12,
+          "num_frames": 12,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 12,
+          "end_frame_exclusive": 36,
+          "num_frames": 24,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 36,
+          "end_frame_exclusive": 56,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 56,
+          "end_frame_exclusive": 74,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 74,
+          "end_frame_exclusive": 121,
+          "num_frames": 47,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 121,
+          "end_frame_exclusive": 129,
+          "num_frames": 8,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 129,
+          "end_frame_exclusive": 151,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 151,
+          "end_frame_exclusive": 172,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 172,
+          "end_frame_exclusive": 204,
+          "num_frames": 32,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 204,
+          "end_frame_exclusive": 230,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 230,
+          "end_frame_exclusive": 260,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 260,
+          "end_frame_exclusive": 282,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 282,
+          "end_frame_exclusive": 311,
+          "num_frames": 29,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 311,
+          "end_frame_exclusive": 349,
+          "num_frames": 38,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000594\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 584,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000584\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000584.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 15,
+          "num_frames": 15,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 15,
+          "end_frame_exclusive": 48,
+          "num_frames": 33,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 48,
+          "end_frame_exclusive": 72,
+          "num_frames": 24,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 72,
+          "end_frame_exclusive": 92,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 92,
+          "end_frame_exclusive": 145,
+          "num_frames": 53,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 145,
+          "end_frame_exclusive": 159,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 159,
+          "end_frame_exclusive": 182,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 182,
+          "end_frame_exclusive": 200,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 200,
+          "end_frame_exclusive": 235,
+          "num_frames": 35,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 235,
+          "end_frame_exclusive": 264,
+          "num_frames": 29,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 264,
+          "end_frame_exclusive": 287,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 287,
+          "end_frame_exclusive": 306,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 306,
+          "end_frame_exclusive": 330,
+          "num_frames": 24,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 330,
+          "end_frame_exclusive": 375,
+          "num_frames": 45,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000584\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 552,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000552\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000552.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 11,
+          "num_frames": 11,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 11,
+          "end_frame_exclusive": 30,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 30,
+          "end_frame_exclusive": 51,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 51,
+          "end_frame_exclusive": 65,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 65,
+          "end_frame_exclusive": 104,
+          "num_frames": 39,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 104,
+          "end_frame_exclusive": 118,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 118,
+          "end_frame_exclusive": 141,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 141,
+          "end_frame_exclusive": 158,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 158,
+          "end_frame_exclusive": 183,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 183,
+          "end_frame_exclusive": 206,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 206,
+          "end_frame_exclusive": 236,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 236,
+          "end_frame_exclusive": 249,
+          "num_frames": 13,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 249,
+          "end_frame_exclusive": 270,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 270,
+          "end_frame_exclusive": 303,
+          "num_frames": 33,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000552\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 536,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000536\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000536.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 22,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 22,
+          "end_frame_exclusive": 52,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 52,
+          "end_frame_exclusive": 72,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 72,
+          "end_frame_exclusive": 90,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 90,
+          "end_frame_exclusive": 137,
+          "num_frames": 47,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 137,
+          "end_frame_exclusive": 155,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 155,
+          "end_frame_exclusive": 175,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 175,
+          "end_frame_exclusive": 195,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 195,
+          "end_frame_exclusive": 226,
+          "num_frames": 31,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 226,
+          "end_frame_exclusive": 252,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 252,
+          "end_frame_exclusive": 277,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 277,
+          "end_frame_exclusive": 293,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 293,
+          "end_frame_exclusive": 312,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 312,
+          "end_frame_exclusive": 369,
+          "num_frames": 57,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000536\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 736,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000736\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000736.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 14,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 14,
+          "end_frame_exclusive": 31,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 31,
+          "end_frame_exclusive": 49,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 49,
+          "end_frame_exclusive": 62,
+          "num_frames": 13,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 62,
+          "end_frame_exclusive": 90,
+          "num_frames": 28,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 90,
+          "end_frame_exclusive": 104,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 104,
+          "end_frame_exclusive": 120,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 120,
+          "end_frame_exclusive": 134,
+          "num_frames": 14,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 134,
+          "end_frame_exclusive": 167,
+          "num_frames": 33,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 167,
+          "end_frame_exclusive": 186,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 186,
+          "end_frame_exclusive": 206,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 206,
+          "end_frame_exclusive": 221,
+          "num_frames": 15,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 221,
+          "end_frame_exclusive": 245,
+          "num_frames": 24,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 245,
+          "end_frame_exclusive": 275,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000736\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 694,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000694\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000694.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 19,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 19,
+          "end_frame_exclusive": 45,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 45,
+          "end_frame_exclusive": 66,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 66,
+          "end_frame_exclusive": 78,
+          "num_frames": 12,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 78,
+          "end_frame_exclusive": 105,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 105,
+          "end_frame_exclusive": 115,
+          "num_frames": 10,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 115,
+          "end_frame_exclusive": 135,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 135,
+          "end_frame_exclusive": 146,
+          "num_frames": 11,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 146,
+          "end_frame_exclusive": 188,
+          "num_frames": 42,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 188,
+          "end_frame_exclusive": 214,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 214,
+          "end_frame_exclusive": 236,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 236,
+          "end_frame_exclusive": 249,
+          "num_frames": 13,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 249,
+          "end_frame_exclusive": 269,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 269,
+          "end_frame_exclusive": 300,
+          "num_frames": 31,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000694\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 528,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000528\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000528.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 10,
+          "num_frames": 10,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 10,
+          "end_frame_exclusive": 35,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 35,
+          "end_frame_exclusive": 56,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 56,
+          "end_frame_exclusive": 69,
+          "num_frames": 13,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 69,
+          "end_frame_exclusive": 113,
+          "num_frames": 44,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 113,
+          "end_frame_exclusive": 128,
+          "num_frames": 15,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 128,
+          "end_frame_exclusive": 148,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 148,
+          "end_frame_exclusive": 169,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 169,
+          "end_frame_exclusive": 197,
+          "num_frames": 28,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 197,
+          "end_frame_exclusive": 225,
+          "num_frames": 28,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 225,
+          "end_frame_exclusive": 252,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 252,
+          "end_frame_exclusive": 270,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 270,
+          "end_frame_exclusive": 295,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 295,
+          "end_frame_exclusive": 336,
+          "num_frames": 41,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000528\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 708,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000708\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000708.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 20,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 20,
+          "end_frame_exclusive": 36,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 36,
+          "end_frame_exclusive": 53,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 53,
+          "end_frame_exclusive": 64,
+          "num_frames": 11,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 64,
+          "end_frame_exclusive": 84,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 84,
+          "end_frame_exclusive": 101,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 101,
+          "end_frame_exclusive": 121,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 121,
+          "end_frame_exclusive": 132,
+          "num_frames": 11,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 132,
+          "end_frame_exclusive": 171,
+          "num_frames": 39,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 171,
+          "end_frame_exclusive": 204,
+          "num_frames": 33,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 204,
+          "end_frame_exclusive": 229,
+          "num_frames": 25,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 229,
+          "end_frame_exclusive": 244,
+          "num_frames": 15,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 244,
+          "end_frame_exclusive": 262,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 262,
+          "end_frame_exclusive": 293,
+          "num_frames": 31,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 653,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000653\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000653.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 23,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 23,
+          "end_frame_exclusive": 50,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 50,
+          "end_frame_exclusive": 77,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 77,
+          "end_frame_exclusive": 94,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 94,
+          "end_frame_exclusive": 138,
+          "num_frames": 44,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 138,
+          "end_frame_exclusive": 177,
+          "num_frames": 39,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 177,
+          "end_frame_exclusive": 204,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 204,
+          "end_frame_exclusive": 224,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 224,
+          "end_frame_exclusive": 256,
+          "num_frames": 32,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 256,
+          "end_frame_exclusive": 297,
+          "num_frames": 41,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 297,
+          "end_frame_exclusive": 341,
+          "num_frames": 44,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 341,
+          "end_frame_exclusive": 363,
+          "num_frames": 22,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 363,
+          "end_frame_exclusive": 395,
+          "num_frames": 32,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 395,
+          "end_frame_exclusive": 432,
+          "num_frames": 37,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000653\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 510,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000510\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000510.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 20,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 20,
+          "end_frame_exclusive": 43,
+          "num_frames": 23,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 43,
+          "end_frame_exclusive": 61,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 61,
+          "end_frame_exclusive": 77,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 77,
+          "end_frame_exclusive": 119,
+          "num_frames": 42,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 119,
+          "end_frame_exclusive": 136,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 136,
+          "end_frame_exclusive": 154,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 154,
+          "end_frame_exclusive": 170,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 170,
+          "end_frame_exclusive": 196,
+          "num_frames": 26,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 196,
+          "end_frame_exclusive": 228,
+          "num_frames": 32,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 228,
+          "end_frame_exclusive": 255,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 255,
+          "end_frame_exclusive": 265,
+          "num_frames": 10,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 265,
+          "end_frame_exclusive": 284,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 284,
+          "end_frame_exclusive": 325,
+          "num_frames": 41,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000510\\segment_13_Reset.mp4"
+        }
+      ]
+    },
+    {
+      "episode_index": 509,
+      "garment_type": "top_long_sleeve",
+      "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000509\\checkpoints.json",
+      "template_status": "dtw_transferred_requires_review",
+      "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000509.parquet",
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509",
+      "num_segments": 14,
+      "segments": [
+        {
+          "segment_id": 0,
+          "label": "Idle",
+          "start_frame": 0,
+          "end_frame_exclusive": 17,
+          "num_frames": 17,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_00_Idle.mp4"
+        },
+        {
+          "segment_id": 1,
+          "label": "Reach first sleeve",
+          "start_frame": 17,
+          "end_frame_exclusive": 37,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_01_Reach_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 2,
+          "label": "Grasp first sleeve",
+          "start_frame": 37,
+          "end_frame_exclusive": 58,
+          "num_frames": 21,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_02_Grasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 3,
+          "label": "Fold first sleeve",
+          "start_frame": 58,
+          "end_frame_exclusive": 76,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_03_Fold_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 4,
+          "label": "Ungrasp first sleeve",
+          "start_frame": 76,
+          "end_frame_exclusive": 123,
+          "num_frames": 47,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_04_Ungrasp_first_sleeve.mp4"
+        },
+        {
+          "segment_id": 5,
+          "label": "Reach second sleeve",
+          "start_frame": 123,
+          "end_frame_exclusive": 139,
+          "num_frames": 16,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_05_Reach_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 6,
+          "label": "Grasp second sleeve",
+          "start_frame": 139,
+          "end_frame_exclusive": 157,
+          "num_frames": 18,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_06_Grasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 7,
+          "label": "Fold second sleeve",
+          "start_frame": 157,
+          "end_frame_exclusive": 177,
+          "num_frames": 20,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_07_Fold_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 8,
+          "label": "Ungrasp second sleeve",
+          "start_frame": 177,
+          "end_frame_exclusive": 204,
+          "num_frames": 27,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_08_Ungrasp_second_sleeve.mp4"
+        },
+        {
+          "segment_id": 9,
+          "label": "Reach bottom",
+          "start_frame": 204,
+          "end_frame_exclusive": 234,
+          "num_frames": 30,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_09_Reach_bottom.mp4"
+        },
+        {
+          "segment_id": 10,
+          "label": "Grasp bottom",
+          "start_frame": 234,
+          "end_frame_exclusive": 262,
+          "num_frames": 28,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_10_Grasp_bottom.mp4"
+        },
+        {
+          "segment_id": 11,
+          "label": "Fold bottom",
+          "start_frame": 262,
+          "end_frame_exclusive": 275,
+          "num_frames": 13,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_11_Fold_bottom.mp4"
+        },
+        {
+          "segment_id": 12,
+          "label": "Ungrasp bottom",
+          "start_frame": 275,
+          "end_frame_exclusive": 294,
+          "num_frames": 19,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_12_Ungrasp_bottom.mp4"
+        },
+        {
+          "segment_id": 13,
+          "label": "Reset",
+          "start_frame": 294,
+          "end_frame_exclusive": 336,
+          "num_frames": 42,
+          "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000509\\segment_13_Reset.mp4"
+        }
+      ]
+    }
+  ]
+}

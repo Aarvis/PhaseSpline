@@ -1,0 +1,24 @@
+{
+  "episode_index": 0,
+  "source_dataset": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\pretrain_dataset\\pretrain_lehome_all_garment_data_z180",
+  "source_parquet": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\pretrain_dataset\\pretrain_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000000.parquet",
+  "exported_parquet": "episode_000000.parquet",
+  "top_view_video": "episode_000000_top_rgb.mp4",
+  "frames": 229,
+  "fps": 23.0,
+  "duration_seconds": 9.956521739130435,
+  "frame_size": {
+    "width": 640,
+    "height": 480
+  },
+  "state_shape": [
+    229,
+    16
+  ],
+  "action_shape": [
+    229,
+    16
+  ],
+  "timestamp_start": 0.0,
+  "timestamp_end": 9.913043022155762
+}

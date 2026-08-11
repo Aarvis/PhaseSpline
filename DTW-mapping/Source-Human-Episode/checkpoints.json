@@ -1,0 +1,519 @@
+{
+  "schema_version": "1.0",
+  "description": "Robot checkpoint labels transferred to a human pants-folding episode using full-rate top-camera DINOv3 DTW.",
+  "template_status": "dtw_transferred_requires_review",
+  "task": {
+    "name": "human pants folding",
+    "garment_type": "pants",
+    "annotation_scope": "episode_000000 top RGB video"
+  },
+  "source_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Source-Human-Episode\\episode_000000.parquet",
+  "video_stem": "episode_000000_top_rgb",
+  "video_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Source-Human-Episode\\episode_000000_top_rgb.mp4",
+  "embedding_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Source-Human-Episode\\episode_000000_top_rgb_dinov3_vits16plus_embeddings.npz",
+  "reference": {
+    "role": "simulated robot reference",
+    "video_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_top_rgb.mp4",
+    "embedding_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_top_rgb_dinov3_vits16plus_embeddings.npz",
+    "checkpoints_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\checkpoints.json",
+    "frame_count": 269,
+    "fps": 30.0
+  },
+  "frame_indexing": {
+    "base": 0,
+    "start_frame": 0,
+    "end_frame_exclusive": 229,
+    "end_frame_inclusive": 228,
+    "note": "Zero-based decoded-video frame indices. Segments use [start_frame, end_frame_exclusive).",
+    "annotation_sampling": {
+      "type": "full_rate_every_frame",
+      "original_frame_stride": 1,
+      "original_frame_offset": 0,
+      "annotation_frame_k_maps_to_original_frame": "k"
+    }
+  },
+  "summary": {
+    "num_labels": 9,
+    "num_unique_labels": 9,
+    "num_annotated_segments": 9,
+    "first_frame": 0,
+    "last_frame_inclusive": 228,
+    "num_labeled_frames": 229,
+    "coverage_is_contiguous": true,
+    "coverage_is_complete": true
+  },
+  "method": {
+    "name": "single_reference_full_rate_dinov3_dtw",
+    "direction": "simulated robot reference -> human target",
+    "embedding_key": "embeddings_l2",
+    "embedding_dimension": 384,
+    "distance": "1 - cosine similarity over L2-normalized DINOv3 embeddings",
+    "temporal_smoothing_window": 3,
+    "temporal_prior_weight": 0.02,
+    "dtw_endpoint_constraint": "path is anchored at both sequence endpoints",
+    "boundary_mapping": "two-sided median of per-reference-frame target votes",
+    "side_window_reference_frames": 3,
+    "continuity": "all segments are generated from one strictly increasing shared boundary vector",
+    "accumulated_cost": 192.4692573189734,
+    "normalized_cost": 0.7154990978400498,
+    "path_length": 269
+  },
+  "labels": [
+    "Reach top pant half",
+    "Grasp top pant half",
+    "Fold top pant half",
+    "Ungrasp top pant half",
+    "Reach pant end",
+    "Grasp pant end",
+    "Fold pant end",
+    "Ungrasp pant end",
+    "Reset"
+  ],
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Reach top pant half",
+      "start_frame": 0,
+      "end_frame_exclusive": 34,
+      "end_frame_inclusive": 33,
+      "num_frames": 34,
+      "confidence": 0.6905212799708049,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 0,
+        "end_frame_exclusive": 56
+      }
+    },
+    {
+      "segment_id": 1,
+      "label": "Grasp top pant half",
+      "start_frame": 34,
+      "end_frame_exclusive": 61,
+      "end_frame_inclusive": 60,
+      "num_frames": 27,
+      "confidence": 0.6522193178534508,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 56,
+        "end_frame_exclusive": 85
+      }
+    },
+    {
+      "segment_id": 2,
+      "label": "Fold top pant half",
+      "start_frame": 61,
+      "end_frame_exclusive": 90,
+      "end_frame_inclusive": 89,
+      "num_frames": 29,
+      "confidence": 0.6174967164794604,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 85,
+        "end_frame_exclusive": 114
+      }
+    },
+    {
+      "segment_id": 3,
+      "label": "Ungrasp top pant half",
+      "start_frame": 90,
+      "end_frame_exclusive": 109,
+      "end_frame_inclusive": 108,
+      "num_frames": 19,
+      "confidence": 0.6301543389757475,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 114,
+        "end_frame_exclusive": 133
+      }
+    },
+    {
+      "segment_id": 4,
+      "label": "Reach pant end",
+      "start_frame": 109,
+      "end_frame_exclusive": 125,
+      "end_frame_inclusive": 124,
+      "num_frames": 16,
+      "confidence": 0.638639897108078,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 133,
+        "end_frame_exclusive": 149
+      }
+    },
+    {
+      "segment_id": 5,
+      "label": "Grasp pant end",
+      "start_frame": 125,
+      "end_frame_exclusive": 152,
+      "end_frame_inclusive": 151,
+      "num_frames": 27,
+      "confidence": 0.6367881670594215,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 149,
+        "end_frame_exclusive": 176
+      }
+    },
+    {
+      "segment_id": 6,
+      "label": "Fold pant end",
+      "start_frame": 152,
+      "end_frame_exclusive": 172,
+      "end_frame_inclusive": 171,
+      "num_frames": 20,
+      "confidence": 0.6442660018801689,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 176,
+        "end_frame_exclusive": 201
+      }
+    },
+    {
+      "segment_id": 7,
+      "label": "Ungrasp pant end",
+      "start_frame": 172,
+      "end_frame_exclusive": 183,
+      "end_frame_inclusive": 182,
+      "num_frames": 11,
+      "confidence": 0.6451781764626503,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 201,
+        "end_frame_exclusive": 219
+      }
+    },
+    {
+      "segment_id": 8,
+      "label": "Reset",
+      "start_frame": 183,
+      "end_frame_exclusive": 229,
+      "end_frame_inclusive": 228,
+      "num_frames": 46,
+      "confidence": 0.6373534897963207,
+      "notes": "Checkpoint label transferred from the simulated robot reference using top-camera DINOv3 DTW.",
+      "reference_segment": {
+        "start_frame": 219,
+        "end_frame_exclusive": 269
+      }
+    }
+  ],
+  "boundaries": {
+    "reference": [
+      0,
+      56,
+      85,
+      114,
+      133,
+      149,
+      176,
+      201,
+      219,
+      269
+    ],
+    "target_raw": [
+      0,
+      34,
+      61,
+      90,
+      109,
+      125,
+      152,
+      172,
+      183,
+      229
+    ],
+    "target_contiguous": [
+      0,
+      34,
+      61,
+      90,
+      109,
+      125,
+      152,
+      172,
+      183,
+      229
+    ],
+    "diagnostics": [
+      {
+        "reference_boundary": 56,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          53,
+          54,
+          55
+        ],
+        "right_reference_frames": [
+          56,
+          57,
+          58
+        ],
+        "left_target_votes": [
+          34.0,
+          34.0,
+          34.0
+        ],
+        "right_target_votes": [
+          34.0,
+          34.0,
+          34.0
+        ],
+        "left_target_anchor": 34.0,
+        "right_target_anchor": 34.0,
+        "raw_target_boundary": 34,
+        "boundary_index": 1,
+        "local_mean_cosine_distance": 0.6189574400583903,
+        "local_mean_cosine_similarity": 0.38104255994160974,
+        "confidence": 0.6905212799708049,
+        "adjusted_target_boundary": 34,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 85,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          82,
+          83,
+          84
+        ],
+        "right_reference_frames": [
+          85,
+          86,
+          87
+        ],
+        "left_target_votes": [
+          58.0,
+          59.0,
+          60.0
+        ],
+        "right_target_votes": [
+          61.0,
+          62.0,
+          63.0
+        ],
+        "left_target_anchor": 59.0,
+        "right_target_anchor": 62.0,
+        "raw_target_boundary": 61,
+        "boundary_index": 2,
+        "local_mean_cosine_distance": 0.7721652885278066,
+        "local_mean_cosine_similarity": 0.22783471147219336,
+        "confidence": 0.6139173557360966,
+        "adjusted_target_boundary": 61,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 114,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          111,
+          112,
+          113
+        ],
+        "right_reference_frames": [
+          114,
+          115,
+          116
+        ],
+        "left_target_votes": [
+          87.0,
+          88.0,
+          89.0
+        ],
+        "right_target_votes": [
+          90.0,
+          91.0,
+          92.0
+        ],
+        "left_target_anchor": 88.0,
+        "right_target_anchor": 91.0,
+        "raw_target_boundary": 90,
+        "boundary_index": 3,
+        "local_mean_cosine_distance": 0.7578478455543518,
+        "local_mean_cosine_similarity": 0.2421521544456482,
+        "confidence": 0.6210760772228241,
+        "adjusted_target_boundary": 90,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 133,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          130,
+          131,
+          132
+        ],
+        "right_reference_frames": [
+          133,
+          134,
+          135
+        ],
+        "left_target_votes": [
+          106.0,
+          107.0,
+          108.0
+        ],
+        "right_target_votes": [
+          109.0,
+          110.0,
+          111.0
+        ],
+        "left_target_anchor": 107.0,
+        "right_target_anchor": 110.0,
+        "raw_target_boundary": 109,
+        "boundary_index": 4,
+        "local_mean_cosine_distance": 0.7215347985426585,
+        "local_mean_cosine_similarity": 0.27846520145734155,
+        "confidence": 0.6392326007286708,
+        "adjusted_target_boundary": 109,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 149,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          146,
+          147,
+          148
+        ],
+        "right_reference_frames": [
+          149,
+          150,
+          151
+        ],
+        "left_target_votes": [
+          122.0,
+          123.0,
+          124.0
+        ],
+        "right_target_votes": [
+          125.0,
+          126.0,
+          127.0
+        ],
+        "left_target_anchor": 123.0,
+        "right_target_anchor": 126.0,
+        "raw_target_boundary": 125,
+        "boundary_index": 5,
+        "local_mean_cosine_distance": 0.7239056130250295,
+        "local_mean_cosine_similarity": 0.27609438697497046,
+        "confidence": 0.6380471934874852,
+        "adjusted_target_boundary": 125,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 176,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          173,
+          174,
+          175
+        ],
+        "right_reference_frames": [
+          176,
+          177,
+          178
+        ],
+        "left_target_votes": [
+          149.0,
+          150.0,
+          151.0
+        ],
+        "right_target_votes": [
+          152.0,
+          153.0,
+          154.0
+        ],
+        "left_target_anchor": 150.0,
+        "right_target_anchor": 153.0,
+        "raw_target_boundary": 152,
+        "boundary_index": 6,
+        "local_mean_cosine_distance": 0.7289417187372843,
+        "local_mean_cosine_similarity": 0.2710582812627157,
+        "confidence": 0.6355291406313579,
+        "adjusted_target_boundary": 152,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 201,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          198,
+          199,
+          200
+        ],
+        "right_reference_frames": [
+          201,
+          202,
+          203
+        ],
+        "left_target_votes": [
+          172.0,
+          172.0,
+          172.0
+        ],
+        "right_target_votes": [
+          172.0,
+          172.0,
+          172.0
+        ],
+        "left_target_anchor": 172.0,
+        "right_target_anchor": 172.0,
+        "raw_target_boundary": 172,
+        "boundary_index": 7,
+        "local_mean_cosine_distance": 0.69399427374204,
+        "local_mean_cosine_similarity": 0.30600572625795996,
+        "confidence": 0.6530028631289799,
+        "adjusted_target_boundary": 172,
+        "adjustment_frames": 0
+      },
+      {
+        "reference_boundary": 219,
+        "method": "two_sided_median",
+        "left_reference_frames": [
+          216,
+          217,
+          218
+        ],
+        "right_reference_frames": [
+          219,
+          220,
+          221
+        ],
+        "left_target_votes": [
+          180.0,
+          181.0,
+          182.0
+        ],
+        "right_target_votes": [
+          183.0,
+          184.0,
+          185.0
+        ],
+        "left_target_anchor": 181.0,
+        "right_target_anchor": 184.0,
+        "raw_target_boundary": 183,
+        "boundary_index": 8,
+        "local_mean_cosine_distance": 0.7252930204073588,
+        "local_mean_cosine_similarity": 0.27470697959264123,
+        "confidence": 0.6373534897963207,
+        "adjusted_target_boundary": 183,
+        "adjustment_frames": 0
+      }
+    ]
+  },
+  "video_metadata": {
+    "frame_count": 229,
+    "fps": 23.0,
+    "width": 640,
+    "height": 480,
+    "duration_seconds": 9.956521739130435
+  },
+  "validation": {
+    "valid": true,
+    "errors": [],
+    "coverage_is_contiguous": true,
+    "coverage_is_complete": true,
+    "num_labeled_frames": 229
+  },
+  "diagnostics_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\DTW-results\\episode_000033_to_episode_000000"
+}

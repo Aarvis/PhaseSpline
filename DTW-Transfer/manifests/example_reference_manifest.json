@@ -1,0 +1,16 @@
+{
+  "garments": {
+    "shorts": {
+      "reference_episodes": [250, 252, 263],
+      "episode_ranges": [[250, 499]]
+    },
+    "top_sleeves": {
+      "reference_episodes": [500, 511, 522],
+      "episode_ranges": [[500, 749]]
+    },
+    "pants": {
+      "reference_episodes": [750, 761, 772],
+      "episode_ranges": [[750, 999]]
+    }
+  }
+}

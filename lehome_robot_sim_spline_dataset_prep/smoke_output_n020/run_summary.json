@@ -1,0 +1,27 @@
+{
+  "dataset_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180",
+  "fitted_spline_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\embeddings\\robot_sim_multiview_vae_joint_full_epoch\\fitted_splines",
+  "output_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\lehome_robot_sim_spline_dataset_prep\\smoke_output_n020",
+  "episodes_selected": 1,
+  "num_future_knots": 20,
+  "padding_mode": "repeat_last",
+  "embedding_dtype": "float16",
+  "u_dtype": "float32",
+  "index_dtype": "int32",
+  "episodes": [
+    {
+      "episode_index": 716,
+      "num_frames": 284,
+      "num_total_knots": 114,
+      "frames_needing_padding": 51,
+      "frames_single_knot": 10,
+      "frames_full_context": 233,
+      "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\lehome_robot_sim_spline_dataset_prep\\smoke_output_n020\\chunk-000\\episode_000716"
+    }
+  ],
+  "total_frames": 284,
+  "total_frames_needing_padding": 51,
+  "total_single_knot_frames": 10,
+  "frames_with_full_context": 233,
+  "padding_frame_fraction": 0.1795774647887324
+}

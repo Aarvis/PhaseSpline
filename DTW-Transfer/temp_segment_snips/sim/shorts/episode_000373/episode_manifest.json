@@ -1,0 +1,59 @@
+{
+  "episode_index": 373,
+  "garment_type": "shorts",
+  "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000373\\checkpoints.json",
+  "template_status": "dtw_transferred_requires_review",
+  "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000373.parquet",
+  "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373",
+  "num_segments": 6,
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Idle",
+      "start_frame": 0,
+      "end_frame_exclusive": 19,
+      "num_frames": 19,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_00_Idle.mp4"
+    },
+    {
+      "segment_id": 1,
+      "label": "Reach first half",
+      "start_frame": 19,
+      "end_frame_exclusive": 52,
+      "num_frames": 33,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_01_Reach_first_half.mp4"
+    },
+    {
+      "segment_id": 2,
+      "label": "Grasp first half",
+      "start_frame": 52,
+      "end_frame_exclusive": 77,
+      "num_frames": 25,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_02_Grasp_first_half.mp4"
+    },
+    {
+      "segment_id": 3,
+      "label": "Fold first half",
+      "start_frame": 77,
+      "end_frame_exclusive": 92,
+      "num_frames": 15,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_03_Fold_first_half.mp4"
+    },
+    {
+      "segment_id": 4,
+      "label": "Ungrasp first half",
+      "start_frame": 92,
+      "end_frame_exclusive": 114,
+      "num_frames": 22,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_04_Ungrasp_first_half.mp4"
+    },
+    {
+      "segment_id": 5,
+      "label": "Reset",
+      "start_frame": 114,
+      "end_frame_exclusive": 143,
+      "num_frames": 29,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\shorts\\episode_000373\\segment_05_Reset.mp4"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "sim_dataset_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180",
+  "human_dataset_root": "D:\\pretrain_lehome_all_garment_data_z180",
+  "robot_fitted_spline_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\embeddings\\robot_sim_multiview_vae_joint_full_epoch\\fitted_splines",
+  "output_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\lehome_robot_sim_spline_dataset_prep\\smoke_pairings_seed32489",
+  "seed": 32489,
+  "categories": [
+    {
+      "category_id": "top_long_sleeve",
+      "robot_episode_count": 1,
+      "robot_frame_count": 315,
+      "human_episode_count": 836,
+      "human_episode_min": 2039,
+      "human_episode_max": 2874,
+      "human_episodes_used": 315,
+      "min_usage_per_human_episode": 1,
+      "mean_usage_per_human_episode": 1.0,
+      "median_usage_per_human_episode": 1.0,
+      "max_usage_per_human_episode": 1,
+      "episodes": [
+        {
+          "robot_episode_index": 500,
+          "robot_category_id": "top_long_sleeve",
+          "num_frames": 315,
+          "human_dataset_root": "D:\\pretrain_lehome_all_garment_data_z180",
+          "output_npz_path": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\lehome_robot_sim_spline_dataset_prep\\smoke_pairings_seed32489\\chunk-000\\episode_000500\\human_episode_pairings.npz",
+          "stored_fields": [
+            "frame_indices",
+            "paired_human_episode_indices"
+          ]
+        }
+      ]
+    }
+  ]
+}

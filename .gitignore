@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+outputs/
+*.partial
+*.log
+
+# Local package installs / app runtimes
+node_modules/
+.next/
+dist/
+build/
+
+# Model checkpoints / large training artifacts
+*.pt
+*.pth
+*.ckpt
+*.bin
+*.safetensors
+
+# Generated dataset / media artifacts
+*.parquet
+*.npz
+*.npy
+*.mp4
+*.avi
+*.mov
+
+# Local DTW mapping data exports
+DTW-mapping/Sim-Robot-Episode/

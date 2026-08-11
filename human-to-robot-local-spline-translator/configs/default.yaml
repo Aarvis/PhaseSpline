@@ -1,0 +1,199 @@
+paths:
+  sim_dataset_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180
+  sim_embedding_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch
+  human_dataset_root: D:/pretrain_lehome_all_garment_data_z180
+  human_bspline_root: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/fitted_bspline_splines
+  robot_local_window_dirname: local_raw_bspline_windows_n010
+  robot_pairing_dirname: human_episode_pairings_uniform_seed032489
+  predicted_human_u_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/human_localizer_predicted_u_default_run
+  output_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-to-robot-local-spline-translator/outputs/default_run_n010
+
+data:
+  selected_categories: [shorts, top_long_sleeve]
+  robot_embedding_key: mean
+  robot_state_source: parquet
+  state_dims: all
+  history_length: 6
+  history_stride: 10
+  local_phase_grid_size: 200
+  phase_grid_endpoint_inclusive: true
+  skip_missing_robot_episodes: true
+  verify_alignment: true
+
+human_input_u:
+  use_predicted_human_u: true
+  require_predicted_human_u: false
+  min_interval_width: 1.0e-4
+  validation_predicted_u_alpha: 1.0
+
+validation:
+  split_seed: 2027
+  per_category_ratio: 0.10
+  min_episodes_per_category: 1
+  max_episodes_per_category: null
+  teacher_forcing_alpha: 1.0
+
+preprocessing:
+  overwrite: false
+  exact_human_interval_cache_dirname: precomputed_exact_human_interval_cache
+  splits_filename: episode_splits.json
+  state_norm_filename: state_normalization.json
+  category_metadata_filename: category_metadata.json
+
+model:
+  degree: 3
+  width: 512
+  dropout: 0.10
+  debug_return_basis: true
+  human:
+    coefficient_input_dim: 2048
+    coefficient_projection_dim: 512
+    transformer_layers: 4
+    heads: 8
+    ffn_dim: 2048
+    rope_coordinate_scale: 200.0
+    rope_base: 10000.0
+    width_fourier_bands: 16
+    width_hidden_dim: 256
+  human_phase:
+    transformer_layers: 2
+    heads: 8
+    ffn_dim: 2048
+    fusion_hidden_dim: 1024
+    rope_coordinate_scale: 1.0
+    rope_base: 10000.0
+  robot:
+    visual_input_dim: 2048
+    visual_projection_dim: 384
+    state_hidden_dim: 256
+    state_projection_dim: 128
+    fusion_hidden_dim: 512
+    transformer_layers: 3
+    heads: 8
+    ffn_dim: 2048
+    temporal_rope_coordinate_mode: relative_steps
+    temporal_rope_coordinate_scale: 1.0
+    rope_base: 10000.0
+  translator:
+    layers: 3
+    heads: 8
+    ffn_dim: 2048
+  dense_head:
+    hidden_dim: 1024
+    output_dim: 2048
+  compressor_tokenizer:
+    input_dim: 2048
+    position_projection_dim: 256
+    velocity_projection_dim: 256
+    acceleration_projection_dim: 256
+  compressor_transformer:
+    transformer_layers: 4
+    heads: 8
+    ffn_dim: 2048
+    rope_coordinate_scale: 1.0
+    rope_base: 10000.0
+  span_decoder:
+    num_output_spans: 10
+    layers: 2
+    heads: 8
+    ffn_dim: 2048
+    min_span_width: 0.0025
+    rope_coordinate_scale: 1.0
+    rope_base: 10000.0
+    position_fourier_bands: 8
+    position_hidden_dim: 256
+  projection:
+    eta_velocity: 0.05
+    eta_acceleration: 0.01
+    ridge: 1.0e-4
+
+loss:
+  lambda_spline: 1.0
+  lambda_knot: 0.25
+  lambda_anchor: 1.0
+  dense:
+    lambda_velocity: 0.02
+    lambda_acceleration: 0.0005
+    velocity_weight_scale_schedule:
+      milestones: [0.0, 0.125, 0.25, 1.0]
+      values: [0.0, 0.0, 1.0, 1.0]
+    acceleration_weight_scale_schedule:
+      milestones: [0.0, 0.375, 0.50, 1.0]
+      values: [0.0, 0.0, 1.0, 1.0]
+    position_delta: 0.05
+    velocity_delta: 0.10
+    acceleration_delta: 0.20
+  spline:
+    lambda_velocity: 0.02
+    lambda_acceleration: 0.0005
+    velocity_weight_scale_schedule:
+      milestones: [0.0, 0.125, 0.25, 1.0]
+      values: [0.0, 0.0, 1.0, 1.0]
+    acceleration_weight_scale_schedule:
+      milestones: [0.0, 0.375, 0.50, 1.0]
+      values: [0.0, 0.0, 1.0, 1.0]
+    position_delta: 0.05
+    velocity_delta: 0.10
+    acceleration_delta: 0.20
+  knot:
+    delta: 0.10
+    log_epsilon: 1.0e-6
+  anchor:
+    delta: 0.05
+
+training:
+  seed: 2027
+  device: cuda
+  epochs: 4
+  pairing_slot_schedule: [0, 1, 2, 3]
+  batch_size: 4
+  num_workers: 4
+  pin_memory: true
+  persistent_workers: false
+  amp: true
+  gradient_accumulation_steps: 1
+  learning_rate: 1.0e-4
+  weight_decay: 1.0e-2
+  adam_beta1: 0.9
+  adam_beta2: 0.999
+  gradient_clip_norm: 1.0
+  scheduler: cosine
+  warmup_steps: 500
+  validation_frequency_steps: 4000
+  train_log_frequency_steps: 200
+  validation_log_frequency_steps: 200
+  checkpoint_metric: val_total
+  teacher_forcing_alpha_schedule:
+    milestones: [0.0, 0.50, 0.75, 1.0]
+    values: [0.0, 0.0, 0.5, 1.0]
+  compressor_gradient_gamma_schedule:
+    milestones: [0.0, 0.60, 0.80, 1.0]
+    values: [0.0, 0.0, 0.02, 0.05]
+  predicted_u_alpha_schedule:
+    milestones: [0.0, 0.50, 1.0]
+    values: [0.0, 0.25, 0.50]
+
+logging:
+  wandb:
+    enabled: false
+    project: human-to-robot-local-spline-translator
+    entity: null
+    run_name: null
+    api_key: null
+
+categories:
+  - id: shorts
+    sim_start: 250
+    sim_end_exclusive: 500
+    human_start: 1018
+    human_end_exclusive: 2039
+  - id: top_long_sleeve
+    sim_start: 500
+    sim_end_exclusive: 750
+    human_start: 2039
+    human_end_exclusive: 2875
+  # - id: top_short_sleeve
+  #   sim_start: 750
+  #   sim_end_exclusive: 1000
+  #   human_start: 2875
+  #   human_end_exclusive: 4180

@@ -1,0 +1,90 @@
+{
+  "schema_version": "1.0",
+  "description": "Editable category-specific checkpoint vocabularies used automatically by FrameLine dataset mode.",
+  "templates": [
+    {
+      "category_id": "pant",
+      "task": {
+        "name": "pants folding",
+        "description": "Sequential semantic phases for a pants-folding demonstration.",
+        "garment_type": "pant"
+      },
+      "labels": [
+        "Idle",
+        "Reach top pant half",
+        "Grasp top pant half",
+        "Fold top pant half",
+        "Ungrasp top pant half",
+        "Reach pant end",
+        "Grasp pant end",
+        "Fold pant end",
+        "Ungrasp pant end",
+        "Reset"
+      ]
+    },
+    {
+      "category_id": "shorts",
+      "task": {
+        "name": "shorts folding",
+        "description": "Sequential semantic phases for a shorts-folding demonstration.",
+        "garment_type": "shorts"
+      },
+      "labels": [
+        "Idle",
+        "Reach first half",
+        "Grasp first half",
+        "Fold first half",
+        "Ungrasp first half",
+        "Reset"
+      ]
+    },
+    {
+      "category_id": "top_long_sleeve",
+      "task": {
+        "name": "long-sleeve top folding",
+        "description": "Sequential semantic phases for a long-sleeve top-folding demonstration.",
+        "garment_type": "top_long_sleeve"
+      },
+      "labels": [
+        "Idle",
+        "Reach first sleeve",
+        "Grasp first sleeve",
+        "Fold first sleeve",
+        "Ungrasp first sleeve",
+        "Reach second sleeve",
+        "Grasp second sleeve",
+        "Fold second sleeve",
+        "Ungrasp second sleeve",
+        "Reach bottom",
+        "Grasp bottom",
+        "Fold bottom",
+        "Ungrasp bottom",
+        "Reset"
+      ]
+    },
+    {
+      "category_id": "top_short_sleeve",
+      "task": {
+        "name": "short-sleeve top folding",
+        "description": "Sequential semantic phases for a short-sleeve top-folding demonstration.",
+        "garment_type": "top_short_sleeve"
+      },
+      "labels": [
+        "Idle",
+        "Reach first sleeve",
+        "Grasp first sleeve",
+        "Fold first sleeve",
+        "Ungrasp first sleeve",
+        "Reach second sleeve",
+        "Grasp second sleeve",
+        "Fold second sleeve",
+        "Ungrasp second sleeve",
+        "Reach bottom",
+        "Grasp bottom",
+        "Fold bottom",
+        "Ungrasp bottom",
+        "Reset"
+      ]
+    }
+  ]
+}

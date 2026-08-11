@@ -1,0 +1,11 @@
+{
+  "robot_episode_index": 500,
+  "robot_category_id": "top_long_sleeve",
+  "num_frames": 315,
+  "human_dataset_root": "D:\\pretrain_lehome_all_garment_data_z180",
+  "output_npz_path": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\lehome_robot_sim_spline_dataset_prep\\smoke_pairings_seed32489\\chunk-000\\episode_000500\\human_episode_pairings.npz",
+  "stored_fields": [
+    "frame_indices",
+    "paired_human_episode_indices"
+  ]
+}

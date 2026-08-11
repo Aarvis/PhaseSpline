@@ -1,0 +1,3 @@
+bspline_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/fitted_bspline_splines
+node_gap: 9
+output_json: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/knot_gap_frame_count_stats_gap10.json

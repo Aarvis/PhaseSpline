@@ -1,0 +1,28 @@
+paths:
+  reference_embeddings: Sim-Robot-Episode/episode_000033_top_rgb_dinov3_vits16plus_embeddings.npz
+  reference_checkpoints: Sim-Robot-Episode/checkpoints.json
+  reference_video: Sim-Robot-Episode/episode_000033_top_rgb.mp4
+  reference_metadata: Sim-Robot-Episode/episode_000033_metadata.json
+  target_embeddings: Source-Human-Episode/episode_000000_top_rgb_dinov3_vits16plus_embeddings.npz
+  target_video: Source-Human-Episode/episode_000000_top_rgb.mp4
+  target_metadata: Source-Human-Episode/episode_000000_metadata.json
+  output_checkpoints: Source-Human-Episode/checkpoints.json
+  diagnostics_dir: DTW-results/episode_000033_to_episode_000000
+
+alignment:
+  embedding_key: embeddings_l2
+  temporal_smoothing_window: 3
+  diagonal_penalty: 0.0
+  horizontal_penalty: 0.01
+  vertical_penalty: 0.01
+  temporal_prior_weight: 0.02
+
+boundary_transfer:
+  side_window_reference_frames: 3
+  min_target_segment_frames: 1
+
+output:
+  save_distance_matrix: true
+  save_alignment_jsonl: true
+  save_alignment_plot: true
+  plot_dpi: 180

@@ -1,0 +1,11 @@
+paths:
+  step4_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/human_local_bspline_knot_count_stats_seed032489_n010
+  step3_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/frame_human_segment_progress_matches_seed032489_n010
+  human_bspline_root: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/fitted_bspline_splines
+  output_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/post_step4_human_local_segment_summary_seed032489_n010
+
+processing:
+  require_step3: true
+  skip_missing_human_bspline_episodes: false
+  write_per_sample_jsonl: false
+  write_per_sample_npz: false

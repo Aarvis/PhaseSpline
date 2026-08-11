@@ -1,0 +1,123 @@
+{
+  "episode_index": 708,
+  "garment_type": "top_long_sleeve",
+  "annotation_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-000\\episode_000708\\checkpoints.json",
+  "template_status": "dtw_transferred_requires_review",
+  "source_file": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000708.parquet",
+  "output_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708",
+  "num_segments": 14,
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Idle",
+      "start_frame": 0,
+      "end_frame_exclusive": 20,
+      "num_frames": 20,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_00_Idle.mp4"
+    },
+    {
+      "segment_id": 1,
+      "label": "Reach first sleeve",
+      "start_frame": 20,
+      "end_frame_exclusive": 36,
+      "num_frames": 16,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_01_Reach_first_sleeve.mp4"
+    },
+    {
+      "segment_id": 2,
+      "label": "Grasp first sleeve",
+      "start_frame": 36,
+      "end_frame_exclusive": 53,
+      "num_frames": 17,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_02_Grasp_first_sleeve.mp4"
+    },
+    {
+      "segment_id": 3,
+      "label": "Fold first sleeve",
+      "start_frame": 53,
+      "end_frame_exclusive": 64,
+      "num_frames": 11,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_03_Fold_first_sleeve.mp4"
+    },
+    {
+      "segment_id": 4,
+      "label": "Ungrasp first sleeve",
+      "start_frame": 64,
+      "end_frame_exclusive": 84,
+      "num_frames": 20,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_04_Ungrasp_first_sleeve.mp4"
+    },
+    {
+      "segment_id": 5,
+      "label": "Reach second sleeve",
+      "start_frame": 84,
+      "end_frame_exclusive": 101,
+      "num_frames": 17,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_05_Reach_second_sleeve.mp4"
+    },
+    {
+      "segment_id": 6,
+      "label": "Grasp second sleeve",
+      "start_frame": 101,
+      "end_frame_exclusive": 121,
+      "num_frames": 20,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_06_Grasp_second_sleeve.mp4"
+    },
+    {
+      "segment_id": 7,
+      "label": "Fold second sleeve",
+      "start_frame": 121,
+      "end_frame_exclusive": 132,
+      "num_frames": 11,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_07_Fold_second_sleeve.mp4"
+    },
+    {
+      "segment_id": 8,
+      "label": "Ungrasp second sleeve",
+      "start_frame": 132,
+      "end_frame_exclusive": 171,
+      "num_frames": 39,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_08_Ungrasp_second_sleeve.mp4"
+    },
+    {
+      "segment_id": 9,
+      "label": "Reach bottom",
+      "start_frame": 171,
+      "end_frame_exclusive": 204,
+      "num_frames": 33,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_09_Reach_bottom.mp4"
+    },
+    {
+      "segment_id": 10,
+      "label": "Grasp bottom",
+      "start_frame": 204,
+      "end_frame_exclusive": 229,
+      "num_frames": 25,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_10_Grasp_bottom.mp4"
+    },
+    {
+      "segment_id": 11,
+      "label": "Fold bottom",
+      "start_frame": 229,
+      "end_frame_exclusive": 244,
+      "num_frames": 15,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_11_Fold_bottom.mp4"
+    },
+    {
+      "segment_id": 12,
+      "label": "Ungrasp bottom",
+      "start_frame": 244,
+      "end_frame_exclusive": 262,
+      "num_frames": 18,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_12_Ungrasp_bottom.mp4"
+    },
+    {
+      "segment_id": 13,
+      "label": "Reset",
+      "start_frame": 262,
+      "end_frame_exclusive": 293,
+      "num_frames": 31,
+      "output_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-Transfer\\temp_segment_snips\\sim\\top_long_sleeve\\episode_000708\\segment_13_Reset.mp4"
+    }
+  ]
+}

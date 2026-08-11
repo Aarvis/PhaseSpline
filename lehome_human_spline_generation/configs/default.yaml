@@ -1,0 +1,104 @@
+dataset:
+  root: "D:/pretrain_lehome_all_garment_data_z180"
+  train_ratio: 0.90
+  val_ratio: 0.10
+  window_stride: 1
+  val_window_stride: 1
+  horizons: [1, 2, 4, 8, 16, 32]
+  cache_episodes_per_worker: 2
+  action_next_state_atol: 1.0e-6
+
+model:
+  dino:
+    model_name: "facebook/dinov3-vits16plus-pretrain-lvd1689m"
+    image_size: 256
+    hidden_size: 384
+  latent:
+    num_slots: 8
+    slot_dim: 256
+    layers: 2
+    heads: 8
+    mlp_ratio: 4
+    log_variance_min: -8.0
+    log_variance_max: 4.0
+  decoder:
+    num_patches: 256
+    layers: 2
+    heads: 8
+    mlp_ratio: 4
+  temporal:
+    layers: 3
+    heads: 8
+    mlp_ratio: 4
+
+loss:
+  cosine_weight: 0.10
+  current_patch: 1.0
+  current_global: 0.25
+  current_state: 0.20
+  variance: 0.01
+  variance_floor: 0.10
+  future_mean: 1.0
+  conditional_kl: 0.10
+  future_patch: 1.0
+  future_global: 0.25
+  joint_spatial: 1.0
+  joint_temporal: 1.0
+
+training:
+  seed: 2027
+  device: "cuda"
+  batch_size: 16
+  workers: 4
+  pin_memory: true
+  amp: true
+  weight_decay: 0.01
+  gradient_clip: 1.0
+  log_frequency: 100
+  val_frequency: 5000
+  stages:
+    - name: spatial_deterministic
+      fraction: 0.30
+      learning_rate: 3.0e-4
+      stochastic: false
+      temporal: false
+      kl_max: 0.0
+      kl_warmup_fraction: 0.0
+    - name: spatial_variational
+      fraction: 0.30
+      learning_rate: 2.0e-4
+      stochastic: true
+      temporal: false
+      kl_max: 1.0e-3
+      kl_warmup_fraction: 0.30
+    - name: temporal_prior
+      fraction: 0.40
+      learning_rate: 2.0e-4
+      stochastic: true
+      temporal: true
+      kl_max: 1.0e-3
+      kl_warmup_fraction: 0.0
+
+export:
+  device: "cuda"
+  batch_size: 64
+  amp: true
+  compressed: true
+
+spline:
+  method: "pchip"
+  cubic_bc_type: "natural"
+  max_episodes: null
+  epsilon_latent_rmse: 0.05
+  epsilon_cosine_distance: 0.01
+  epsilon_state_rmse: 0.05
+  mandatory_transition_quantile: 0.95
+  maximum_gap_frames: 8
+  maximum_knots: 512
+  knots_per_iteration: 8
+  compressed: true
+
+output:
+  root: "outputs/visual_vae"
+  embeddings_dir: "outputs/visual_vae/embeddings"
+  splines_dir: "outputs/visual_vae/splines"

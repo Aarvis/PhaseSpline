@@ -1,0 +1,9 @@
+numpy>=1.26
+matplotlib>=3.8
+opencv-python>=4.10
+PyYAML>=6.0
+torch>=2.7
+torchvision>=0.22
+tqdm>=4.66
+transformers>=4.56
+safetensors>=0.4

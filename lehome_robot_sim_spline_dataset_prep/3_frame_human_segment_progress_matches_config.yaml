@@ -1,0 +1,31 @@
+paths:
+  sim_dataset_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180
+  human_dataset_root: D:/pretrain_lehome_all_garment_data_z180
+  robot_local_window_root_template: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/local_raw_bspline_windows_n{num_future_knots:03d}
+  human_pairing_root_template: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/human_episode_pairings_uniform_seed{seed:06d}
+  output_root_template: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/frame_human_segment_progress_matches_seed{seed:06d}_n{num_future_knots:03d}
+
+processing:
+  seed: 32489
+  num_future_knots: 10
+  overwrite: false
+  index_dtype: int32
+  progress_dtype: float32
+  max_robot_episodes_per_category: null
+
+categories:
+  - id: shorts
+    sim_start: 250
+    sim_end_exclusive: 500
+    human_start: 1018
+    human_end_exclusive: 2039
+  - id: top_long_sleeve
+    sim_start: 500
+    sim_end_exclusive: 750
+    human_start: 2039
+    human_end_exclusive: 2875
+  # - id: top_short_sleeve
+  #   sim_start: 750
+  #   sim_end_exclusive: 1000
+  #   human_start: 2875
+  #   human_end_exclusive: 4180

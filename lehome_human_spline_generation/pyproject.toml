@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "lehome-spline-icra2027"
+version = "0.1.0"
+description = "Variational DINOv3 visual episode embeddings and adaptive PCHIP splines for LeHome"
+requires-python = ">=3.10"
+dependencies = [
+  "numpy>=1.26",
+  "pillow>=10.0",
+  "pyarrow>=16.0",
+  "pyyaml>=6.0",
+  "scipy>=1.12",
+  "torch>=2.7",
+  "torchvision>=0.22",
+  "tqdm>=4.66",
+  "transformers>=4.56",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 110
+target-version = "py310"
+

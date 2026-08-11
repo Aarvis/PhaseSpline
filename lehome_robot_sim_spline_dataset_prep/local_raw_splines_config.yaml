@@ -1,0 +1,15 @@
+paths:
+  dataset_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180
+  fitted_spline_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/fitted_bspline_splines
+  output_root_template: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/local_raw_bspline_windows_n{num_future_knots:03d}
+
+processing:
+  num_future_knots: 10
+  padding_mode: repeat_last
+  coefficient_dtype: float32
+  knot_dtype: float32
+  u_dtype: float32
+  index_dtype: int32
+  overwrite: true
+  write_episode_metadata_json: true
+  max_episodes: null

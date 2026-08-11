@@ -1,0 +1,40 @@
+{
+  "episode_index": 33,
+  "garment": "pants",
+  "garment_selection": "visually confirmed from top-camera frames",
+  "source_dataset": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180",
+  "source_parquet": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000033.parquet",
+  "exported_parquet": "episode_000033.parquet",
+  "videos": {
+    "top": "episode_000033_top_rgb.mp4",
+    "left_wrist": "episode_000033_left_wrist_rgb.mp4",
+    "right_wrist": "episode_000033_right_wrist_rgb.mp4"
+  },
+  "frames": 269,
+  "fps": 30.0,
+  "duration_seconds": 8.966666666666667,
+  "frame_sizes": {
+    "top": {
+      "width": 640,
+      "height": 480
+    },
+    "left_wrist": {
+      "width": 640,
+      "height": 480
+    },
+    "right_wrist": {
+      "width": 640,
+      "height": 480
+    }
+  },
+  "state_shape": [
+    269,
+    12
+  ],
+  "action_shape": [
+    269,
+    12
+  ],
+  "timestamp_start": 0.0,
+  "timestamp_end": 8.933333396911621
+}

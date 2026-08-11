@@ -1,0 +1,168 @@
+{
+  "template_description": "Manual semantic segment annotations for a simulated robot pants-folding episode.",
+  "template_status": "manually_annotated",
+  "task": {
+    "name": "simulated robot pants folding",
+    "description": "A simulated dual-arm robot folds a pair of pants and then returns toward its reset configuration.",
+    "garment_type": "pants",
+    "annotation_scope": "episode_000033, using the top RGB video as the annotation timeline"
+  },
+  "source_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033.parquet",
+  "video_stem": "episode_000033_top_rgb",
+  "video_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_top_rgb.mp4",
+  "video_files": {
+    "top_rgb": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_top_rgb.mp4",
+    "left_wrist_rgb": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_left_wrist_rgb.mp4",
+    "right_wrist_rgb": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_right_wrist_rgb.mp4"
+  },
+  "embedding_file": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\DTW-mapping\\Sim-Robot-Episode\\episode_000033_top_rgb_dinov3_vits16plus_embeddings.npz",
+  "frame_indexing": {
+    "base": 0,
+    "start_frame": 0,
+    "end_frame_exclusive": 269,
+    "end_frame_inclusive": 268,
+    "note": "Use zero-based decoded-video frame indices. Each segment is represented by [start_frame, end_frame_exclusive), and end_frame_inclusive equals end_frame_exclusive - 1.",
+    "annotation_sampling": {
+      "type": "full_rate_every_frame",
+      "original_frame_stride": 1,
+      "original_frame_offset": 0,
+      "sampled_original_frames": "0, 1, 2, 3, ... 268",
+      "annotation_frame_k_maps_to_original_frame": "k",
+      "original_frame_range_for_annotation_segment": "[start_frame, end_frame_exclusive)"
+    }
+  },
+  "summary": {
+    "num_labels": 9,
+    "num_unique_labels": 9,
+    "num_annotated_segments": 9,
+    "first_frame": 0,
+    "last_frame_inclusive": 268,
+    "num_labeled_frames": 269,
+    "coverage_is_contiguous": true,
+    "coverage_is_complete": true
+  },
+  "annotation_guidance": {
+    "segments": "Segments are non-overlapping and in temporal order. Each segment uses [start_frame, end_frame_exclusive), with end_frame_inclusive = end_frame_exclusive - 1 and num_frames = end_frame_exclusive - start_frame.",
+    "coverage": "The segments cover every decoded frame from 0 through 268 without gaps or overlaps.",
+    "dtw": "Top-camera frame k corresponds to row k of embeddings and embeddings_l2 in the referenced DINOv3 NPZ file.",
+    "multi_view": "The top, left-wrist, and right-wrist videos share the same 30 FPS episode timeline. Segment boundaries are defined on the top-camera timeline."
+  },
+  "segment_schema": {
+    "segment_id": "zero-based integer in temporal order",
+    "label": "task-specific string included in labels",
+    "start_frame": "inclusive zero-based frame index",
+    "end_frame_exclusive": "exclusive zero-based frame boundary",
+    "end_frame_inclusive": "end_frame_exclusive - 1",
+    "num_frames": "end_frame_exclusive - start_frame",
+    "notes": "brief semantic description of the segment"
+  },
+  "labels": [
+    "Reach top pant half",
+    "Grasp top pant half",
+    "Fold top pant half",
+    "Ungrasp top pant half",
+    "Reach pant end",
+    "Grasp pant end",
+    "Fold pant end",
+    "Ungrasp pant end",
+    "Reset"
+  ],
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Reach top pant half",
+      "start_frame": 0,
+      "end_frame_exclusive": 56,
+      "end_frame_inclusive": 55,
+      "num_frames": 56,
+      "notes": "The robot reaches toward the upper half of the pants."
+    },
+    {
+      "segment_id": 1,
+      "label": "Grasp top pant half",
+      "start_frame": 56,
+      "end_frame_exclusive": 85,
+      "end_frame_inclusive": 84,
+      "num_frames": 29,
+      "notes": "The robot establishes its grasp on the upper half of the pants."
+    },
+    {
+      "segment_id": 2,
+      "label": "Fold top pant half",
+      "start_frame": 85,
+      "end_frame_exclusive": 114,
+      "end_frame_inclusive": 113,
+      "num_frames": 29,
+      "notes": "The robot folds the upper half of the pants."
+    },
+    {
+      "segment_id": 3,
+      "label": "Ungrasp top pant half",
+      "start_frame": 114,
+      "end_frame_exclusive": 133,
+      "end_frame_inclusive": 132,
+      "num_frames": 19,
+      "notes": "The robot releases its grasp after folding the upper half."
+    },
+    {
+      "segment_id": 4,
+      "label": "Reach pant end",
+      "start_frame": 133,
+      "end_frame_exclusive": 149,
+      "end_frame_inclusive": 148,
+      "num_frames": 16,
+      "notes": "The robot reaches toward the end of the pants."
+    },
+    {
+      "segment_id": 5,
+      "label": "Grasp pant end",
+      "start_frame": 149,
+      "end_frame_exclusive": 176,
+      "end_frame_inclusive": 175,
+      "num_frames": 27,
+      "notes": "The robot establishes its grasp on the end of the pants."
+    },
+    {
+      "segment_id": 6,
+      "label": "Fold pant end",
+      "start_frame": 176,
+      "end_frame_exclusive": 201,
+      "end_frame_inclusive": 200,
+      "num_frames": 25,
+      "notes": "The robot folds the end of the pants."
+    },
+    {
+      "segment_id": 7,
+      "label": "Ungrasp pant end",
+      "start_frame": 201,
+      "end_frame_exclusive": 219,
+      "end_frame_inclusive": 218,
+      "num_frames": 18,
+      "notes": "The robot releases the end of the pants after completing the fold."
+    },
+    {
+      "segment_id": 8,
+      "label": "Reset",
+      "start_frame": 219,
+      "end_frame_exclusive": 269,
+      "end_frame_inclusive": 268,
+      "num_frames": 50,
+      "notes": "The robot returns toward its reset configuration after releasing the folded pants."
+    }
+  ],
+  "frames": [],
+  "video_metadata": {
+    "frame_count": 269,
+    "fps": 30.0,
+    "width": 640,
+    "height": 480,
+    "duration_seconds": 8.966666666666667
+  },
+  "converted_from_sampled_annotations": false,
+  "conversion": {
+    "source_annotation_stride": 1,
+    "source_annotation_offset": 0,
+    "mapping": "original frame range = [start_frame, end_frame_exclusive)",
+    "end_frame_inclusive_rule": "end_frame_exclusive - 1"
+  }
+}

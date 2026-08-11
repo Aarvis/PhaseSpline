@@ -1,0 +1,90 @@
+dataset:
+  root: "D:/pretrain_lehome_all_garment_data_z180"
+  train_ratio: 0.90
+  val_ratio: 0.10
+  window_stride: 1
+  val_window_stride: 1
+  horizons: [1, 2, 4, 8, 16, 32]
+  cache_episodes_per_worker: 2
+  action_next_state_atol: 1.0e-6
+
+model:
+  dino:
+    model_name: "facebook/dinov3-vits16plus-pretrain-lvd1689m"
+    image_size: 256
+    hidden_size: 384
+  latent:
+    num_slots: 8
+    slot_dim: 256
+    layers: 2
+    heads: 8
+    mlp_ratio: 4
+    log_variance_min: -8.0
+    log_variance_max: 4.0
+  decoder:
+    num_patches: 256
+    layers: 2
+    heads: 8
+    mlp_ratio: 4
+  temporal:
+    layers: 3
+    heads: 8
+    mlp_ratio: 4
+
+loss:
+  cosine_weight: 0.10
+  current_patch: 1.0
+  current_global: 0.25
+  current_state: 0.20
+  variance: 0.01
+  variance_floor: 0.10
+  future_mean: 1.0
+  conditional_kl: 0.10
+  future_patch: 1.0
+  future_global: 0.25
+  joint_spatial: 1.0
+  joint_temporal: 1.0
+
+training:
+  seed: 2027
+  device: "cuda"
+  batch_size: 16
+  workers: 4
+  pin_memory: true
+  amp: true
+  weight_decay: 0.01
+  gradient_clip: 1.0
+  log_frequency: 100
+  val_frequency: 5000
+  stages:
+    - name: joint_cumulative_full_epoch
+      fraction: 1.0
+      learning_rate: 1.0e-4
+      stochastic: true
+      temporal: true
+      kl_max: 1.0e-3
+      kl_warmup_fraction: 0.0
+
+export:
+  device: "cuda"
+  batch_size: 64
+  amp: true
+  compressed: true
+
+spline:
+  method: "pchip"
+  cubic_bc_type: "clamped"
+  max_episodes: null
+  epsilon_latent_rmse: 0.2
+  epsilon_cosine_distance: 0.1
+  epsilon_state_rmse: 1.0
+  mandatory_transition_quantile: 0.95
+  maximum_gap_frames: 100
+  maximum_knots: 350
+  knots_per_iteration: 4
+  compressed: true
+
+output:
+  root: "outputs/visual_vae_joint_full_epoch"
+  embeddings_dir: "D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/frame_embeddings"
+  splines_dir: "D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/fitted_splines"
