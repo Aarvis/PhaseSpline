@@ -141,6 +141,10 @@ def human_spline_npz_path(root: Path, episode_index: int) -> Path:
     return root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "spline.npz"
 
 
+def consolidated_human_spline_npz_path(cache_root: Path, episode_index: int) -> Path:
+    return cache_root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "human_spline_cache.npz"
+
+
 def checkpoint_json_path(dataset_root: Path, episode_index: int) -> Path:
     return (
         dataset_root
@@ -466,6 +470,44 @@ def load_exact_human_interval_cache(path: Path) -> ExactHumanIntervalCache:
         )
 
 
+def prepare_consolidated_human_spline_cache(
+    human_episode_ids: list[int],
+    human_bspline_root: Path,
+    consolidated_cache_root: Path,
+    *,
+    overwrite: bool,
+    compressed: bool,
+) -> dict[str, Any]:
+    consolidated_cache_root.mkdir(parents=True, exist_ok=True)
+    total_episodes = 0
+    total_coefficients = 0
+    total_knots = 0
+    for episode_index in tqdm(human_episode_ids, desc="precompute/human-spline-cache", unit="episode"):
+        out_path = consolidated_human_spline_npz_path(consolidated_cache_root, episode_index)
+        if out_path.exists() and not overwrite:
+            continue
+        with np.load(human_spline_npz_path(human_bspline_root, episode_index), allow_pickle=False) as archive:
+            coefficients = np.asarray(archive["global_coefficients"], dtype=np.float32)
+            knots = np.asarray(archive["global_knots"], dtype=np.float32)
+            degree = int(np.asarray(archive["global_degree"]).reshape(-1)[0])
+        atomic_npz_dump(
+            out_path,
+            compressed=compressed,
+            global_coefficients=coefficients.astype(np.float32, copy=False),
+            global_knots=knots.astype(np.float32, copy=False),
+            global_degree=np.asarray(degree, dtype=np.int32),
+        )
+        total_episodes += 1
+        total_coefficients += int(coefficients.shape[0])
+        total_knots += int(knots.shape[0])
+    return {
+        "episodes_written": int(total_episodes),
+        "coefficients_written": int(total_coefficients),
+        "knots_written": int(total_knots),
+        "compressed": bool(compressed),
+    }
+
+
 def prepare_consolidated_robot_episode_cache(
     robot_episode_ids: list[int],
     sim_dataset_root: Path,
@@ -704,6 +746,7 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         self.verify_alignment = bool(config["data"]["verify_alignment"])
         self.use_predicted_human_u = bool(config["human_input_u"]["use_predicted_human_u"])
         self.require_predicted_human_u = bool(config["human_input_u"]["require_predicted_human_u"])
+        self.use_consolidated_human_cache = bool(config["data"].get("use_consolidated_human_cache", False))
         self.use_consolidated_robot_cache = bool(config["data"].get("use_consolidated_robot_cache", False))
         self.human_cache = EpisodeLRUCache(capacity=int(config["data"].get("human_cache_capacity", 64)))
         self.robot_cache = EpisodeLRUCache(capacity=int(config["data"].get("robot_cache_capacity", 8)))
@@ -738,7 +781,14 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         cached = self.human_cache.get(episode_index)
         if cached is not None:
             return cached
-        with np.load(human_spline_npz_path(self.paths["human_bspline_root"], episode_index), allow_pickle=False) as archive:
+        if self.use_consolidated_human_cache:
+            consolidated_root = self.paths.get("consolidated_human_cache_root")
+            if consolidated_root is None:
+                raise KeyError("paths['consolidated_human_cache_root'] is required when use_consolidated_human_cache=true")
+            source_path = consolidated_human_spline_npz_path(consolidated_root, episode_index)
+        else:
+            source_path = human_spline_npz_path(self.paths["human_bspline_root"], episode_index)
+        with np.load(source_path, allow_pickle=False) as archive:
             result = HumanSplineEpisode(
                 episode_index=episode_index,
                 coefficients=np.asarray(archive["global_coefficients"], dtype=np.float32),

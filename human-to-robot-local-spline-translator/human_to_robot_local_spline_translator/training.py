@@ -32,6 +32,7 @@ from .data import (
     exact_human_interval_npz_path,
     load_category_configs,
     load_exact_human_interval_cache,
+    prepare_consolidated_human_spline_cache,
     prepare_consolidated_robot_episode_cache,
     precompute_exact_human_interval_cache,
     read_dataset_info,
@@ -263,6 +264,7 @@ def _paths(config: dict[str, Any]) -> dict[str, Path]:
         "sim_embedding_root": sim_embedding_root,
         "human_dataset_root": as_path(config["paths"]["human_dataset_root"]),
         "human_bspline_root": as_path(config["paths"]["human_bspline_root"]),
+        "consolidated_human_cache_root": output_root / str(preprocessing["consolidated_human_cache_dirname"]),
         "robot_embedding_root": sim_embedding_root / "frame_embeddings",
         "robot_spline_root": sim_embedding_root / "fitted_bspline_splines",
         "robot_local_window_root": sim_embedding_root / str(config["paths"]["robot_local_window_dirname"]),
@@ -552,6 +554,17 @@ def train(
             paths["exact_human_interval_cache_root"],
             overwrite=bool(config["preprocessing"]["overwrite"]),
         )
+        if bool(config["data"].get("use_consolidated_human_cache", False)):
+            preprocessing_summary["consolidated_human_cache"] = prepare_consolidated_human_spline_cache(
+                human_episode_ids,
+                paths["human_bspline_root"],
+                paths["consolidated_human_cache_root"],
+                overwrite=bool(
+                    config["preprocessing"].get("consolidated_human_cache_overwrite", False)
+                    or config["preprocessing"]["overwrite"]
+                ),
+                compressed=bool(config["preprocessing"].get("consolidated_human_cache_compressed", False)),
+            )
         state_norm = _state_norm_payload(config, paths, train_episode_ids)
         if bool(config["data"].get("use_consolidated_robot_cache", False)):
             preprocessing_summary["consolidated_robot_cache"] = prepare_consolidated_robot_episode_cache(
@@ -644,6 +657,7 @@ def train(
     dataset_paths = {
         "sim_dataset_root": paths["sim_dataset_root"],
         "human_bspline_root": paths["human_bspline_root"],
+        "consolidated_human_cache_root": paths["consolidated_human_cache_root"],
         "robot_embedding_root": paths["robot_embedding_root"],
         "robot_spline_root": paths["robot_spline_root"],
         "robot_local_window_root": paths["robot_local_window_root"],

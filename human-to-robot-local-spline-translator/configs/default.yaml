@@ -13,9 +13,10 @@ data:
   robot_embedding_key: mean
   robot_state_source: parquet
   state_dims: all
+  use_consolidated_human_cache: true
   use_consolidated_robot_cache: true
   batching_mode: episode_chunks
-  human_cache_capacity: 64
+  human_cache_capacity: 256
   robot_cache_capacity: 8
   interval_cache_capacity: 8
   history_length: 6
@@ -41,6 +42,9 @@ validation:
 preprocessing:
   overwrite: false
   exact_human_interval_cache_dirname: precomputed_exact_human_interval_cache
+  consolidated_human_cache_dirname: precomputed_consolidated_human_spline_cache
+  consolidated_human_cache_overwrite: false
+  consolidated_human_cache_compressed: false
   consolidated_robot_cache_dirname: precomputed_consolidated_robot_episode_cache
   consolidated_robot_cache_overwrite: false
   consolidated_robot_cache_compressed: false
@@ -160,7 +164,7 @@ training:
     master_port: null
   epochs: 4
   pairing_slot_schedule: [0, 1, 2, 3]
-  batch_size: 4  # per GPU / per process when distributed is enabled
+  batch_size: 4    # per GPU / per process when distributed is enabled
   num_workers: 4
   pin_memory: true
   persistent_workers: true
