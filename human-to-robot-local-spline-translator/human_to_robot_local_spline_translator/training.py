@@ -4,6 +4,7 @@ import json
 import math
 import os
 import socket
+from datetime import timedelta
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -217,7 +218,45 @@ def _unwrap_model(model: torch.nn.Module) -> torch.nn.Module:
 
 def _barrier(runtime: DistributedContext) -> None:
     if runtime.enabled:
-        dist.barrier()
+        if runtime.device.type == "cuda" and runtime.device.index is not None:
+            dist.barrier(device_ids=[int(runtime.device.index)])
+        else:
+            dist.barrier()
+
+
+def _distributed_timeout(settings: dict[str, Any]) -> timedelta | None:
+    raw_value = settings.get("timeout_seconds")
+    if raw_value in {None, "", "null"}:
+        return None
+    seconds = float(raw_value)
+    if seconds <= 0:
+        raise ValueError(f"training.distributed.timeout_seconds must be positive when provided, got {raw_value!r}")
+    return timedelta(seconds=seconds)
+
+
+def _init_process_group(
+    *,
+    backend: str,
+    device_id: int,
+    settings: dict[str, Any],
+    init_method: str | None = None,
+    rank: int | None = None,
+    world_size: int | None = None,
+) -> None:
+    kwargs: dict[str, Any] = {"backend": backend}
+    timeout = _distributed_timeout(settings)
+    if timeout is not None:
+        kwargs["timeout"] = timeout
+    if init_method is not None:
+        kwargs["init_method"] = init_method
+    if rank is not None:
+        kwargs["rank"] = int(rank)
+    if world_size is not None:
+        kwargs["world_size"] = int(world_size)
+    try:
+        dist.init_process_group(device_id=torch.device(f"cuda:{int(device_id)}"), **kwargs)
+    except TypeError:
+        dist.init_process_group(**kwargs)
 
 
 def _reduce_metric_averages(
@@ -563,7 +602,13 @@ def train(
     if runtime.enabled:
         if runtime.device.type != "cuda" or runtime.device.index is None:
             raise RuntimeError("Distributed training currently expects CUDA devices with valid indices.")
-        model = DDP(model, device_ids=[int(runtime.device.index)], output_device=int(runtime.device.index))
+        distributed_settings = _distributed_settings(config)
+        model = DDP(
+            model,
+            device_ids=[int(runtime.device.index)],
+            output_device=int(runtime.device.index),
+            broadcast_buffers=bool(distributed_settings.get("broadcast_buffers", False)),
+        )
 
     pairing_slot_schedule = [int(value) for value in config["training"]["pairing_slot_schedule"]]
     if not pairing_slot_schedule:
@@ -869,7 +914,7 @@ def _distributed_context_from_environment(config: dict[str, Any]) -> Distributed
         raise RuntimeError("Distributed training was requested but CUDA is unavailable.")
     torch.cuda.set_device(device_id)
     if not dist.is_initialized():
-        dist.init_process_group(backend=backend)
+        _init_process_group(backend=backend, device_id=device_id, settings=settings)
     return DistributedContext(
         enabled=True,
         rank=rank,
@@ -896,11 +941,14 @@ def _spawn_worker(
     os.environ["RANK"] = str(rank)
     os.environ["WORLD_SIZE"] = str(world_size)
     os.environ["LOCAL_RANK"] = str(local_rank)
-    backend = str(_distributed_settings(config).get("backend", "nccl"))
+    settings = _distributed_settings(config)
+    backend = str(settings.get("backend", "nccl"))
     device_id = int(gpu_ids[local_rank])
     torch.cuda.set_device(device_id)
-    dist.init_process_group(
+    _init_process_group(
         backend=backend,
+        device_id=device_id,
+        settings=settings,
         init_method=f"tcp://{master_addr}:{master_port}",
         rank=rank,
         world_size=world_size,

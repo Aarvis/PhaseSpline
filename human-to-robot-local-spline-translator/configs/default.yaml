@@ -109,7 +109,7 @@ model:
 
 loss:
   lambda_spline: 1.0
-  lambda_knot: 0.25
+  lambda_knot: 0.5
   lambda_anchor: 1.0
   dense:
     lambda_velocity: 0.02
@@ -150,6 +150,8 @@ training:
     backend: nccl
     master_addr: 127.0.0.1
     master_port: null
+    timeout_seconds: null
+    broadcast_buffers: false
   epochs: 4
   pairing_slot_schedule: [0, 1, 2, 3]
   batch_size: 4  # per GPU / per process when distributed is enabled
