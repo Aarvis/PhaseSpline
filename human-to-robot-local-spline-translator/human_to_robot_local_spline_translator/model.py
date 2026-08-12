@@ -471,9 +471,15 @@ class LocalHumanToRobotSplineModel(nn.Module):
             greville_phase=local_human.greville_phase,
             valid_mask=local_human.mask,
         )
-        human_position = torch.bmm(local_human.basis, human_coeff_context)
-        human_velocity = torch.bmm(local_human.basis_d1, human_coeff_context)
-        human_acceleration = torch.bmm(local_human.basis_d2, human_coeff_context)
+        # Adaptive spline intervals can make the derivative bases large enough
+        # to overflow float16 during autocast, especially for the second
+        # derivative. Keep these reductions in float32; downstream layer norms
+        # make their scale safe for the remainder of the mixed-precision model.
+        with torch.autocast(device_type=human_coeff_context.device.type, enabled=False):
+            human_coeff_context32 = human_coeff_context.to(dtype=torch.float32)
+            human_position = torch.bmm(local_human.basis.to(dtype=torch.float32), human_coeff_context32)
+            human_velocity = torch.bmm(local_human.basis_d1.to(dtype=torch.float32), human_coeff_context32)
+            human_acceleration = torch.bmm(local_human.basis_d2.to(dtype=torch.float32), human_coeff_context32)
         human_phase_tokens = self.human_phase_fusion(human_position, human_velocity, human_acceleration)
         human_phase_tokens = self.human_phase_transformer(human_phase_tokens, self.phase_grid)
 

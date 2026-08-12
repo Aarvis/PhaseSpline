@@ -189,6 +189,20 @@ logging:
     run_name: null
     api_key: null
 
+inference:
+  output_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/predicted_robot_local_splines_default_run_n010
+  checkpoint_path: null
+  device: cuda
+  batch_size: 16
+  amp: true
+  overwrite: false
+  save_episode_metadata_json: true
+  max_episodes: null
+  human_cache_capacity: 32
+  predicted_u_alpha: 1.0
+  teacher_forcing_alpha: 0.0
+  compressor_gradient_gamma: 0.0
+
 categories:
   - id: shorts
     sim_start: 250

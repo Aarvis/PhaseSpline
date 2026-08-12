@@ -286,6 +286,64 @@ def _any_rank_nonfinite(loss: Tensor, runtime: DistributedContext) -> bool:
     return bool(int(local_flag.item()) != 0)
 
 
+def _nonfinite_tensor_counts(values: dict[str, Any]) -> dict[str, int]:
+    result: dict[str, int] = {}
+    for key, value in values.items():
+        if not torch.is_tensor(value) or not (value.is_floating_point() or value.is_complex()):
+            continue
+        count = int(torch.count_nonzero(~torch.isfinite(value)).item())
+        if count > 0:
+            result[key] = count
+    return result
+
+
+def _raise_on_nonfinite_validation_batch(
+    loss: Tensor,
+    outputs: dict[str, Any],
+    targets: dict[str, Tensor],
+    metrics: dict[str, Tensor],
+    batch: dict[str, Tensor],
+    batch_index: int,
+    runtime: DistributedContext,
+) -> None:
+    local_flag = (~torch.isfinite(loss).all()).to(dtype=torch.int32)
+    for value in metrics.values():
+        if torch.is_tensor(value) and (value.is_floating_point() or value.is_complex()):
+            local_flag = torch.maximum(local_flag, (~torch.isfinite(value).all()).to(dtype=torch.int32))
+    global_flag = local_flag.clone()
+    if runtime.enabled:
+        dist.all_reduce(global_flag, op=dist.ReduceOp.MAX)
+    if int(global_flag.item()) == 0:
+        return
+
+    local_bad = bool(int(local_flag.item()) != 0)
+    local_details: dict[str, Any] | None = None
+    if local_bad:
+        output_counts = _nonfinite_tensor_counts(outputs)
+        target_counts = _nonfinite_tensor_counts(targets)
+        metric_counts = _nonfinite_tensor_counts(metrics)
+        local_details = {
+            "rank": int(runtime.rank),
+            "batch_index": int(batch_index),
+            "robot_episode_indices": batch["robot_episode_index"].detach().cpu().tolist(),
+            "robot_frame_rows": batch["robot_frame_row"].detach().cpu().tolist(),
+            "human_episode_indices": batch["human_episode_index"].detach().cpu().tolist(),
+            "nonfinite_outputs": output_counts,
+            "nonfinite_targets": target_counts,
+            "nonfinite_metrics": metric_counts,
+        }
+    if runtime.enabled:
+        gathered_details: list[dict[str, Any] | None] = [None] * runtime.world_size
+        dist.all_gather_object(gathered_details, local_details)
+        failures = [details for details in gathered_details if details is not None]
+    else:
+        failures = [local_details]
+    raise FloatingPointError(
+        "Non-finite validation batch detected. "
+        f"Failing rank details: {json.dumps(failures, sort_keys=True)}"
+    )
+
+
 def _paths(config: dict[str, Any]) -> dict[str, Path]:
     output_root = as_path(config["paths"]["output_root"])
     sim_embedding_root = as_path(config["paths"]["sim_embedding_root"])
@@ -500,7 +558,7 @@ def _evaluate(
                     teacher_forcing_alpha=teacher_forcing_alpha,
                     compressor_gradient_gamma=0.0,
                 )
-                _, metrics = compute_losses(
+                loss, metrics = compute_losses(
                     outputs,
                     targets,
                     batch,
@@ -510,6 +568,15 @@ def _evaluate(
                     predicted_u_alpha=predicted_u_alpha,
                     effective_loss_weights=effective_loss_weights,
                 )
+            _raise_on_nonfinite_validation_batch(
+                loss,
+                outputs,
+                targets,
+                metrics,
+                batch,
+                batch_index,
+                runtime,
+            )
             averages.update(metrics)
             if runtime.is_main_process and batch_index % max(1, log_frequency_steps) == 0:
                 current = averages.result()
