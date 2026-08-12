@@ -518,6 +518,7 @@ def _export_episode_subset(
     gpu_id: int | None,
 ) -> dict[str, Any]:
     payload = torch.load(settings.checkpoint_path, map_location="cpu")
+    categories = load_category_configs(effective_config)
     model = LocalHumanToRobotSplineModel(
         config=effective_config,
         state_dim=len(state_norm["state_dims"]),
