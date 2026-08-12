@@ -9,6 +9,7 @@ from typing import Any
 import numpy as np
 import pyarrow.parquet as pq
 import torch
+import torch.multiprocessing as mp
 from torch.amp import autocast
 from tqdm.auto import tqdm
 
@@ -85,6 +86,102 @@ class RobotInferenceEpisode:
     human_gt_end_u: np.ndarray
     interval_valid_mask: np.ndarray
     predicted_human_u: np.ndarray | None
+
+
+def _inference_distributed_settings(config: dict[str, Any]) -> dict[str, Any]:
+    payload = config.get("inference", {}).get("distributed", {})
+    if payload is None:
+        return {}
+    if not isinstance(payload, dict):
+        raise ValueError("inference.distributed must be a mapping when provided.")
+    return payload
+
+
+def _normalize_gpu_ids(raw_value: Any) -> list[int] | None:
+    if raw_value is None:
+        return None
+    if isinstance(raw_value, str):
+        lowered = raw_value.strip().lower()
+        if lowered in {"", "auto", "all", "none", "null"}:
+            return None
+        raise ValueError(f"Unsupported GPU selector string: {raw_value!r}")
+    if not isinstance(raw_value, (list, tuple)):
+        raise ValueError(f"inference.distributed.gpu_ids must be null or a list of integers, got {type(raw_value)!r}")
+    gpu_ids = [int(value) for value in raw_value]
+    if len(set(gpu_ids)) != len(gpu_ids):
+        raise ValueError(f"inference.distributed.gpu_ids contains duplicates: {gpu_ids}")
+    if any(value < 0 for value in gpu_ids):
+        raise ValueError(f"inference.distributed.gpu_ids must be non-negative: {gpu_ids}")
+    return gpu_ids
+
+
+def _parse_explicit_cuda_device_index(device_raw: str) -> int | None:
+    lowered = device_raw.strip().lower()
+    if not lowered.startswith("cuda:"):
+        return None
+    suffix = lowered.split(":", 1)[1].strip()
+    if not suffix:
+        return None
+    try:
+        return int(suffix)
+    except ValueError as exc:
+        raise ValueError(f"Unsupported CUDA device selector: {device_raw!r}") from exc
+
+
+def _resolve_requested_gpu_ids(config: dict[str, Any], device_override: str | None) -> list[int]:
+    inference_cfg = config.get("inference", {})
+    requested_device = str(device_override if device_override is not None else inference_cfg.get("device", "cuda")).strip()
+    requested_device_lower = requested_device.lower()
+    if not requested_device_lower.startswith("cuda"):
+        return []
+    if not torch.cuda.is_available():
+        raise RuntimeError("CUDA was requested for inference but torch.cuda.is_available() is false.")
+    available_gpu_count = torch.cuda.device_count()
+    if available_gpu_count <= 0:
+        return []
+    explicit_device_index = _parse_explicit_cuda_device_index(requested_device_lower)
+    if explicit_device_index is not None:
+        if explicit_device_index >= available_gpu_count:
+            raise ValueError(
+                f"Requested CUDA device index {explicit_device_index} is out of range for "
+                f"torch.cuda.device_count()={available_gpu_count}."
+            )
+        return [explicit_device_index]
+    explicit_gpu_ids = _normalize_gpu_ids(_inference_distributed_settings(config).get("gpu_ids"))
+    if explicit_gpu_ids is None:
+        return list(range(available_gpu_count))
+    invalid = [gpu_id for gpu_id in explicit_gpu_ids if gpu_id >= available_gpu_count]
+    if invalid:
+        raise ValueError(
+            f"Requested inference GPU ids {invalid} are out of range for torch.cuda.device_count()={available_gpu_count}."
+        )
+    return explicit_gpu_ids
+
+
+def _parallel_inference_requested(config: dict[str, Any], gpu_ids: list[int], device_override: str | None) -> bool:
+    settings = _inference_distributed_settings(config)
+    raw_value = settings.get("enabled", "auto")
+    if isinstance(raw_value, bool):
+        return bool(raw_value) and len(gpu_ids) > 1
+    mode = str(raw_value).strip().lower()
+    if mode == "auto":
+        requested_device = str(device_override if device_override is not None else config.get("inference", {}).get("device", "cuda")).strip().lower()
+        return requested_device.startswith("cuda") and len(gpu_ids) > 1
+    if mode in {"true", "1", "yes", "y", "on"}:
+        return len(gpu_ids) > 1
+    if mode in {"false", "0", "no", "n", "off"}:
+        return False
+    raise ValueError(f"Unsupported inference.distributed.enabled value: {raw_value!r}")
+
+
+def _shard_episode_ids(episode_ids: list[int], shard_count: int) -> list[list[int]]:
+    if shard_count <= 1:
+        return [list(episode_ids)]
+    return [list(episode_ids[offset::shard_count]) for offset in range(shard_count)]
+
+
+def _worker_summary_path(output_root: Path, worker_rank: int) -> Path:
+    return output_root / "_worker_summaries" / f"worker_{worker_rank:03d}.json"
 
 
 def _effective_config(runtime_config: dict[str, Any], checkpoint_config: dict[str, Any] | None) -> dict[str, Any]:
@@ -408,47 +505,19 @@ def _sample_finite_mask(outputs: dict[str, torch.Tensor]) -> np.ndarray:
     return finite.detach().cpu().numpy().astype(bool, copy=False)
 
 
-def export_predicted_robot_splines(
-    config: dict[str, Any],
-    checkpoint_path: str | Path | None = None,
-    output_root: str | Path | None = None,
-    batch_size: int | None = None,
-    overwrite: bool = False,
-    episodes: list[int] | None = None,
-    max_episodes: int | None = None,
-    device: str | None = None,
-) -> Path:
-    runtime_config = deepcopy(config)
-    initial_settings = _resolve_settings(runtime_config, checkpoint_path, output_root, batch_size, overwrite, episodes, max_episodes, device)
-    payload = torch.load(initial_settings.checkpoint_path, map_location="cpu")
-    effective_config = _effective_config(runtime_config, payload.get("config"))
-    settings = _resolve_settings(effective_config, checkpoint_path, output_root, batch_size, overwrite, episodes, max_episodes, device)
-    paths = _resolve_paths(effective_config)
-    paths.inference_output_root.mkdir(parents=True, exist_ok=True)
-    save_resolved_config(effective_config, paths.resolved_config_path)
-
-    categories = load_category_configs(effective_config)
-    valid_robot_episodes_by_category = discover_valid_robot_episodes(
-        paths.sim_dataset_root,
-        paths.robot_embedding_root,
-        paths.robot_spline_root,
-        paths.robot_local_window_root,
-        paths.robot_pairing_root,
-        categories,
-        skip_missing=bool(effective_config["data"]["skip_missing_robot_episodes"]),
-    )
-    valid_episode_ids = [episode for category in categories for episode in valid_robot_episodes_by_category.get(category.category_id, [])]
-    if settings.episode_filter:
-        selected = set(settings.episode_filter)
-        valid_episode_ids = [episode for episode in valid_episode_ids if episode in selected]
-    if settings.max_episodes is not None:
-        valid_episode_ids = valid_episode_ids[: settings.max_episodes]
-    if not valid_episode_ids:
-        raise RuntimeError("No robot episodes selected for inference.")
-
-    state_norm = _load_state_norm(effective_config, paths, valid_episode_ids)
-    cache_summary = _ensure_exact_human_interval_cache(valid_episode_ids, paths, overwrite=False)
-
+def _export_episode_subset(
+    effective_config: dict[str, Any],
+    settings: InferenceSettings,
+    paths: InferencePaths,
+    valid_episode_ids: list[int],
+    state_norm: dict[str, Any],
+    cache_summary: dict[str, Any],
+    *,
+    worker_rank: int,
+    world_size: int,
+    gpu_id: int | None,
+) -> dict[str, Any]:
+    payload = torch.load(settings.checkpoint_path, map_location="cpu")
     model = LocalHumanToRobotSplineModel(
         config=effective_config,
         state_dim=len(state_norm["state_dims"]),
@@ -474,8 +543,12 @@ def export_predicted_robot_splines(
     coeff_dim = int(effective_config["model"]["dense_head"]["output_dim"])
 
     run_summary: dict[str, Any] = {
+        "worker_rank": int(worker_rank),
+        "world_size": int(world_size),
+        "gpu_id": int(gpu_id) if gpu_id is not None else None,
         "checkpoint_path": str(settings.checkpoint_path),
         "inference_output_root": str(paths.inference_output_root),
+        "device": str(settings.device),
         "num_episodes": int(len(valid_episode_ids)),
         "batch_size": int(settings.batch_size),
         "amp": bool(amp_enabled),
@@ -497,7 +570,13 @@ def export_predicted_robot_splines(
         "total_nonfinite_pairs": 0,
     }
 
-    outer = tqdm(valid_episode_ids, desc="inference/episodes", unit="episode")
+    outer = tqdm(
+        valid_episode_ids,
+        desc=f"inference/gpu{gpu_id}" if gpu_id is not None else "inference/episodes",
+        unit="episode",
+        position=int(worker_rank),
+        leave=True,
+    )
     with torch.no_grad():
         for episode_index in outer:
             robot_episode = _load_robot_episode(
@@ -533,7 +612,13 @@ def export_predicted_robot_splines(
             span_entropy = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
             prediction_valid_mask = np.zeros((num_frames, num_pairings), dtype=bool)
 
-            inner = tqdm(range(0, flat_rows.shape[0], settings.batch_size), desc=f"episode_{episode_index:06d}", unit="batch", leave=False)
+            inner = tqdm(
+                range(0, flat_rows.shape[0], settings.batch_size),
+                desc=f"episode_{episode_index:06d}",
+                unit="batch",
+                leave=False,
+                disable=world_size > 1,
+            )
             for start in inner:
                 stop = min(start + settings.batch_size, flat_rows.shape[0])
                 batch_rows = flat_rows[start:stop]
@@ -656,5 +741,207 @@ def export_predicted_robot_splines(
             run_summary["total_predicted_valid_pairs"] += int(episode_predicted_valid_pairs)
             run_summary["total_nonfinite_pairs"] += int(episode_nonfinite_pairs)
 
+    return run_summary
+
+
+def _write_worker_summary(output_root: Path, worker_rank: int, summary: dict[str, Any]) -> None:
+    summary_path = _worker_summary_path(output_root, worker_rank)
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    atomic_json_dump(summary, summary_path)
+
+
+def _aggregate_worker_summaries(
+    worker_summaries: list[dict[str, Any]],
+    cache_summary: dict[str, Any],
+    gpu_ids: list[int],
+) -> dict[str, Any]:
+    if not worker_summaries:
+        raise RuntimeError("No worker summaries were produced during inference export.")
+    first = worker_summaries[0]
+    aggregated: dict[str, Any] = {
+        "checkpoint_path": first["checkpoint_path"],
+        "inference_output_root": first["inference_output_root"],
+        "num_episodes": 0,
+        "batch_size": first["batch_size"],
+        "amp": first["amp"],
+        "predicted_u_alpha": first["predicted_u_alpha"],
+        "teacher_forcing_alpha": first["teacher_forcing_alpha"],
+        "compressor_gradient_gamma": first["compressor_gradient_gamma"],
+        "history_length": first["history_length"],
+        "history_stride": first["history_stride"],
+        "span_count": first["span_count"],
+        "control_count": first["control_count"],
+        "knot_count": first["knot_count"],
+        "coefficient_dim": first["coefficient_dim"],
+        "exact_human_interval_cache": cache_summary,
+        "distributed": {
+            "enabled": bool(len(gpu_ids) > 1),
+            "world_size": int(len(worker_summaries)),
+            "gpu_ids": [int(value) for value in gpu_ids],
+        },
+        "workers": [],
+        "episodes": [],
+        "total_frames": 0,
+        "total_pairs": 0,
+        "total_interval_valid_pairs": 0,
+        "total_predicted_valid_pairs": 0,
+        "total_nonfinite_pairs": 0,
+    }
+    for summary in worker_summaries:
+        aggregated["num_episodes"] += int(summary["num_episodes"])
+        aggregated["workers"].append(
+            {
+                "worker_rank": int(summary["worker_rank"]),
+                "gpu_id": int(summary["gpu_id"]) if summary["gpu_id"] is not None else None,
+                "device": str(summary["device"]),
+                "num_episodes": int(summary["num_episodes"]),
+                "total_frames": int(summary["total_frames"]),
+                "total_pairs": int(summary["total_pairs"]),
+                "total_interval_valid_pairs": int(summary["total_interval_valid_pairs"]),
+                "total_predicted_valid_pairs": int(summary["total_predicted_valid_pairs"]),
+                "total_nonfinite_pairs": int(summary["total_nonfinite_pairs"]),
+            }
+        )
+        aggregated["episodes"].extend(summary["episodes"])
+        aggregated["total_frames"] += int(summary["total_frames"])
+        aggregated["total_pairs"] += int(summary["total_pairs"])
+        aggregated["total_interval_valid_pairs"] += int(summary["total_interval_valid_pairs"])
+        aggregated["total_predicted_valid_pairs"] += int(summary["total_predicted_valid_pairs"])
+        aggregated["total_nonfinite_pairs"] += int(summary["total_nonfinite_pairs"])
+    aggregated["episodes"].sort(key=lambda item: int(item["episode_index"]))
+    aggregated["workers"].sort(key=lambda item: int(item["worker_rank"]))
+    return aggregated
+
+
+def _inference_worker(
+    worker_rank: int,
+    gpu_ids: tuple[int, ...],
+    episode_shards: tuple[tuple[int, ...], ...],
+    effective_config: dict[str, Any],
+    settings: InferenceSettings,
+    cache_summary: dict[str, Any],
+) -> None:
+    gpu_id = int(gpu_ids[worker_rank])
+    torch.cuda.set_device(gpu_id)
+    worker_settings = InferenceSettings(
+        checkpoint_path=settings.checkpoint_path,
+        device=f"cuda:{gpu_id}",
+        batch_size=settings.batch_size,
+        amp=settings.amp,
+        overwrite=settings.overwrite,
+        save_episode_metadata_json=settings.save_episode_metadata_json,
+        max_episodes=None,
+        episode_filter=tuple(int(value) for value in episode_shards[worker_rank]),
+        human_cache_capacity=settings.human_cache_capacity,
+        predicted_u_alpha=settings.predicted_u_alpha,
+        teacher_forcing_alpha=settings.teacher_forcing_alpha,
+        compressor_gradient_gamma=settings.compressor_gradient_gamma,
+    )
+    paths = _resolve_paths(effective_config)
+    episode_ids = list(worker_settings.episode_filter)
+    state_norm = _load_state_norm(effective_config, paths, episode_ids)
+    summary = _export_episode_subset(
+        effective_config,
+        worker_settings,
+        paths,
+        episode_ids,
+        state_norm,
+        cache_summary,
+        worker_rank=worker_rank,
+        world_size=len(gpu_ids),
+        gpu_id=gpu_id,
+    )
+    _write_worker_summary(paths.inference_output_root, worker_rank, summary)
+
+
+def export_predicted_robot_splines(
+    config: dict[str, Any],
+    checkpoint_path: str | Path | None = None,
+    output_root: str | Path | None = None,
+    batch_size: int | None = None,
+    overwrite: bool = False,
+    episodes: list[int] | None = None,
+    max_episodes: int | None = None,
+    device: str | None = None,
+) -> Path:
+    runtime_config = deepcopy(config)
+    initial_settings = _resolve_settings(runtime_config, checkpoint_path, output_root, batch_size, overwrite, episodes, max_episodes, device)
+    payload = torch.load(initial_settings.checkpoint_path, map_location="cpu")
+    effective_config = _effective_config(runtime_config, payload.get("config"))
+    settings = _resolve_settings(effective_config, checkpoint_path, output_root, batch_size, overwrite, episodes, max_episodes, device)
+    paths = _resolve_paths(effective_config)
+    paths.inference_output_root.mkdir(parents=True, exist_ok=True)
+    save_resolved_config(effective_config, paths.resolved_config_path)
+
+    categories = load_category_configs(effective_config)
+    valid_robot_episodes_by_category = discover_valid_robot_episodes(
+        paths.sim_dataset_root,
+        paths.robot_embedding_root,
+        paths.robot_spline_root,
+        paths.robot_local_window_root,
+        paths.robot_pairing_root,
+        categories,
+        skip_missing=bool(effective_config["data"]["skip_missing_robot_episodes"]),
+    )
+    valid_episode_ids = [episode for category in categories for episode in valid_robot_episodes_by_category.get(category.category_id, [])]
+    if settings.episode_filter:
+        selected = set(settings.episode_filter)
+        valid_episode_ids = [episode for episode in valid_episode_ids if episode in selected]
+    if settings.max_episodes is not None:
+        valid_episode_ids = valid_episode_ids[: settings.max_episodes]
+    if not valid_episode_ids:
+        raise RuntimeError("No robot episodes selected for inference.")
+
+    state_norm = _load_state_norm(effective_config, paths, valid_episode_ids)
+    cache_summary = _ensure_exact_human_interval_cache(valid_episode_ids, paths, overwrite=False)
+
+    gpu_ids = _resolve_requested_gpu_ids(effective_config, settings.device)
+    if _parallel_inference_requested(effective_config, gpu_ids, settings.device):
+        raw_shards = _shard_episode_ids(valid_episode_ids, len(gpu_ids))
+        active_pairs = [(int(gpu_id), tuple(int(value) for value in shard)) for gpu_id, shard in zip(gpu_ids, raw_shards) if shard]
+        if len(active_pairs) > 1:
+            active_gpu_ids = tuple(gpu_id for gpu_id, _ in active_pairs)
+            active_episode_shards = tuple(shard for _, shard in active_pairs)
+            worker_summary_dir = _worker_summary_path(paths.inference_output_root, 0).parent
+            worker_summary_dir.mkdir(parents=True, exist_ok=True)
+            for rank in range(len(active_gpu_ids)):
+                summary_path = _worker_summary_path(paths.inference_output_root, rank)
+                if summary_path.exists():
+                    summary_path.unlink()
+            mp.spawn(
+                _inference_worker,
+                nprocs=len(active_gpu_ids),
+                args=(active_gpu_ids, active_episode_shards, effective_config, settings, cache_summary),
+                join=True,
+            )
+            worker_summaries = [
+                json.loads(_worker_summary_path(paths.inference_output_root, rank).read_text(encoding="utf-8"))
+                for rank in range(len(active_gpu_ids))
+            ]
+            run_summary = _aggregate_worker_summaries(worker_summaries, cache_summary, list(active_gpu_ids))
+            atomic_json_dump(run_summary, paths.run_summary_path)
+            for rank in range(len(active_gpu_ids)):
+                summary_path = _worker_summary_path(paths.inference_output_root, rank)
+                if summary_path.exists():
+                    summary_path.unlink()
+            if worker_summary_dir.exists():
+                try:
+                    worker_summary_dir.rmdir()
+                except OSError:
+                    pass
+            return paths.inference_output_root
+
+    summary = _export_episode_subset(
+        effective_config,
+        settings,
+        paths,
+        valid_episode_ids,
+        state_norm,
+        cache_summary,
+        worker_rank=0,
+        world_size=1,
+        gpu_id=int(gpu_ids[0]) if gpu_ids else None,
+    )
+    run_summary = _aggregate_worker_summaries([summary], cache_summary, gpu_ids[:1] if gpu_ids else [])
     atomic_json_dump(run_summary, paths.run_summary_path)
     return paths.inference_output_root
