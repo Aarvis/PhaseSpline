@@ -87,7 +87,7 @@ def compute_losses(
 
     anchor_loss = _masked_huber(
         outputs["reconstructed_robot_curve"][:, 0, :],
-        batch["robot_current_embedding"],
+        batch["robot_current_anchor_embedding"],
         config["loss"]["anchor"]["delta"],
     )
     total = (
@@ -115,7 +115,9 @@ def compute_losses(
         "spline_position_rmse": _rmse(outputs["reconstructed_robot_curve"], targets["dense_position"]).detach(),
         "spline_velocity_rmse": _rmse(outputs["reconstructed_robot_velocity"], targets["dense_velocity"]).detach(),
         "spline_acceleration_rmse": _rmse(outputs["reconstructed_robot_acceleration"], targets["dense_acceleration"]).detach(),
-        "anchor_rmse": _rmse(outputs["reconstructed_robot_curve"][:, 0, :], batch["robot_current_embedding"]).detach(),
+        "anchor_rmse": _rmse(
+            outputs["reconstructed_robot_curve"][:, 0, :], batch["robot_current_anchor_embedding"]
+        ).detach(),
         "span_min": outputs["predicted_span_widths"].min().detach(),
         "span_max": outputs["predicted_span_widths"].max().detach(),
         "span_entropy": outputs["span_entropy"].mean().detach(),

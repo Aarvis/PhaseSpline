@@ -484,6 +484,23 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         self.verify_alignment = bool(config["data"]["verify_alignment"])
         self.use_predicted_human_u = bool(config["human_input_u"]["use_predicted_human_u"])
         self.require_predicted_human_u = bool(config["human_input_u"]["require_predicted_human_u"])
+        embedding_normalization_path = self.paths["robot_embedding_root"] / "embedding_normalization.npz"
+        if not embedding_normalization_path.is_file():
+            raise FileNotFoundError(f"Missing robot embedding normalization: {embedding_normalization_path}")
+        with np.load(embedding_normalization_path, allow_pickle=False) as normalization_archive:
+            self.robot_embedding_mean = np.asarray(normalization_archive["mean"], dtype=np.float32)
+            self.robot_embedding_std = np.asarray(normalization_archive["std"], dtype=np.float32)
+        if self.robot_embedding_mean.ndim != 1 or self.robot_embedding_std.shape != self.robot_embedding_mean.shape:
+            raise ValueError(
+                "Robot embedding normalization mean/std must be one-dimensional arrays with identical shapes, "
+                f"got mean={self.robot_embedding_mean.shape}, std={self.robot_embedding_std.shape}"
+            )
+        if not np.all(np.isfinite(self.robot_embedding_mean)):
+            raise ValueError(f"Robot embedding normalization mean contains non-finite values: {embedding_normalization_path}")
+        if not np.all(np.isfinite(self.robot_embedding_std)) or np.any(self.robot_embedding_std <= 0.0):
+            raise ValueError(
+                f"Robot embedding normalization std must contain only finite positive values: {embedding_normalization_path}"
+            )
         self.human_cache = EpisodeLRUCache(capacity=32)
         self.robot_cache = EpisodeLRUCache(capacity=8)
         self.interval_cache = EpisodeLRUCache(capacity=8)
@@ -617,6 +634,14 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
         robot_history_states = robot_episode.states[history_positions][:, self.state_dims].astype(np.float32)
         robot_history_states = (robot_history_states - self.state_mean) / self.state_std
         robot_current_embedding = robot_episode.embeddings[row_index].astype(np.float32)
+        if robot_current_embedding.shape != self.robot_embedding_mean.shape:
+            raise ValueError(
+                f"Robot embedding dimension mismatch for episode {episode_index}: "
+                f"embedding={robot_current_embedding.shape}, normalization={self.robot_embedding_mean.shape}"
+            )
+        robot_current_anchor_embedding = (
+            (robot_current_embedding - self.robot_embedding_mean) / self.robot_embedding_std
+        ).astype(np.float32, copy=False)
         exact_knot_offset = int(robot_episode.exact_local_knot_offsets[row_index])
         exact_knot_count = int(robot_episode.exact_local_num_knots[row_index])
         exact_local_knot_local_u = robot_episode.exact_local_knot_local_u_flat[exact_knot_offset : exact_knot_offset + exact_knot_count]
@@ -627,7 +652,7 @@ class TranslatorDataset(Dataset[dict[str, torch.Tensor]]):
             "robot_history_embeddings": torch.from_numpy(robot_history_embeddings),
             "robot_history_states": torch.from_numpy(robot_history_states),
             "robot_history_mask": torch.from_numpy(history_valid_mask.astype(np.bool_)),
-            "robot_current_embedding": torch.from_numpy(robot_current_embedding),
+            "robot_current_anchor_embedding": torch.from_numpy(robot_current_anchor_embedding),
             "human_global_coefficients": torch.from_numpy(human_episode.coefficients),
             "human_global_knots": torch.from_numpy(human_episode.knots),
             "human_gt_start_u": torch.tensor(float(interval_cache.human_gt_start_u[row_index, self.pairing_slot]), dtype=torch.float32),
@@ -689,7 +714,9 @@ def translator_collate(batch: list[dict[str, torch.Tensor]]) -> dict[str, torch.
         "robot_history_embeddings": torch.stack([item["robot_history_embeddings"] for item in batch], dim=0),
         "robot_history_states": torch.stack([item["robot_history_states"] for item in batch], dim=0),
         "robot_history_mask": torch.stack([item["robot_history_mask"] for item in batch], dim=0),
-        "robot_current_embedding": torch.stack([item["robot_current_embedding"] for item in batch], dim=0),
+        "robot_current_anchor_embedding": torch.stack(
+            [item["robot_current_anchor_embedding"] for item in batch], dim=0
+        ),
         "human_global_coefficients": human_global_coefficients,
         "human_global_knots": human_global_knots,
         "human_global_coeff_counts": human_global_coeff_counts,
