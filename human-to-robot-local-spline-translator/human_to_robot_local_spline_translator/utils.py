@@ -5,6 +5,7 @@ import os
 import random
 import tempfile
 from collections import OrderedDict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -29,6 +30,19 @@ def atomic_json_dump(payload: dict[str, Any], path: str | Path) -> None:
         handle.write("\n")
         tmp_name = handle.name
     os.replace(tmp_name, path)
+
+
+def append_jsonl(payload: dict[str, Any], path: str | Path) -> None:
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("a", encoding="utf-8") as handle:
+        json.dump(payload, handle, ensure_ascii=False)
+        handle.write("\n")
+        handle.flush()
+
+
+def utc_timestamp() -> str:
+    return datetime.now(timezone.utc).isoformat()
 
 
 class RunningMoments:

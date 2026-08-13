@@ -43,7 +43,7 @@ from .losses import compute_losses
 from .model import LocalHumanToRobotSplineModel
 from .schedule import PiecewiseLinearSchedule
 from .spline_math import derive_gt_span_widths_batch, evaluate_global_spline_interval_batch
-from .utils import MetricAverages, atomic_json_dump, seed_everything
+from .utils import MetricAverages, append_jsonl, atomic_json_dump, seed_everything, utc_timestamp
 
 
 @dataclass(frozen=True)
@@ -127,6 +127,53 @@ def _format_metric_summary(metrics: dict[str, float]) -> str:
         if key not in ordered_keys:
             parts.append(f"{key}={float(value):.4f}")
     return " ".join(parts)
+
+
+def _scalarize_metrics(metrics: dict[str, float | Tensor]) -> dict[str, float]:
+    result: dict[str, float] = {}
+    for key, value in metrics.items():
+        result[key] = float(value.detach().item()) if torch.is_tensor(value) else float(value)
+    return result
+
+
+def _append_training_event(
+    path: Path,
+    *,
+    run_id: str,
+    event: str,
+    message: str,
+    epoch_index: int | None = None,
+    total_epochs: int | None = None,
+    pairing_slot: int | None = None,
+    global_step: int | None = None,
+    batch_index: int | None = None,
+    learning_rate: float | None = None,
+    metrics: dict[str, float | Tensor] | None = None,
+    extra: dict[str, Any] | None = None,
+) -> None:
+    payload: dict[str, Any] = {
+        "timestamp_utc": utc_timestamp(),
+        "run_id": str(run_id),
+        "event": str(event),
+        "message": str(message),
+    }
+    if epoch_index is not None:
+        payload["epoch"] = int(epoch_index)
+    if total_epochs is not None:
+        payload["total_epochs"] = int(total_epochs)
+    if pairing_slot is not None:
+        payload["pairing_slot"] = int(pairing_slot)
+    if global_step is not None:
+        payload["global_step"] = int(global_step)
+    if batch_index is not None:
+        payload["batch_index"] = int(batch_index)
+    if learning_rate is not None:
+        payload["learning_rate"] = float(learning_rate)
+    if metrics is not None:
+        payload["metrics"] = _scalarize_metrics(metrics)
+    if extra:
+        payload.update(extra)
+    append_jsonl(payload, path)
 
 
 def _distributed_settings(config: dict[str, Any]) -> dict[str, Any]:
@@ -364,6 +411,7 @@ def _paths(config: dict[str, Any]) -> dict[str, Path]:
         "exact_human_interval_cache_root": output_root / str(preprocessing["exact_human_interval_cache_dirname"]),
         "checkpoints_root": output_root / "checkpoints",
         "logs_root": output_root / "logs",
+        "training_events_path": output_root / "logs" / "training_events.jsonl",
         "splits_path": output_root / str(preprocessing["splits_filename"]),
         "state_norm_path": output_root / str(preprocessing["state_norm_filename"]),
         "category_metadata_path": output_root / str(preprocessing["category_metadata_filename"]),
@@ -704,6 +752,7 @@ def train(
     gamma_schedule = PiecewiseLinearSchedule.from_config(config["training"]["compressor_gradient_gamma_schedule"])
     predicted_u_schedule = PiecewiseLinearSchedule.from_config(config["training"]["predicted_u_alpha_schedule"])
     derivative_weight_schedules = _build_derivative_weight_schedules(config)
+    run_id = utc_timestamp().replace(":", "").replace("-", "")
 
     start_epoch = 0
     global_step = 0
@@ -712,6 +761,23 @@ def train(
         start_epoch, global_step, best_metric = _load_checkpoint(Path(resume), model, optimizer, scheduler, scaler)
         start_epoch += 1
     _barrier(runtime)
+
+    if runtime.is_main_process:
+        _append_training_event(
+            paths["training_events_path"],
+            run_id=run_id,
+            event="run_start",
+            message="Training run started.",
+            global_step=global_step,
+            extra={
+                "output_root": str(paths["output_root"]),
+                "resume": str(resume) if resume is not None else None,
+                "device": str(runtime.device),
+                "distributed_enabled": bool(runtime.enabled),
+                "world_size": int(runtime.world_size),
+                "gpu_ids": [int(value) for value in runtime.gpu_ids],
+            },
+        )
 
     loader_kwargs = {
         "batch_size": batch_size,
@@ -839,11 +905,28 @@ def train(
             if _any_rank_nonfinite(loss, runtime):
                 optimizer.zero_grad(set_to_none=True)
                 if runtime.is_main_process:
-                    tqdm.write(
+                    message = (
                         f"[warn] skipping non-finite batch epoch={epoch_index + 1}/{config['training']['epochs']} "
                         f"slot={pairing_slot} batch={batch_index} step={global_step} "
                         f"robot_episode={batch['robot_episode_index'][0].item()} frame_row={batch['robot_frame_row'][0].item()} "
                         f"human_episode={batch['human_episode_index'][0].item()}"
+                    )
+                    tqdm.write(message)
+                    _append_training_event(
+                        paths["training_events_path"],
+                        run_id=run_id,
+                        event="warn_nonfinite_batch",
+                        message=message,
+                        epoch_index=epoch_index + 1,
+                        total_epochs=int(config["training"]["epochs"]),
+                        pairing_slot=pairing_slot,
+                        global_step=global_step,
+                        batch_index=batch_index,
+                        extra={
+                            "robot_episode_index": int(batch["robot_episode_index"][0].item()),
+                            "robot_frame_row": int(batch["robot_frame_row"][0].item()),
+                            "human_episode_index": int(batch["human_episode_index"][0].item()),
+                        },
                     )
                 continue
             scaler.scale(loss).backward()
@@ -867,10 +950,23 @@ def train(
                         log_payload["train/lr"] = float(optimizer.param_groups[0]["lr"])
                         if wandb_run is not None:
                             wandb_run.log(log_payload, step=global_step)
-                        tqdm.write(
+                        message = (
                             f"[train] epoch={epoch_index + 1}/{config['training']['epochs']} "
                             f"slot={pairing_slot} step={global_step} lr={float(optimizer.param_groups[0]['lr']):.6e} "
                             f"{_format_metric_summary(current)}"
+                        )
+                        tqdm.write(message)
+                        _append_training_event(
+                            paths["training_events_path"],
+                            run_id=run_id,
+                            event="train",
+                            message=message,
+                            epoch_index=epoch_index + 1,
+                            total_epochs=int(config["training"]["epochs"]),
+                            pairing_slot=pairing_slot,
+                            global_step=global_step,
+                            learning_rate=float(optimizer.param_groups[0]["lr"]),
+                            metrics=current,
                         )
                         iterator.set_postfix(
                             total=f"{current.get('total', float('nan')):.4f}",
@@ -897,19 +993,48 @@ def train(
                     if runtime.is_main_process:
                         if wandb_run is not None:
                             wandb_run.log({f"val/{key}": value for key, value in validation_metrics.items()}, step=global_step)
-                        tqdm.write(
+                        message = (
                             f"[val] epoch={epoch_index + 1}/{config['training']['epochs']} "
                             f"slot={pairing_slot} step={global_step} "
                             f"{_format_metric_summary(validation_metrics)}"
+                        )
+                        tqdm.write(message)
+                        _append_training_event(
+                            paths["training_events_path"],
+                            run_id=run_id,
+                            event="val",
+                            message=message,
+                            epoch_index=epoch_index + 1,
+                            total_epochs=int(config["training"]["epochs"]),
+                            pairing_slot=pairing_slot,
+                            global_step=global_step,
+                            metrics=validation_metrics,
                         )
                         metric_name = str(config["training"]["checkpoint_metric"]).replace("val_", "")
                         monitored = float(validation_metrics.get(metric_name, float("inf")))
                         if monitored < best_metric:
                             best_metric = monitored
                             _save_checkpoint(paths["checkpoints_root"] / "best.pt", model, optimizer, scheduler, scaler, epoch_index, global_step, best_metric, config)
-                            tqdm.write(
+                            checkpoint_message = (
                                 f"[checkpoint] saved best checkpoint at step={global_step} "
                                 f"metric={metric_name} value={best_metric:.4f}"
+                            )
+                            tqdm.write(checkpoint_message)
+                            _append_training_event(
+                                paths["training_events_path"],
+                                run_id=run_id,
+                                event="checkpoint",
+                                message=checkpoint_message,
+                                epoch_index=epoch_index + 1,
+                                total_epochs=int(config["training"]["epochs"]),
+                                pairing_slot=pairing_slot,
+                                global_step=global_step,
+                                extra={
+                                    "checkpoint_path": str(paths["checkpoints_root"] / "best.pt"),
+                                    "checkpoint_scope": "step",
+                                    "metric_name": metric_name,
+                                    "metric_value": float(best_metric),
+                                },
                             )
                     model.train()
 
@@ -928,30 +1053,88 @@ def train(
             if runtime.is_main_process:
                 if wandb_run is not None:
                     wandb_run.log({f"val_epoch/{key}": value for key, value in validation_metrics.items()}, step=global_step)
-                tqdm.write(
+                message = (
                     f"[val-epoch] epoch={epoch_index + 1}/{config['training']['epochs']} "
                     f"slot={pairing_slot} step={global_step} "
                     f"{_format_metric_summary(validation_metrics)}"
+                )
+                tqdm.write(message)
+                _append_training_event(
+                    paths["training_events_path"],
+                    run_id=run_id,
+                    event="val_epoch",
+                    message=message,
+                    epoch_index=epoch_index + 1,
+                    total_epochs=int(config["training"]["epochs"]),
+                    pairing_slot=pairing_slot,
+                    global_step=global_step,
+                    metrics=validation_metrics,
                 )
                 metric_name = str(config["training"]["checkpoint_metric"]).replace("val_", "")
                 monitored = float(validation_metrics.get(metric_name, float("inf")))
                 if monitored < best_metric:
                     best_metric = monitored
                     _save_checkpoint(paths["checkpoints_root"] / "best.pt", model, optimizer, scheduler, scaler, epoch_index, global_step, best_metric, config)
-                    tqdm.write(
+                    checkpoint_message = (
                         f"[checkpoint] saved best checkpoint at epoch_end step={global_step} "
                         f"metric={metric_name} value={best_metric:.4f}"
+                    )
+                    tqdm.write(checkpoint_message)
+                    _append_training_event(
+                        paths["training_events_path"],
+                        run_id=run_id,
+                        event="checkpoint",
+                        message=checkpoint_message,
+                        epoch_index=epoch_index + 1,
+                        total_epochs=int(config["training"]["epochs"]),
+                        pairing_slot=pairing_slot,
+                        global_step=global_step,
+                        extra={
+                            "checkpoint_path": str(paths["checkpoints_root"] / "best.pt"),
+                            "checkpoint_scope": "epoch_end",
+                            "metric_name": metric_name,
+                            "metric_value": float(best_metric),
+                        },
                     )
             model.train()
         if runtime.is_main_process:
             _save_checkpoint(paths["checkpoints_root"] / "last.pt", model, optimizer, scheduler, scaler, epoch_index, global_step, best_metric, config)
-            tqdm.write(
+            message = (
                 f"[epoch] completed epoch={epoch_index + 1}/{config['training']['epochs']} "
                 f"slot={pairing_slot} global_step={global_step} best_{str(config['training']['checkpoint_metric']).replace('val_', '')}={best_metric:.4f}"
+            )
+            tqdm.write(message)
+            _append_training_event(
+                paths["training_events_path"],
+                run_id=run_id,
+                event="epoch_complete",
+                message=message,
+                epoch_index=epoch_index + 1,
+                total_epochs=int(config["training"]["epochs"]),
+                pairing_slot=pairing_slot,
+                global_step=global_step,
+                extra={
+                    "best_metric_name": str(config["training"]["checkpoint_metric"]).replace("val_", ""),
+                    "best_metric_value": float(best_metric),
+                    "last_checkpoint_path": str(paths["checkpoints_root"] / "last.pt"),
+                },
             )
 
     if runtime.is_main_process:
         _save_checkpoint(paths["checkpoints_root"] / "final.pt", model, optimizer, scheduler, scaler, int(config["training"]["epochs"]) - 1, global_step, best_metric, config)
+        _append_training_event(
+            paths["training_events_path"],
+            run_id=run_id,
+            event="run_complete",
+            message="Training run completed.",
+            epoch_index=int(config["training"]["epochs"]),
+            total_epochs=int(config["training"]["epochs"]),
+            global_step=global_step,
+            extra={
+                "best_metric_value": float(best_metric),
+                "final_checkpoint_path": str(paths["checkpoints_root"] / "final.pt"),
+            },
+        )
         if wandb_run is not None:
             wandb_run.finish()
     _barrier(runtime)

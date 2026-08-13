@@ -97,23 +97,23 @@ model:
     layers: 2
     heads: 8
     ffn_dim: 2048
-    min_span_width: 0.0025
+    min_span_width: 0.05
     rope_coordinate_scale: 1.0
     rope_base: 10000.0
     position_fourier_bands: 8
     position_hidden_dim: 256
   projection:
     eta_velocity: 0.05
-    eta_acceleration: 0.01
-    ridge: 1.0e-4
+    eta_acceleration: 0.00005
+    ridge: 1.0e-3
 
 loss:
   lambda_spline: 1.0
   lambda_knot: 0.5
   lambda_anchor: 1.0
   dense:
-    lambda_velocity: 0.02
-    lambda_acceleration: 0.0005
+    lambda_velocity: 0.0075
+    lambda_acceleration: 0.000075
     velocity_weight_scale_schedule:
       milestones: [0.0, 0.125, 0.25, 1.0]
       values: [0.0, 0.0, 1.0, 1.0]
@@ -124,8 +124,8 @@ loss:
     velocity_delta: 0.10
     acceleration_delta: 0.20
   spline:
-    lambda_velocity: 0.02
-    lambda_acceleration: 0.0005
+    lambda_velocity: 0.0075
+    lambda_acceleration: 0.000075
     velocity_weight_scale_schedule:
       milestones: [0.0, 0.125, 0.25, 1.0]
       values: [0.0, 0.0, 1.0, 1.0]
@@ -172,14 +172,14 @@ training:
   validation_log_frequency_steps: 200
   checkpoint_metric: val_total
   teacher_forcing_alpha_schedule:
-    milestones: [0.0, 0.50, 0.75, 1.0]
-    values: [0.0, 0.0, 0.5, 1.0]
+  milestones: [0.0, 0.50, 0.75, 1.0]
+  values: [0.0, 0.0, 0.5, 1.0]
   compressor_gradient_gamma_schedule:
     milestones: [0.0, 0.60, 0.80, 1.0]
     values: [0.0, 0.0, 0.02, 0.05]
   predicted_u_alpha_schedule:
-    milestones: [0.0, 0.50, 1.0]
-    values: [0.0, 0.25, 0.50]
+    milestones: [0.0, 0.50, 0.75, 1.0]
+    values: [0.0, 0.25, 0.5, 0.75]
 
 logging:
   wandb:
