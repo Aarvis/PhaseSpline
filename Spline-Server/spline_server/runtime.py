@@ -127,6 +127,10 @@ class HumanLocalizerRuntime:
         preprocessing_cfg = self.config["preprocessing"]
         state_norm_path = output_root / str(preprocessing_cfg["state_norm_filename"])
         if not state_norm_path.is_file():
+            bundled_state_norm_path = config_path.parent / str(preprocessing_cfg["state_norm_filename"])
+            if bundled_state_norm_path.is_file():
+                state_norm_path = bundled_state_norm_path
+        if not state_norm_path.is_file():
             raise FileNotFoundError(f"Localizer state normalization not found: {state_norm_path}")
 
         self.state_norm = _load_state_norm(state_norm_path)
@@ -151,6 +155,10 @@ class TranslatorRuntime:
         output_root = _as_path(self.config["paths"]["output_root"])
         preprocessing_cfg = self.config["preprocessing"]
         state_norm_path = output_root / str(preprocessing_cfg["state_norm_filename"])
+        if not state_norm_path.is_file():
+            bundled_state_norm_path = config_path.parent / str(preprocessing_cfg["state_norm_filename"])
+            if bundled_state_norm_path.is_file():
+                state_norm_path = bundled_state_norm_path
         if not state_norm_path.is_file():
             raise FileNotFoundError(f"Translator state normalization not found: {state_norm_path}")
 
@@ -218,8 +226,8 @@ class SplineRuntime:
             amp=self.amp,
         )
 
-        if self.end_mode == "predicted_width" and not self.localizer.width_enabled:
-            raise ValueError("Spline runtime is configured for predicted_width end mode, but the localizer checkpoint/config has width_prediction disabled.")
+        if self.end_mode == "predicted_width" and not self.localizer.interval_prediction_enabled:
+            raise ValueError("Spline runtime is configured for predicted_width end mode, but the localizer checkpoint/config has interval prediction disabled.")
 
         self.history_capacity = max(self.localizer.history_length, self.translator.history_length)
         self.session_cache_size = max(1, int(server_cfg.get("session_cache_size", 256)))
