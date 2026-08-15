@@ -191,7 +191,6 @@ class SplineRuntime:
         self.prompt_mode = str(prompt_cfg.get("mode", "request"))
         self.fixed_prompt_id = prompt_cfg.get("fixed_prompt_id")
         self.fixed_category_id = prompt_cfg.get("fixed_category_id")
-        self.category_aliases = self._build_category_alias_map(prompt_cfg.get("category_aliases", {}))
         self._request_count = 0
 
         if self.device.type == "cuda":
@@ -199,6 +198,7 @@ class SplineRuntime:
             torch.backends.cudnn.allow_tf32 = True
 
         self.prompt_bank = PromptBank(config["paths"]["prompt_bank_root"], seed=int(runtime_cfg.get("seed", 2027)))
+        self.category_aliases = self._build_category_alias_map(prompt_cfg.get("category_aliases", {}))
         self.robot_embedder = RobotEmbedderRuntime(
             config_path=_as_path(config["robot_embedder"]["config_path"]),
             checkpoint_path=_as_path(config["robot_embedder"]["checkpoint_path"]),
