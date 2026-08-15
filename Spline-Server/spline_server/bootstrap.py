@@ -5,11 +5,52 @@ import sys
 from pathlib import Path
 
 
+def _first_existing(candidates: list[Path]) -> Path | None:
+    for candidate in candidates:
+        try:
+            resolved = candidate.expanduser().resolve()
+        except Exception:
+            continue
+        if resolved.exists():
+            return resolved
+    return None
+
+
 def repo_roots() -> dict[str, Path]:
     this_file = Path(__file__).resolve()
-    challenge_root = this_file.parents[3]
-    spline_root = challenge_root / "Lehome-Spline-ICRA2027"
-    openpi_root = challenge_root / "openpi"
+    explicit_spline_root = os.environ.get("LEHOME_SPLINE_REPO")
+    explicit_openpi_root = os.environ.get("LEHOME_OPENPI_REPO")
+
+    if explicit_spline_root:
+        spline_root = Path(explicit_spline_root).expanduser().resolve()
+        challenge_root = spline_root.parent
+    else:
+        spline_root = _first_existing(
+            [
+                this_file.parents[2],
+                this_file.parents[3] / "Lehome-Spline-ICRA2027",
+            ]
+        )
+        if spline_root is None:
+            raise FileNotFoundError(
+                "Could not determine spline repo root. Set LEHOME_SPLINE_REPO to the repo path containing "
+                "'human-spline-localizer', 'human-to-robot-local-spline-translator', and 'lehome_robot_sim_embedding'."
+            )
+        challenge_root = spline_root.parent
+
+    if explicit_openpi_root:
+        openpi_root = Path(explicit_openpi_root).expanduser().resolve()
+    else:
+        openpi_root = _first_existing(
+            [
+                challenge_root / "openpi",
+                challenge_root / "lehome-openpi",
+                spline_root.parent / "openpi",
+                spline_root.parent / "lehome-openpi",
+            ]
+        )
+        if openpi_root is None:
+            openpi_root = challenge_root / "openpi"
     return {
         "challenge_root": challenge_root,
         "spline_root": spline_root,
