@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 import re
 import time
 from collections import OrderedDict, deque
@@ -24,6 +25,8 @@ from human_to_robot_local_spline_translator.config import load_config as load_tr
 from human_to_robot_local_spline_translator.model import LocalHumanToRobotSplineModel  # noqa: E402
 from lehome_robot_sim_embedding.config import load_config as load_robot_embedder_config  # noqa: E402
 from lehome_robot_sim_embedding.model import RobotSimMultiViewVAE  # noqa: E402
+
+logger = logging.getLogger(__name__)
 
 
 def _as_path(value: str | Path) -> Path:
@@ -302,10 +305,51 @@ class SplineRuntime:
 
         self._request_count += 1
         if self._request_count % self.log_every_n_requests == 0:
-            print(
-                f"[spline-runtime] requests={self._request_count} session={session.session_id} "
-                f"prompt={session.prompt.package.prompt_id} source={source} valid={prediction_valid} "
-                f"fallback={used_last_valid_fallback}"
+            logger.info(
+                "[spline-runtime] %s",
+                json.dumps(
+                    {
+                        "event": "spline_runtime_request",
+                        "request_index": int(self._request_count),
+                        "session_id": session.session_id,
+                        "policy_call_index": int(policy_call_index),
+                        "prompt_id": session.prompt.package.prompt_id,
+                        "prompt_category_id": session.prompt.package.category_id,
+                        "requested_category_id": session.requested_category_id,
+                        "history_length": int(len(session.history_embeddings)),
+                        "source": source,
+                        "prediction_valid": bool(prediction_valid),
+                        "used_last_valid_fallback": bool(used_last_valid_fallback),
+                        "invalid_reason": invalid_reason,
+                        "predicted_human_start_u": (
+                            float(interval_result["start_u"]) if np.isfinite(interval_result["start_u"]) else None
+                        ),
+                        "predicted_human_end_u": (
+                            float(interval_result["end_u"]) if np.isfinite(interval_result["end_u"]) else None
+                        ),
+                        "predicted_end_source": str(interval_result["end_source"]),
+                        "predicted_delta_u": (
+                            float(localizer_result["delta_u_hat"]) if localizer_result["delta_u_hat"] is not None else None
+                        ),
+                        "projection_condition_proxy": float(translator_result["projection_condition_proxy"]),
+                        "span_entropy": float(translator_result["span_entropy"]),
+                        "human_local_coefficient_count": float(translator_result["human_local_coefficient_count"]),
+                        "input_summary": {
+                            "state_dim": int(state_raw.shape[0]),
+                            "top_rgb_shape": list(top_rgb.shape),
+                            "left_rgb_shape": list(left_rgb.shape),
+                            "right_rgb_shape": list(right_rgb.shape),
+                        },
+                        "runtime_timing": {
+                            "embedder_ms": float(embedder_ms),
+                            "localizer_ms": float(localizer_ms),
+                            "interval_ms": float(interval_ms),
+                            "translator_ms": float(translator_ms),
+                            "total_ms": float((time.perf_counter() - total_start) * 1000.0),
+                        },
+                    },
+                    sort_keys=True,
+                ),
             )
 
         result = {
