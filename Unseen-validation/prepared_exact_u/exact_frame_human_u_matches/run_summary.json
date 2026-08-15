@@ -1,0 +1,110 @@
+{
+  "stage": "exact_frame_human_u_matches",
+  "pairing_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\prepared_exact_u\\human_episode_pairings",
+  "output_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\prepared_exact_u\\exact_frame_human_u_matches",
+  "num_pairs": 2,
+  "pairs": [
+    {
+      "pair_id": "pants_pair_000",
+      "category_id": "pants",
+      "robot_episode_index": 127,
+      "human_episode_index": 519,
+      "num_frames": 274,
+      "num_pairings_per_frame": 1,
+      "total_frame_pairings": 274,
+      "start_valid_count": 274,
+      "end_valid_count": 274,
+      "complete_valid_count": 274,
+      "start_boundary_clamped_count": 10,
+      "end_boundary_clamped_count": 6,
+      "start_exact_match_count": 41,
+      "end_exact_match_count": 62,
+      "start_reason_counts": {
+        "ok": 274
+      },
+      "end_reason_counts": {
+        "ok": 274
+      },
+      "stored_fields": [
+        "end_boundary_clamped_mask",
+        "end_exact_match_mask",
+        "end_interp_alpha",
+        "end_lower_frame_index",
+        "end_lower_progress",
+        "end_upper_frame_index",
+        "end_upper_progress",
+        "end_valid_mask",
+        "frame_indices",
+        "human_end_u",
+        "human_start_u",
+        "paired_human_episode_indices",
+        "robot_end_frame_index",
+        "robot_end_progress",
+        "robot_end_segment_id",
+        "robot_start_frame_index",
+        "robot_start_progress",
+        "robot_start_segment_id",
+        "start_boundary_clamped_mask",
+        "start_exact_match_mask",
+        "start_interp_alpha",
+        "start_lower_frame_index",
+        "start_lower_progress",
+        "start_upper_frame_index",
+        "start_upper_progress",
+        "start_valid_mask"
+      ],
+      "output_npz_path": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\prepared_exact_u\\exact_frame_human_u_matches\\pants\\pants_pair_000\\robot_episode_000127\\exact_frame_human_u_matches.npz"
+    },
+    {
+      "pair_id": "top_short_sleeve_pair_000",
+      "category_id": "top-short-sleeve",
+      "robot_episode_index": 931,
+      "human_episode_index": 3426,
+      "num_frames": 306,
+      "num_pairings_per_frame": 1,
+      "total_frame_pairings": 306,
+      "start_valid_count": 306,
+      "end_valid_count": 306,
+      "complete_valid_count": 306,
+      "start_boundary_clamped_count": 14,
+      "end_boundary_clamped_count": 4,
+      "start_exact_match_count": 49,
+      "end_exact_match_count": 74,
+      "start_reason_counts": {
+        "ok": 306
+      },
+      "end_reason_counts": {
+        "ok": 306
+      },
+      "stored_fields": [
+        "end_boundary_clamped_mask",
+        "end_exact_match_mask",
+        "end_interp_alpha",
+        "end_lower_frame_index",
+        "end_lower_progress",
+        "end_upper_frame_index",
+        "end_upper_progress",
+        "end_valid_mask",
+        "frame_indices",
+        "human_end_u",
+        "human_start_u",
+        "paired_human_episode_indices",
+        "robot_end_frame_index",
+        "robot_end_progress",
+        "robot_end_segment_id",
+        "robot_start_frame_index",
+        "robot_start_progress",
+        "robot_start_segment_id",
+        "start_boundary_clamped_mask",
+        "start_exact_match_mask",
+        "start_interp_alpha",
+        "start_lower_frame_index",
+        "start_lower_progress",
+        "start_upper_frame_index",
+        "start_upper_progress",
+        "start_valid_mask"
+      ],
+      "output_npz_path": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\prepared_exact_u\\exact_frame_human_u_matches\\top-short-sleeve\\top_short_sleeve_pair_000\\robot_episode_000931\\exact_frame_human_u_matches.npz"
+    }
+  ]
+}

@@ -420,9 +420,11 @@ class SharedPhaseMatcher(nn.Module):
     def __init__(self, config: dict[str, Any]) -> None:
         super().__init__()
         matcher_cfg = config["model"]["matcher"]
+        width = int(config["model"]["width"])
         dropout = float(config["model"]["dropout"])
+        input_dim = 4 * width
         self.network = nn.Sequential(
-            nn.Linear(2048, int(matcher_cfg["hidden_dim_1"])),
+            nn.Linear(input_dim, int(matcher_cfg["hidden_dim_1"])),
             nn.GELU(),
             nn.Dropout(dropout),
             nn.Linear(int(matcher_cfg["hidden_dim_1"]), int(matcher_cfg["hidden_dim_2"])),
@@ -445,61 +447,33 @@ class SharedPhaseMatcher(nn.Module):
 
 
 class LocalizationHeads(nn.Module):
-    def __init__(self, config: dict[str, Any], checkpoint_class_counts: list[int]) -> None:
+    def __init__(self, config: dict[str, Any]) -> None:
         super().__init__()
         width = int(config["model"]["width"])
-        auxiliary_cfg = config["model"]["auxiliary"]
-        checkpoint_hidden = int(auxiliary_cfg["checkpoint_hidden_dim"])
-        progress_hidden = int(auxiliary_cfg["progress_hidden_dim"])
-        self.checkpoint_class_counts = [int(value) for value in checkpoint_class_counts]
-        self.max_checkpoint_classes = max(self.checkpoint_class_counts)
-        self.checkpoint_heads = nn.ModuleList(
-            [
-                nn.Sequential(
-                    nn.LayerNorm(width),
-                    nn.Linear(width, checkpoint_hidden),
-                    nn.GELU(),
-                    nn.Linear(checkpoint_hidden, count),
-                )
-                for count in self.checkpoint_class_counts
-            ]
-        )
-        self.progress_head = nn.Sequential(
-            nn.LayerNorm(width),
-            nn.Linear(width, progress_hidden),
-            nn.GELU(),
-            nn.Linear(progress_hidden, 1),
-        )
-
-    def forward(self, robot_token: Tensor, category_indices: Tensor) -> tuple[Tensor, Tensor]:
-        batch = robot_token.shape[0]
-        checkpoint_logits: Tensor | None = None
-        for category_index, head in enumerate(self.checkpoint_heads):
-            mask = category_indices == category_index
-            if not torch.any(mask):
-                continue
-            logits = head(robot_token[mask])
-            if checkpoint_logits is None:
-                checkpoint_logits = torch.full(
-                    (batch, self.max_checkpoint_classes),
-                    fill_value=torch.finfo(logits.dtype).min,
-                    dtype=logits.dtype,
-                    device=logits.device,
-                )
-            checkpoint_logits[mask, : logits.shape[1]] = logits
-        if checkpoint_logits is None:
-            checkpoint_logits = torch.full(
-                (batch, self.max_checkpoint_classes),
-                fill_value=torch.finfo(robot_token.dtype).min,
-                dtype=robot_token.dtype,
-                device=robot_token.device,
+        interval_cfg = ((config["model"].get("auxiliary") or {}).get("interval_prediction") or {})
+        self.interval_prediction_enabled = bool(interval_cfg.get("enabled", False))
+        self.min_delta_u = float(interval_cfg.get("min_delta_u", 1.0e-4))
+        if self.interval_prediction_enabled:
+            hidden_dim = int(interval_cfg.get("hidden_dim", 256))
+            self.end_head = nn.Sequential(
+                nn.LayerNorm(width),
+                nn.Linear(width, hidden_dim),
+                nn.GELU(),
+                nn.Linear(hidden_dim, 1),
             )
-        progress = torch.sigmoid(self.progress_head(robot_token)).squeeze(-1)
-        return checkpoint_logits, progress
+        else:
+            self.end_head = None
+
+    def forward(self, robot_token: Tensor, start_u: Tensor) -> tuple[Tensor | None, Tensor | None]:
+        if self.end_head is None:
+            return None, None
+        delta_u_hat = F.softplus(self.end_head(robot_token).squeeze(-1)) + float(self.min_delta_u)
+        end_u_hat = torch.clamp(start_u + delta_u_hat, min=0.0, max=1.0)
+        return delta_u_hat, end_u_hat
 
 
 class GlobalSplineLocalizer(nn.Module):
-    def __init__(self, config: dict[str, Any], state_dim: int, checkpoint_class_counts: list[int]) -> None:
+    def __init__(self, config: dict[str, Any], state_dim: int) -> None:
         super().__init__()
         self.config = config
         self.human_transformer = HumanSplineTransformer(config)
@@ -507,7 +481,7 @@ class GlobalSplineLocalizer(nn.Module):
         self.cross_attention = RobotHumanCrossAttention(config)
         self.candidate_builder = SplineCandidateBuilder(config)
         self.matcher = SharedPhaseMatcher(config)
-        self.localization_heads = LocalizationHeads(config, checkpoint_class_counts)
+        self.localization_heads = LocalizationHeads(config)
         self.expectation_window_radius = int(config["model"]["candidates"]["expectation_window_radius"])
         phase_bin_count = int(config["data"]["phase_bin_count"])
         self.register_buffer(
@@ -542,7 +516,6 @@ class GlobalSplineLocalizer(nn.Module):
         human_greville_phase: Tensor,
         human_basis_200: Tensor,
         human_mask: Tensor,
-        category_index: Tensor,
     ) -> dict[str, Tensor]:
         human_context = self.human_transformer(
             human_coefficients,
@@ -563,16 +536,19 @@ class GlobalSplineLocalizer(nn.Module):
         candidate_tokens = self.candidate_builder(human_context, human_basis_200)
         logits = self.matcher(current_robot_token, candidate_tokens)
         probabilities = torch.softmax(logits, dim=-1)
-        checkpoint_logits, progress = self.localization_heads(current_robot_token, category_index)
+        u_hat = self._estimate_u(probabilities)
+        delta_u_hat, u_end_hat = self.localization_heads(current_robot_token, u_hat)
         entropy = -(probabilities * torch.log(torch.clamp(probabilities, min=1e-12))).sum(dim=-1)
-        return {
+        outputs = {
             "logits": logits,
             "probabilities": probabilities,
-            "u_hat": self._estimate_u(probabilities),
+            "u_hat": u_hat,
             "c_max": probabilities.max(dim=-1).values,
             "entropy": entropy,
             "margin": self._top_two_margin(probabilities),
-            "checkpoint_logits": checkpoint_logits,
-            "progress": progress,
             "robot_token": current_robot_token,
         }
+        if delta_u_hat is not None and u_end_hat is not None:
+            outputs["delta_u_hat"] = delta_u_hat
+            outputs["u_end_hat"] = u_end_hat
+        return outputs

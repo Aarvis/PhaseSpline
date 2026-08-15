@@ -1,0 +1,25 @@
+paths:
+  output_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/prepared_exact_u
+
+processing:
+  overwrite: false
+  index_dtype: int32
+  progress_dtype: float32
+  u_dtype: float32
+  num_pairings_per_frame: 1
+  write_episode_metadata_json: true
+
+pairs:
+  - pair_id: pants_pair_000
+    category_id: pants
+    robot_episode_index: 127
+    human_episode_index: 519
+    robot_episode_dir: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/pants/robot_sim/pants_episode_000127
+    human_episode_dir: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/pants/human/pants_episode_000519
+
+  - pair_id: top_short_sleeve_pair_000
+    category_id: top-short-sleeve
+    robot_episode_index: 931
+    human_episode_index: 3426
+    robot_episode_dir: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/top-short-sleeve/robot/top_short_sleeve_episode_000931
+    human_episode_dir: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/top-short-sleeve/human/top_short_sleeve_episode_003426

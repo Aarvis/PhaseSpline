@@ -1,0 +1,11 @@
+{
+  "pair_id": "top_short_sleeve_pair_000",
+  "category_id": "top-short-sleeve",
+  "robot_episode_index": 931,
+  "human_episode_index": 3426,
+  "robot_episode_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\top-short-sleeve\\robot\\top_short_sleeve_episode_000931",
+  "human_episode_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\top-short-sleeve\\human\\top_short_sleeve_episode_003426",
+  "num_frames": 306,
+  "num_pairings_per_frame": 1,
+  "output_npz_path": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\prepared_exact_u\\human_episode_pairings\\top-short-sleeve\\top_short_sleeve_pair_000\\robot_episode_000931\\human_episode_pairings.npz"
+}

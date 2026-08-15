@@ -1,0 +1,17 @@
+{
+  "category_id": "shorts",
+  "episode_index": 1886,
+  "prompt_id": "temp_shorts_001886",
+  "video_filename": "shorts_episode_001886_top_view.mp4",
+  "checkpoint_path": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001886\\checkpoints.json",
+  "source_video_file": "human_episode_001886_top_rgb.mp4",
+  "task_name": "shorts folding",
+  "task_garment_type": "shorts",
+  "supports_predicted_width": true,
+  "supports_fixed_future_frames": true,
+  "fps": 23.000005483628627,
+  "frame_count": 89,
+  "frame_index_start": 0,
+  "frame_index_end": 88,
+  "parquet_path": "D:\\pretrain_lehome_all_garment_data_z180\\data\\chunk-001\\episode_001886.parquet"
+}

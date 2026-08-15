@@ -11,6 +11,11 @@ import torch
 from torch.utils.data import Dataset
 from tqdm.auto import tqdm
 
+try:
+    import yaml
+except ImportError:  # pragma: no cover
+    yaml = None
+
 from .spline import compute_coefficient_geometry, evaluate_bspline_basis_matrix, normalize_knots_to_unit_domain
 from .utils import EpisodeLRUCache, RunningMoments, atomic_json_dump
 
@@ -66,8 +71,20 @@ class RobotTargetCache:
     paired_human_episode_indices: np.ndarray
     target_u: np.ndarray
     target_valid_mask: np.ndarray
-    robot_segment_id: np.ndarray
-    robot_progress: np.ndarray
+    robot_end_segment_id: np.ndarray
+    robot_end_progress: np.ndarray
+    target_end_u: np.ndarray
+    end_target_valid: np.ndarray
+
+
+@dataclass(frozen=True)
+class ExplicitUnseenValPairConfig:
+    pair_id: str
+    category_id: str
+    robot_episode_index: int
+    human_episode_index: int
+    robot_episode_dir: Path
+    human_episode_dir: Path
 
 
 def canonical_category_id(value: str) -> str:
@@ -76,6 +93,21 @@ def canonical_category_id(value: str) -> str:
 
 def as_path(value: str | Path) -> Path:
     return Path(value).expanduser().resolve()
+
+
+def _read_mapping_file(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        raise FileNotFoundError(path)
+    text = path.read_text(encoding="utf-8")
+    if path.suffix.lower() == ".json":
+        payload = json.loads(text)
+    else:
+        if yaml is None:
+            raise RuntimeError("PyYAML is required to read unseen-validation YAML config files.")
+        payload = yaml.safe_load(text)
+    if not isinstance(payload, dict):
+        raise ValueError(f"Expected mapping payload in {path}")
+    return payload
 
 
 def load_category_configs(config: dict[str, Any]) -> list[CategoryConfig]:
@@ -109,6 +141,10 @@ def pairing_npz_path(root: Path, episode_index: int) -> Path:
     return root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "human_episode_pairings.npz"
 
 
+def robot_local_window_npz_path(root: Path, episode_index: int) -> Path:
+    return root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "local_raw_bspline_windows.npz"
+
+
 def human_spline_npz_path(root: Path, episode_index: int) -> Path:
     return root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "spline.npz"
 
@@ -136,8 +172,39 @@ def robot_target_cache_npz_path(cache_root: Path, episode_index: int) -> Path:
     return cache_root / f"chunk-{episode_index // 1000:03d}" / f"episode_{episode_index:06d}" / "robot_alignment_targets.npz"
 
 
+def explicit_unseen_match_npz_path(root: Path, pair: ExplicitUnseenValPairConfig) -> Path:
+    return root / pair.category_id / pair.pair_id / f"robot_episode_{pair.robot_episode_index:06d}" / "exact_frame_human_u_matches.npz"
+
+
 def read_dataset_info(root: Path) -> dict[str, Any]:
     return json.loads((root / "meta" / "info.json").read_text(encoding="utf-8"))
+
+
+def load_explicit_unseen_validation_pairs(path: Path, pair_ids: list[str] | None = None) -> list[ExplicitUnseenValPairConfig]:
+    payload = _read_mapping_file(path)
+    entries = payload.get("pairs")
+    if not isinstance(entries, list) or not entries:
+        raise KeyError(f"{path} does not define a non-empty pairs list.")
+    requested = {str(value).strip() for value in (pair_ids or []) if str(value).strip()}
+    pairs: list[ExplicitUnseenValPairConfig] = []
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError(f"Bad unseen-validation pair entry: {entry!r}")
+        pair = ExplicitUnseenValPairConfig(
+            pair_id=str(entry["pair_id"]).strip(),
+            category_id=canonical_category_id(entry["category_id"]),
+            robot_episode_index=int(entry["robot_episode_index"]),
+            human_episode_index=int(entry["human_episode_index"]),
+            robot_episode_dir=as_path(entry["robot_episode_dir"]),
+            human_episode_dir=as_path(entry["human_episode_dir"]),
+        )
+        if requested and pair.pair_id not in requested:
+            continue
+        pairs.append(pair)
+    if requested and len(pairs) != len(requested):
+        missing = sorted(requested - {pair.pair_id for pair in pairs})
+        raise ValueError(f"Unknown unseen-validation pair IDs requested: {missing}")
+    return pairs
 
 
 def resolve_state_dims(config: dict[str, Any], info: dict[str, Any]) -> list[int]:
@@ -205,6 +272,28 @@ def load_human_frame_u_by_frame_index(path: Path) -> np.ndarray:
     return mapping.astype(np.float32)
 
 
+def build_human_episode_features_from_spline_path(path: Path, episode_index: int, phase_bin_count: int) -> HumanEpisodeFeatures:
+    with np.load(path, allow_pickle=False) as archive:
+        coefficients = np.asarray(archive["global_coefficients"], dtype=np.float32)
+        global_knots = np.asarray(archive["global_knots"], dtype=np.float64)
+        degree = int(np.asarray(archive["global_degree"]).reshape(-1)[0])
+    coefficient_count = int(coefficients.shape[0])
+    normalized_knots = normalize_knots_to_unit_domain(global_knots, degree)
+    geometry = compute_coefficient_geometry(normalized_knots, degree, coefficient_count)
+    bin_centers = ((np.arange(int(phase_bin_count), dtype=np.float64) + 0.5) / float(phase_bin_count)).astype(np.float64)
+    basis_200 = evaluate_bspline_basis_matrix(normalized_knots, degree, bin_centers, coefficient_count)
+    return HumanEpisodeFeatures(
+        episode_index=episode_index,
+        coefficients=coefficients,
+        left_support=np.asarray(geometry["left_support"], dtype=np.float32),
+        right_support=np.asarray(geometry["right_support"], dtype=np.float32),
+        support_midpoint=np.asarray(geometry["support_midpoint"], dtype=np.float32),
+        support_width=np.asarray(geometry["support_width"], dtype=np.float32),
+        greville_phase=np.asarray(geometry["greville_phase"], dtype=np.float32),
+        basis_200=np.asarray(basis_200, dtype=np.float32),
+    )
+
+
 def interpolate_human_u(
     human_annotation: AnnotationEpisode,
     human_frame_u_by_frame_index: np.ndarray,
@@ -252,7 +341,11 @@ def discover_valid_robot_episodes(
     robot_pairing_root: Path,
     categories: list[CategoryConfig],
     skip_missing: bool,
+    robot_local_window_root: Path | None = None,
+    require_local_windows: bool = False,
 ) -> dict[str, list[int]]:
+    if require_local_windows and robot_local_window_root is None:
+        raise ValueError("robot_local_window_root must be provided when require_local_windows is enabled.")
     result: dict[str, list[int]] = {}
     for category in categories:
         episode_ids: list[int] = []
@@ -260,11 +353,19 @@ def discover_valid_robot_episodes(
             embedding_path = robot_embedding_npz_path(robot_embedding_root, episode_index)
             pairing_path = pairing_npz_path(robot_pairing_root, episode_index)
             annotation_path = checkpoint_json_path(sim_dataset_root, episode_index)
-            if embedding_path.exists() and pairing_path.exists() and annotation_path.exists():
+            local_window_path = (
+                robot_local_window_npz_path(robot_local_window_root, episode_index)
+                if require_local_windows and robot_local_window_root is not None
+                else None
+            )
+            required_paths = [embedding_path, pairing_path, annotation_path]
+            if local_window_path is not None:
+                required_paths.append(local_window_path)
+            if all(path.exists() for path in required_paths):
                 episode_ids.append(episode_index)
                 continue
             if not skip_missing:
-                missing = [str(path) for path in (embedding_path, pairing_path, annotation_path) if not path.exists()]
+                missing = [str(path) for path in required_paths if not path.exists()]
                 raise FileNotFoundError(f"Robot episode {episode_index} is missing required files: {missing}")
         result[category.category_id] = episode_ids
     return result
@@ -345,6 +446,8 @@ def prepare_robot_alignment_target_cache(
     human_bspline_root: Path,
     cache_root: Path,
     overwrite: bool,
+    robot_local_window_root: Path | None = None,
+    include_end_targets: bool = False,
 ) -> None:
     cache_root.mkdir(parents=True, exist_ok=True)
     human_annotation_cache: dict[int, AnnotationEpisode] = {}
@@ -352,7 +455,12 @@ def prepare_robot_alignment_target_cache(
     for episode_index in tqdm(robot_episode_ids, desc="precompute/robot-targets", unit="episode"):
         out_path = robot_target_cache_npz_path(cache_root, episode_index)
         if out_path.exists() and not overwrite:
-            continue
+            if not include_end_targets:
+                continue
+            with np.load(out_path, allow_pickle=False) as archive:
+                existing = set(archive.files)
+            if {"robot_end_segment_id", "robot_end_progress", "target_end_u", "end_target_valid"} <= existing:
+                continue
         out_path.parent.mkdir(parents=True, exist_ok=True)
         pairing_path = pairing_npz_path(robot_pairing_root, episode_index)
         with np.load(pairing_path, allow_pickle=False) as archive:
@@ -361,11 +469,29 @@ def prepare_robot_alignment_target_cache(
         robot_annotation = load_annotation_episode(checkpoint_json_path(sim_dataset_root, episode_index), episode_index)
         robot_segment_id = robot_annotation.frame_to_segment_id[frame_indices].astype(np.int32, copy=False)
         robot_progress = robot_annotation.frame_to_progress[frame_indices].astype(np.float32, copy=False)
+        robot_end_segment_id = np.full(frame_indices.shape, fill_value=-1, dtype=np.int32)
+        robot_end_progress = np.full(frame_indices.shape, fill_value=np.nan, dtype=np.float32)
+        if include_end_targets:
+            if robot_local_window_root is None:
+                raise ValueError("robot_local_window_root is required when include_end_targets is enabled.")
+            with np.load(robot_local_window_npz_path(robot_local_window_root, episode_index), allow_pickle=False) as window_archive:
+                local_start_frame_index = np.asarray(window_archive["local_start_frame_index"], dtype=np.int64)
+                local_end_frame_index = np.asarray(window_archive["local_end_frame_index"], dtype=np.int64)
+            if local_start_frame_index.shape[0] != frame_indices.shape[0] or not np.array_equal(local_start_frame_index, frame_indices):
+                raise ValueError(
+                    f"Robot local-window start frames do not align with pairing frame indices for episode {episode_index}."
+                )
+            robot_end_segment_id = robot_annotation.frame_to_segment_id[local_end_frame_index].astype(np.int32, copy=False)
+            robot_end_progress = robot_annotation.frame_to_progress[local_end_frame_index].astype(np.float32, copy=False)
         target_u = np.full(paired_human_episode_indices.shape, fill_value=np.nan, dtype=np.float32)
         target_valid_mask = np.zeros(paired_human_episode_indices.shape, dtype=bool)
+        target_end_u = np.full(paired_human_episode_indices.shape, fill_value=np.nan, dtype=np.float32)
+        end_target_valid = np.zeros(paired_human_episode_indices.shape, dtype=bool)
         for row in range(frame_indices.shape[0]):
             segment_id = int(robot_segment_id[row])
             progress = float(robot_progress[row])
+            end_segment_id = int(robot_end_segment_id[row])
+            end_progress = float(robot_end_progress[row])
             for slot in range(paired_human_episode_indices.shape[1]):
                 human_episode_index = int(paired_human_episode_indices[row, slot])
                 if human_episode_index not in human_annotation_cache:
@@ -386,14 +512,26 @@ def prepare_robot_alignment_target_cache(
                 if valid:
                     target_u[row, slot] = np.asarray(human_u, dtype=np.float32)
                     target_valid_mask[row, slot] = True
+                if include_end_targets and end_segment_id >= 0 and np.isfinite(end_progress):
+                    human_end_u, end_valid = interpolate_human_u(
+                        human_annotation_cache[human_episode_index],
+                        human_frame_u_cache[human_episode_index],
+                        end_segment_id,
+                        end_progress,
+                    )
+                    if end_valid and valid and np.isfinite(human_end_u) and float(human_end_u) > float(human_u):
+                        target_end_u[row, slot] = np.asarray(human_end_u, dtype=np.float32)
+                        end_target_valid[row, slot] = True
         np.savez_compressed(
             out_path,
             frame_indices=frame_indices.astype(np.int32),
             paired_human_episode_indices=paired_human_episode_indices.astype(np.int32),
             target_u=target_u.astype(np.float32),
             target_valid_mask=target_valid_mask,
-            robot_segment_id=robot_segment_id.astype(np.int32),
-            robot_progress=robot_progress.astype(np.float32),
+            robot_end_segment_id=robot_end_segment_id.astype(np.int32, copy=False),
+            robot_end_progress=robot_end_progress.astype(np.float32, copy=False),
+            target_end_u=target_end_u.astype(np.float32, copy=False),
+            end_target_valid=end_target_valid,
         )
 
 
@@ -421,13 +559,33 @@ def compute_state_normalization(
 
 def load_robot_target_cache(path: Path) -> RobotTargetCache:
     with np.load(path, allow_pickle=False) as archive:
+        files = set(archive.files)
+        frame_indices = np.asarray(archive["frame_indices"], dtype=np.int32)
         return RobotTargetCache(
-            frame_indices=np.asarray(archive["frame_indices"], dtype=np.int32),
+            frame_indices=frame_indices,
             paired_human_episode_indices=np.asarray(archive["paired_human_episode_indices"], dtype=np.int32),
             target_u=np.asarray(archive["target_u"], dtype=np.float32),
             target_valid_mask=np.asarray(archive["target_valid_mask"], dtype=bool),
-            robot_segment_id=np.asarray(archive["robot_segment_id"], dtype=np.int32),
-            robot_progress=np.asarray(archive["robot_progress"], dtype=np.float32),
+            robot_end_segment_id=(
+                np.asarray(archive["robot_end_segment_id"], dtype=np.int32)
+                if "robot_end_segment_id" in files
+                else np.full(frame_indices.shape, fill_value=-1, dtype=np.int32)
+            ),
+            robot_end_progress=(
+                np.asarray(archive["robot_end_progress"], dtype=np.float32)
+                if "robot_end_progress" in files
+                else np.full(frame_indices.shape, fill_value=np.nan, dtype=np.float32)
+            ),
+            target_end_u=(
+                np.asarray(archive["target_end_u"], dtype=np.float32)
+                if "target_end_u" in files
+                else np.full(np.asarray(archive["target_u"]).shape, fill_value=np.nan, dtype=np.float32)
+            ),
+            end_target_valid=(
+                np.asarray(archive["end_target_valid"], dtype=bool)
+                if "end_target_valid" in files
+                else np.zeros(np.asarray(archive["target_u"]).shape, dtype=bool)
+            ),
         )
 
 
@@ -440,8 +598,6 @@ class LocalizerDataset(Dataset[dict[str, torch.Tensor]]):
         state_dims: list[int],
         state_mean: np.ndarray,
         state_std: np.ndarray,
-        category_to_index: dict[str, int],
-        categories: list[CategoryConfig],
         config: dict[str, Any],
     ) -> None:
         self.robot_episode_ids = list(robot_episode_ids)
@@ -455,8 +611,6 @@ class LocalizerDataset(Dataset[dict[str, torch.Tensor]]):
         self.state_dims = np.asarray(state_dims, dtype=np.int64)
         self.state_mean = np.asarray(state_mean, dtype=np.float32)
         self.state_std = np.asarray(state_std, dtype=np.float32)
-        self.category_to_index = dict(category_to_index)
-        self.categories = list(categories)
         self.robot_embedding_key = str(config["data"]["robot_embedding_key"])
         self.robot_state_source = str(config["data"]["robot_state_source"])
         self.history_length = int(config["data"]["history_length"])
@@ -468,13 +622,12 @@ class LocalizerDataset(Dataset[dict[str, torch.Tensor]]):
         self.human_cache = EpisodeLRUCache(capacity=32)
         self.target_cache = EpisodeLRUCache(capacity=16)
         self.bin_centers = ((np.arange(self.phase_bin_count, dtype=np.float32) + 0.5) / float(self.phase_bin_count)).astype(np.float32)
-        self.sample_index: list[tuple[int, int, int]] = []
+        self.end_prediction_enabled = bool(((config["model"].get("auxiliary") or {}).get("interval_prediction") or {}).get("enabled", False))
+        self.sample_index: list[tuple[int, int]] = []
         for episode_index in tqdm(self.robot_episode_ids, desc=f"dataset/slot{self.pairing_slot}", unit="episode", leave=False):
-            category = category_for_robot_episode(episode_index, self.categories)
-            category_index = self.category_to_index[category.category_id]
             target_cache = load_robot_target_cache(robot_target_cache_npz_path(self.robot_target_cache_root, episode_index))
             valid_rows = np.flatnonzero(target_cache.target_valid_mask[:, self.pairing_slot]).astype(np.int64)
-            self.sample_index.extend((episode_index, int(row), int(category_index)) for row in valid_rows.tolist())
+            self.sample_index.extend((episode_index, int(row)) for row in valid_rows.tolist())
 
     def __len__(self) -> int:
         return len(self.sample_index)
@@ -548,7 +701,7 @@ class LocalizerDataset(Dataset[dict[str, torch.Tensor]]):
         return weights.astype(np.float32)
 
     def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
-        episode_index, row_index, category_index = self.sample_index[index]
+        episode_index, row_index = self.sample_index[index]
         robot_episode = self._load_robot_episode(episode_index)
         target_cache = self._load_target_cache(episode_index)
         human_episode_index = int(target_cache.paired_human_episode_indices[row_index, self.pairing_slot])
@@ -559,8 +712,9 @@ class LocalizerDataset(Dataset[dict[str, torch.Tensor]]):
         robot_history_states = (robot_history_states - self.state_mean) / self.state_std
         target_u = float(target_cache.target_u[row_index, self.pairing_slot])
         soft_target = self._soft_target(target_u)
-        checkpoint_target = int(target_cache.robot_segment_id[row_index])
-        progress_target = float(target_cache.robot_progress[row_index])
+        target_end_u = float(target_cache.target_end_u[row_index, self.pairing_slot]) if bool(target_cache.end_target_valid[row_index, self.pairing_slot]) else float("nan")
+        end_target_valid = bool(target_cache.end_target_valid[row_index, self.pairing_slot])
+        target_delta_u = float(target_end_u - target_u) if end_target_valid else float("nan")
         coefficient_count = int(human_episode.coefficients.shape[0])
         return {
             "robot_history_embeddings": torch.from_numpy(robot_history_embeddings),
@@ -576,12 +730,155 @@ class LocalizerDataset(Dataset[dict[str, torch.Tensor]]):
             "human_mask": torch.ones((coefficient_count,), dtype=torch.bool),
             "soft_target": torch.from_numpy(soft_target),
             "target_u": torch.tensor(target_u, dtype=torch.float32),
-            "checkpoint_target": torch.tensor(checkpoint_target, dtype=torch.int64),
-            "progress_target": torch.tensor(progress_target, dtype=torch.float32),
-            "category_index": torch.tensor(category_index, dtype=torch.int64),
+            "target_end_u": torch.tensor(target_end_u, dtype=torch.float32),
+            "target_delta_u": torch.tensor(target_delta_u, dtype=torch.float32),
+            "end_target_valid": torch.tensor(end_target_valid, dtype=torch.bool),
             "robot_episode_index": torch.tensor(episode_index, dtype=torch.int64),
             "robot_frame_row": torch.tensor(row_index, dtype=torch.int64),
             "human_episode_index": torch.tensor(human_episode_index, dtype=torch.int64),
+        }
+
+
+class ExplicitUnseenValidationDataset(Dataset[dict[str, torch.Tensor]]):
+    def __init__(
+        self,
+        pairs: list[ExplicitUnseenValPairConfig],
+        exact_match_root: Path,
+        state_dims: list[int],
+        state_mean: np.ndarray,
+        state_std: np.ndarray,
+        config: dict[str, Any],
+    ) -> None:
+        self.pairs = list(pairs)
+        self.exact_match_root = exact_match_root
+        self.state_dims = np.asarray(state_dims, dtype=np.int64)
+        self.state_mean = np.asarray(state_mean, dtype=np.float32)
+        self.state_std = np.asarray(state_std, dtype=np.float32)
+        self.robot_embedding_key = str(config["data"]["robot_embedding_key"])
+        self.history_length = int(config["data"]["history_length"])
+        self.history_stride = int(config["data"]["history_stride"])
+        self.phase_bin_count = int(config["data"]["phase_bin_count"])
+        self.target_sigma = float(config["data"]["target_sigma"])
+        self.verify_alignment = bool(config["data"]["verify_alignment"])
+        self.robot_cache = EpisodeLRUCache(capacity=max(2, len(self.pairs)))
+        self.human_cache = EpisodeLRUCache(capacity=max(2, len(self.pairs)))
+        self.match_cache = EpisodeLRUCache(capacity=max(2, len(self.pairs)))
+        self.sample_index: list[tuple[int, int, int]] = []
+
+        for pair_index, pair in enumerate(tqdm(self.pairs, desc="dataset/unseen-val", unit="pair", leave=False)):
+            match = self._load_match_arrays(pair_index)
+            start_valid_mask = np.asarray(match["start_valid_mask"], dtype=bool)
+            for slot in range(start_valid_mask.shape[1]):
+                valid_rows = np.flatnonzero(start_valid_mask[:, slot]).astype(np.int64)
+                self.sample_index.extend((pair_index, int(row), int(slot)) for row in valid_rows.tolist())
+
+    def __len__(self) -> int:
+        return len(self.sample_index)
+
+    def _history_positions_and_mask(self, row_index: int) -> tuple[np.ndarray, np.ndarray]:
+        offsets = np.arange(self.history_length - 1, -1, -1, dtype=np.int64) * self.history_stride
+        positions = row_index - offsets
+        valid = positions >= 0
+        positions = np.maximum(positions, 0)
+        return positions.astype(np.int64), valid.astype(bool)
+
+    def _soft_target(self, target_u: float) -> np.ndarray:
+        bin_centers = ((np.arange(self.phase_bin_count, dtype=np.float32) + 0.5) / float(self.phase_bin_count)).astype(np.float32)
+        delta = bin_centers.astype(np.float64) - float(target_u)
+        logits = -0.5 * (delta / max(self.target_sigma, 1e-8)) ** 2
+        logits -= logits.max()
+        weights = np.exp(logits)
+        weights /= np.maximum(weights.sum(), 1e-12)
+        return weights.astype(np.float32)
+
+    def _load_match_arrays(self, pair_index: int) -> dict[str, np.ndarray]:
+        cached = self.match_cache.get(pair_index)
+        if cached is not None:
+            return cached
+        pair = self.pairs[pair_index]
+        path = explicit_unseen_match_npz_path(self.exact_match_root, pair)
+        with np.load(path, allow_pickle=False) as archive:
+            result = {name: np.asarray(archive[name]) for name in archive.files}
+        self.match_cache.put(pair_index, result)
+        return result
+
+    def _load_robot_episode(self, pair_index: int) -> RobotEpisodeFeatures:
+        cached = self.robot_cache.get(pair_index)
+        if cached is not None:
+            return cached
+        pair = self.pairs[pair_index]
+        path = pair.robot_episode_dir / "frame_embeddings.npz"
+        with np.load(path, allow_pickle=False) as archive:
+            embeddings = np.asarray(archive[self.robot_embedding_key], dtype=np.float32)
+            frame_indices = np.asarray(archive["frame_indices"], dtype=np.int64)
+            if "state" not in archive.files:
+                raise KeyError(f"{path} does not contain a state array required for unseen validation.")
+            states = np.asarray(archive["state"], dtype=np.float32)
+        result = RobotEpisodeFeatures(
+            episode_index=pair.robot_episode_index,
+            embeddings=embeddings,
+            states=states,
+            frame_indices=frame_indices,
+        )
+        self.robot_cache.put(pair_index, result)
+        return result
+
+    def _load_human_episode(self, pair_index: int) -> HumanEpisodeFeatures:
+        cached = self.human_cache.get(pair_index)
+        if cached is not None:
+            return cached
+        pair = self.pairs[pair_index]
+        result = build_human_episode_features_from_spline_path(
+            pair.human_episode_dir / "spline.npz",
+            pair.human_episode_index,
+            self.phase_bin_count,
+        )
+        self.human_cache.put(pair_index, result)
+        return result
+
+    def __getitem__(self, index: int) -> dict[str, torch.Tensor]:
+        pair_index, row_index, pairing_slot = self.sample_index[index]
+        pair = self.pairs[pair_index]
+        robot_episode = self._load_robot_episode(pair_index)
+        human_episode = self._load_human_episode(pair_index)
+        match = self._load_match_arrays(pair_index)
+
+        frame_indices = np.asarray(match["frame_indices"], dtype=np.int64)
+        if self.verify_alignment and not np.array_equal(frame_indices, robot_episode.frame_indices):
+            raise ValueError(f"Frame-index mismatch for unseen-validation pair {pair.pair_id}")
+
+        history_positions, history_valid_mask = self._history_positions_and_mask(row_index)
+        robot_history_embeddings = robot_episode.embeddings[history_positions].astype(np.float32)
+        robot_history_states = robot_episode.states[history_positions][:, self.state_dims].astype(np.float32)
+        robot_history_states = (robot_history_states - self.state_mean) / self.state_std
+
+        target_u = float(np.asarray(match["human_start_u"], dtype=np.float32)[row_index, pairing_slot])
+        target_end_u = float(np.asarray(match["human_end_u"], dtype=np.float32)[row_index, pairing_slot])
+        end_target_valid = bool(np.asarray(match["end_valid_mask"], dtype=bool)[row_index, pairing_slot] and np.isfinite(target_end_u) and target_end_u > target_u)
+        target_delta_u = float(target_end_u - target_u) if end_target_valid else float("nan")
+        soft_target = self._soft_target(target_u)
+        coefficient_count = int(human_episode.coefficients.shape[0])
+
+        return {
+            "robot_history_embeddings": torch.from_numpy(robot_history_embeddings),
+            "robot_history_states": torch.from_numpy(robot_history_states),
+            "robot_history_mask": torch.from_numpy(history_valid_mask.astype(np.bool_)),
+            "human_coefficients": torch.from_numpy(human_episode.coefficients),
+            "human_left_support": torch.from_numpy(human_episode.left_support),
+            "human_right_support": torch.from_numpy(human_episode.right_support),
+            "human_support_midpoint": torch.from_numpy(human_episode.support_midpoint),
+            "human_support_width": torch.from_numpy(human_episode.support_width),
+            "human_greville_phase": torch.from_numpy(human_episode.greville_phase),
+            "human_basis_200": torch.from_numpy(human_episode.basis_200),
+            "human_mask": torch.ones((coefficient_count,), dtype=torch.bool),
+            "soft_target": torch.from_numpy(soft_target),
+            "target_u": torch.tensor(target_u, dtype=torch.float32),
+            "target_end_u": torch.tensor(target_end_u, dtype=torch.float32),
+            "target_delta_u": torch.tensor(target_delta_u, dtype=torch.float32),
+            "end_target_valid": torch.tensor(end_target_valid, dtype=torch.bool),
+            "robot_episode_index": torch.tensor(pair.robot_episode_index, dtype=torch.int64),
+            "robot_frame_row": torch.tensor(row_index, dtype=torch.int64),
+            "human_episode_index": torch.tensor(pair.human_episode_index, dtype=torch.int64),
         }
 
 
@@ -624,9 +921,9 @@ def localizer_collate(batch: list[dict[str, torch.Tensor]]) -> dict[str, torch.T
         "human_mask": human_mask,
         "soft_target": torch.stack([item["soft_target"] for item in batch], dim=0),
         "target_u": torch.stack([item["target_u"] for item in batch], dim=0),
-        "checkpoint_target": torch.stack([item["checkpoint_target"] for item in batch], dim=0),
-        "progress_target": torch.stack([item["progress_target"] for item in batch], dim=0),
-        "category_index": torch.stack([item["category_index"] for item in batch], dim=0),
+        "target_end_u": torch.stack([item["target_end_u"] for item in batch], dim=0),
+        "target_delta_u": torch.stack([item["target_delta_u"] for item in batch], dim=0),
+        "end_target_valid": torch.stack([item["end_target_valid"] for item in batch], dim=0),
         "robot_episode_index": torch.stack([item["robot_episode_index"] for item in batch], dim=0),
         "robot_frame_row": torch.stack([item["robot_frame_row"] for item in batch], dim=0),
         "human_episode_index": torch.stack([item["human_episode_index"] for item in batch], dim=0),

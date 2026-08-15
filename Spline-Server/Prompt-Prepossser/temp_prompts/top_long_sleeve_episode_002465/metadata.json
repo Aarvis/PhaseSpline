@@ -1,0 +1,17 @@
+{
+  "category_id": "top_long_sleeve",
+  "episode_index": 2465,
+  "prompt_id": "temp_top_long_sleeve_002465",
+  "video_filename": "top_long_sleeve_episode_002465_top_view.mp4",
+  "checkpoint_path": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-002\\episode_002465\\checkpoints.json",
+  "source_video_file": "human_episode_002465_top_rgb.mp4",
+  "task_name": "long-sleeve top folding",
+  "task_garment_type": "top_long_sleeve",
+  "supports_predicted_width": true,
+  "supports_fixed_future_frames": true,
+  "fps": 23.000005483628627,
+  "frame_count": 251,
+  "frame_index_start": 0,
+  "frame_index_end": 250,
+  "parquet_path": "D:\\pretrain_lehome_all_garment_data_z180\\data\\chunk-002\\episode_002465.parquet"
+}

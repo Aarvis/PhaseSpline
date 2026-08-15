@@ -141,12 +141,17 @@ button { color: inherit; }
 .empty-stage:hover { border-color: #66717e; }
 .empty-stage.is-preparing { cursor: wait; border-color: rgba(200,255,61,.42); }
 .drop-illustration { width: 70px; height: 70px; border: 1px solid #3a444f; border-radius: 18px; display: grid; place-items: center; color: var(--accent); background: var(--accent-soft); margin-bottom: 24px; }
+.home-mode-switch { display: flex; border: 1px solid #36404c; border-radius: 8px; overflow: hidden; margin-bottom: 18px; }
+.home-mode-switch button { border: 0; border-right: 1px solid #36404c; color: var(--muted); background: #161d24; padding: 9px 14px; cursor: pointer; font-size: 11px; font-weight: 700; }
+.home-mode-switch button:last-child { border-right: 0; }
+.home-mode-switch button.is-active { color: #101607; background: var(--accent); }
 .eyebrow { font-size: 10px; font-weight: 750; letter-spacing: .16em; color: var(--accent); margin: 0 0 9px; }
 .empty-stage h2 { font-size: clamp(30px, 5vw, 48px); margin: 0; letter-spacing: -.05em; }
 .empty-copy { max-width: 470px; color: var(--muted); line-height: 1.6; font-size: 14px; margin: 15px 0 25px; }
 .format-list { display: flex; gap: 8px; margin-top: 24px; }
 .format-list span { border: 1px solid #2c343e; color: #778291; font-size: 9px; font-weight: 750; padding: 5px 8px; border-radius: 5px; }
 .dataset-launch-card { width: min(620px, calc(100% - 36px)); border: 1px solid #303a45; border-radius: 10px; background: #11171d; padding: 13px; display: flex; flex-direction: column; align-items: center; gap: 11px; }
+.manual-launch-card { align-items: stretch; text-align: left; }
 .dataset-source-list { width: 100%; display: grid; gap: 6px; }
 .dataset-root { width: 100%; display: flex; align-items: center; justify-content: center; gap: 9px; min-width: 0; }
 .dataset-root span { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
@@ -155,6 +160,19 @@ button { color: inherit; }
 .dataset-category-preview span { padding: 7px 5px; border: 1px solid #2c3540; border-radius: 6px; color: var(--muted); font-size: 8px; display: flex; flex-direction: column; gap: 3px; }
 .dataset-category-preview strong { color: var(--ink); font: 12px var(--font-geist-mono), monospace; }
 .dataset-launch-card small { color: var(--muted); font-size: 9px; }
+.manual-template-picker, .manual-template-summary { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.manual-template-picker span, .manual-template-summary span { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: .1em; }
+.manual-template-picker select, .manual-template-inline select {
+  width: 100%;
+  border: 1px solid #38424d;
+  border-radius: 6px;
+  background: #1a2129;
+  color: var(--ink);
+  padding: 8px 10px;
+  font-size: 12px;
+}
+.manual-template-summary strong { color: var(--ink); font-size: 13px; }
+.manual-template-summary small { color: var(--muted); font-size: 10px; }
 .standalone-video-button { margin-top: 12px; }
 .session-complete-summary { margin-top: 16px; color: #73e5b7; font: 12px var(--font-geist-mono), monospace; }
 .conversion-progress { display: flex; align-items: center; gap: 7px; height: 34px; }
@@ -237,6 +255,8 @@ button { color: inherit; }
 .annotation-actions button:hover:not(:disabled), .boundary-editor button:hover { border-color: #657282; background: #222b35; }
 .annotation-actions button:disabled { opacity: .35; cursor: not-allowed; }
 .annotation-actions .save-checkpoints { background: var(--accent); color: #101607; border-color: var(--accent); }
+.manual-template-inline { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.manual-template-inline span { color: var(--muted); font-size: 8px; text-transform: uppercase; letter-spacing: .1em; }
 .annotation-progress { height: 3px; background: #202832; }
 .annotation-progress span { display: block; height: 100%; background: var(--accent); transition: width .2s ease; }
 .annotation-panel .annotation-console { height: 100%; display: flex; flex-direction: column; margin: 0; border: 0; border-radius: 0; background: transparent; }
@@ -244,6 +264,7 @@ button { color: inherit; }
 .annotation-panel .annotation-console-top span { max-width: none; white-space: normal; line-height: 1.45; }
 .annotation-panel .annotation-actions { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; gap: 7px; }
 .annotation-panel .annotation-actions button { min-height: 31px; }
+.annotation-panel .annotation-actions .manual-template-inline { grid-column: 1 / -1; }
 .annotation-panel .annotation-actions .save-checkpoints { grid-column: 1 / -1; }
 .annotation-panel .annotation-actions .next-dataset-episode { grid-column: 1 / -1; min-height: 33px; color: #101607; background: var(--accent); border-color: var(--accent); font-size: 9px; }
 .annotation-panel .annotation-progress { flex: 0 0 auto; margin-top: 14px; border-radius: 3px; overflow: hidden; }

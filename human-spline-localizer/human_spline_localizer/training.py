@@ -19,13 +19,12 @@ from tqdm.auto import tqdm
 
 from .config import save_resolved_config
 from .data import (
+    ExplicitUnseenValidationDataset,
     LocalizerDataset,
     as_path,
-    checkpoint_json_path,
     collect_human_episode_ids_from_pairings,
     compute_state_normalization,
     discover_valid_robot_episodes,
-    load_annotation_episode,
     load_category_configs,
     localizer_collate,
     load_robot_target_cache,
@@ -35,6 +34,7 @@ from .data import (
     resolve_state_dims,
     robot_target_cache_npz_path,
     split_robot_episodes_by_category,
+    load_explicit_unseen_validation_pairs,
 )
 from .model import GlobalSplineLocalizer
 from .utils import MetricAverages, atomic_json_dump, seed_everything
@@ -54,8 +54,11 @@ MODEL_INPUT_KEYS = (
     "human_greville_phase",
     "human_basis_200",
     "human_mask",
-    "category_index",
 )
+
+
+def _interval_prediction_enabled(config: dict[str, Any]) -> bool:
+    return bool(config["model"]["auxiliary"].get("interval_prediction", {}).get("enabled", False))
 
 
 def _move_to_device(batch: dict[str, Tensor], device: torch.device) -> dict[str, Tensor]:
@@ -66,13 +69,14 @@ def _format_metric_summary(metrics: dict[str, float]) -> str:
     ordered_keys = (
         "total",
         "loc_loss",
-        "checkpoint_loss",
-        "progress_loss",
-        "checkpoint_accuracy",
+        "end_loss",
         "phase_mae",
+        "end_u_mae",
+        "delta_u_mae",
         "c_max",
         "entropy",
         "margin",
+        "end_valid_fraction",
     )
     parts: list[str] = []
     for key in ordered_keys:
@@ -82,6 +86,14 @@ def _format_metric_summary(metrics: dict[str, float]) -> str:
         if key not in ordered_keys:
             parts.append(f"{key}={float(value):.4f}")
     return " ".join(parts)
+
+
+def _unseen_validation_config(config: dict[str, Any]) -> dict[str, Any]:
+    validation_cfg = config.get("validation", {})
+    if not isinstance(validation_cfg, dict):
+        return {}
+    unseen_cfg = validation_cfg.get("unseen_validation", {})
+    return unseen_cfg if isinstance(unseen_cfg, dict) else {}
 
 
 def _model_inputs(batch: dict[str, Tensor]) -> dict[str, Tensor]:
@@ -99,6 +111,11 @@ def _paths(config: dict[str, Any]) -> dict[str, Path]:
         "human_dataset_root": as_path(config["paths"]["human_dataset_root"]),
         "robot_embedding_root": as_path(config["paths"]["robot_embedding_root"]),
         "robot_pairing_root": as_path(config["paths"]["robot_pairing_root"]),
+        "robot_local_window_root": (
+            as_path(config["paths"]["robot_local_window_root"])
+            if config["paths"].get("robot_local_window_root") is not None
+            else None
+        ),
         "human_bspline_root": as_path(config["paths"]["human_bspline_root"]),
         "output_root": output_root,
         "human_cache_root": output_root / str(preprocessing["human_cache_dirname"]),
@@ -107,27 +124,8 @@ def _paths(config: dict[str, Any]) -> dict[str, Path]:
         "logs_root": output_root / "logs",
         "splits_path": output_root / str(preprocessing["splits_filename"]),
         "state_norm_path": output_root / str(preprocessing["state_norm_filename"]),
-        "category_metadata_path": output_root / str(preprocessing["category_metadata_filename"]),
         "resolved_config_path": output_root / "resolved_config.yaml",
     }
-
-
-def _count_checkpoint_classes(
-    sim_dataset_root: Path,
-    categories: list,
-    split_map: dict[str, dict[str, list[int]]],
-) -> tuple[list[int], dict[str, list[str]]]:
-    checkpoint_counts: list[int] = []
-    label_names: dict[str, list[str]] = {}
-    for category in categories:
-        candidate_episodes = split_map[category.category_id]["train"] + split_map[category.category_id]["val"]
-        if not candidate_episodes:
-            raise RuntimeError(f"No robot episodes available for selected category {category.category_id}")
-        annotation = load_annotation_episode(checkpoint_json_path(sim_dataset_root, candidate_episodes[0]), candidate_episodes[0])
-        count = max(len(annotation.labels), int(annotation.frame_to_segment_id.max()) + 1)
-        checkpoint_counts.append(count)
-        label_names[category.category_id] = annotation.labels
-    return checkpoint_counts, label_names
 
 
 def _state_norm_payload(config: dict[str, Any], paths: dict[str, Path], train_episode_ids: list[int]) -> dict[str, Any]:
@@ -213,6 +211,44 @@ def _save_checkpoint(
     )
 
 
+def _save_best_unseen_checkpoint_if_improved(
+    checkpoints_root: Path,
+    model: GlobalSplineLocalizer,
+    optimizer: AdamW,
+    scheduler: LambdaLR,
+    scaler: GradScaler,
+    epoch_index: int,
+    global_step: int,
+    current_best_unseen_metric: float,
+    unseen_validation_metrics: dict[str, float] | None,
+    config: dict[str, Any],
+    save_reason: str,
+) -> float:
+    if unseen_validation_metrics is None:
+        return current_best_unseen_metric
+    monitored = float(unseen_validation_metrics.get("total", float("inf")))
+    if not math.isfinite(monitored):
+        return current_best_unseen_metric
+    if monitored < current_best_unseen_metric:
+        _save_checkpoint(
+            checkpoints_root / "best_unseen_val.pt",
+            model,
+            optimizer,
+            scheduler,
+            scaler,
+            epoch_index,
+            global_step,
+            monitored,
+            config,
+        )
+        tqdm.write(
+            f"[checkpoint] saved best unseen-val checkpoint at {save_reason} "
+            f"step={global_step} metric=unseen_val_total value={monitored:.4f}"
+        )
+        return monitored
+    return current_best_unseen_metric
+
+
 def _load_checkpoint(path: Path, model: GlobalSplineLocalizer, optimizer: AdamW, scheduler: LambdaLR, scaler: GradScaler) -> tuple[int, int, float]:
     payload = torch.load(path, map_location="cpu")
     model.load_state_dict(payload["model"])
@@ -225,45 +261,41 @@ def _load_checkpoint(path: Path, model: GlobalSplineLocalizer, optimizer: AdamW,
 def _compute_losses(
     outputs: dict[str, Tensor],
     batch: dict[str, Tensor],
-    checkpoint_class_counts: list[int],
     config: dict[str, Any],
 ) -> tuple[Tensor, dict[str, Tensor]]:
     loc_loss = -(batch["soft_target"] * torch.log_softmax(outputs["logits"], dim=-1)).sum(dim=-1).mean()
-    checkpoint_loss_sum = outputs["logits"].new_zeros(())
-    checkpoint_sample_count = 0
-    checkpoint_correct = 0
-    for category_index, class_count in enumerate(checkpoint_class_counts):
-        mask = batch["category_index"] == category_index
-        if not torch.any(mask):
-            continue
-        logits = outputs["checkpoint_logits"][mask, :class_count]
-        targets = batch["checkpoint_target"][mask]
-        checkpoint_loss_sum = checkpoint_loss_sum + F.cross_entropy(logits, targets, reduction="sum")
-        checkpoint_sample_count += int(targets.numel())
-        checkpoint_correct += int((logits.argmax(dim=-1) == targets).sum().item())
-    checkpoint_loss = checkpoint_loss_sum / max(1, checkpoint_sample_count)
-    progress_loss = F.huber_loss(
-        outputs["progress"],
-        batch["progress_target"],
-        delta=float(config["loss"]["progress_delta"]),
-    )
-    total = (
-        loc_loss
-        + float(config["loss"]["lambda_checkpoint"]) * checkpoint_loss
-        + float(config["loss"]["lambda_progress"]) * progress_loss
-    )
+    interval_enabled = _interval_prediction_enabled(config)
+    end_loss = outputs["logits"].new_zeros(())
+    end_u_mae = outputs["logits"].new_zeros(())
+    delta_u_mae = outputs["logits"].new_zeros(())
+    end_valid_fraction = outputs["logits"].new_tensor(batch["end_target_valid"].to(torch.float32).mean().item())
+    if interval_enabled:
+        valid_mask = batch["end_target_valid"].to(torch.bool)
+        if torch.any(valid_mask):
+            end_predictions = outputs["u_end_hat"][valid_mask]
+            end_targets = batch["target_end_u"][valid_mask]
+            end_loss = F.huber_loss(
+                end_predictions,
+                end_targets,
+                delta=float(config["loss"]["end_delta"]),
+            )
+            end_u_mae = torch.abs(end_predictions - end_targets).mean()
+            delta_u_mae = torch.abs(outputs["delta_u_hat"][valid_mask] - batch["target_delta_u"][valid_mask]).mean()
+    total = loc_loss + float(config["loss"].get("lambda_end", 0.5)) * end_loss
     phase_mae = torch.abs(outputs["u_hat"] - batch["target_u"]).mean()
     metrics = {
         "total": total.detach(),
         "loc_loss": loc_loss.detach(),
-        "checkpoint_loss": checkpoint_loss.detach(),
-        "progress_loss": progress_loss.detach(),
-        "checkpoint_accuracy": outputs["logits"].new_tensor(checkpoint_correct / max(1, checkpoint_sample_count)),
         "phase_mae": phase_mae.detach(),
         "c_max": outputs["c_max"].mean().detach(),
         "entropy": outputs["entropy"].mean().detach(),
         "margin": outputs["margin"].mean().detach(),
     }
+    if interval_enabled:
+        metrics["end_loss"] = end_loss.detach()
+        metrics["end_u_mae"] = end_u_mae.detach()
+        metrics["delta_u_mae"] = delta_u_mae.detach()
+        metrics["end_valid_fraction"] = end_valid_fraction.detach()
     return total, metrics
 
 
@@ -272,24 +304,42 @@ def _evaluate(
     dataloader: DataLoader,
     device: torch.device,
     amp_enabled: bool,
-    checkpoint_class_counts: list[int],
     config: dict[str, Any],
     log_frequency_steps: int,
+    progress_desc: str = "validation",
 ) -> dict[str, float]:
     model.eval()
     averages = MetricAverages()
     with torch.no_grad():
-        iterator = tqdm(dataloader, desc="validation", unit="batch", leave=False)
+        iterator = tqdm(dataloader, desc=progress_desc, unit="batch", leave=False)
         for batch_index, batch in enumerate(iterator, start=1):
             batch = _move_to_device(batch, device)
             with autocast(device_type=device.type, enabled=amp_enabled):
                 outputs = model(**_model_inputs(batch))
-                _, metrics = _compute_losses(outputs, batch, checkpoint_class_counts, config)
+                _, metrics = _compute_losses(outputs, batch, config)
             averages.update(metrics)
             if batch_index % max(1, log_frequency_steps) == 0:
                 current = averages.result()
-                iterator.set_postfix(val_total=f"{current.get('total', float('nan')):.4f}", val_mae=f"{current.get('phase_mae', float('nan')):.4f}")
+                iterator.set_postfix(total=f"{current.get('total', float('nan')):.4f}", mae=f"{current.get('phase_mae', float('nan')):.4f}")
     return averages.result()
+
+
+def _resolve_checkpoint_metric(
+    checkpoint_metric: str,
+    validation_metrics: dict[str, float] | None,
+    unseen_validation_metrics: dict[str, float] | None,
+) -> tuple[str, float]:
+    metric_name = str(checkpoint_metric)
+    if metric_name.startswith("unseen_val_"):
+        key = metric_name[len("unseen_val_") :]
+        source = unseen_validation_metrics or {}
+        return metric_name, float(source.get(key, float("inf")))
+    if metric_name.startswith("val_"):
+        key = metric_name[len("val_") :]
+        source = validation_metrics or {}
+        return metric_name, float(source.get(key, float("inf")))
+    source = validation_metrics or {}
+    return metric_name, float(source.get(metric_name, float("inf")))
 
 
 def train(config: dict[str, Any], resume: str | None = None) -> Path:
@@ -300,13 +350,14 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
     save_resolved_config(config, paths["resolved_config_path"])
 
     categories = load_category_configs(config)
-    category_to_index = {category.category_id: index for index, category in enumerate(categories)}
     valid_robot_episodes = discover_valid_robot_episodes(
         paths["sim_dataset_root"],
         paths["robot_embedding_root"],
         paths["robot_pairing_root"],
         categories,
         skip_missing=bool(config["data"]["skip_missing_robot_episodes"]),
+        robot_local_window_root=paths["robot_local_window_root"],
+        require_local_windows=_interval_prediction_enabled(config),
     )
     split_map = split_robot_episodes_by_category(
         valid_robot_episodes,
@@ -334,20 +385,40 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
         paths["human_bspline_root"],
         paths["robot_target_cache_root"],
         overwrite=bool(config["preprocessing"]["overwrite"]),
+        robot_local_window_root=paths["robot_local_window_root"],
+        include_end_targets=_interval_prediction_enabled(config),
     )
     state_norm = _state_norm_payload(config, paths, train_episode_ids)
-    checkpoint_class_counts, label_names = _count_checkpoint_classes(paths["sim_dataset_root"], categories, split_map)
-    category_metadata = {
-        "category_order": [category.category_id for category in categories],
-        "checkpoint_class_counts": checkpoint_class_counts,
-        "label_names": label_names,
-    }
-    atomic_json_dump(category_metadata, paths["category_metadata_path"])
+
+    unseen_val_loader: DataLoader | None = None
+    unseen_cfg = _unseen_validation_config(config)
+    if bool(unseen_cfg.get("enabled", False)):
+        unseen_pairs = load_explicit_unseen_validation_pairs(
+            as_path(unseen_cfg["prep_config_path"]),
+            [str(value) for value in unseen_cfg.get("pair_ids", [])] if unseen_cfg.get("pair_ids") is not None else None,
+        )
+        unseen_dataset = ExplicitUnseenValidationDataset(
+            pairs=unseen_pairs,
+            exact_match_root=as_path(unseen_cfg["exact_match_root"]),
+            state_dims=state_norm["state_dims"],
+            state_mean=np.asarray(state_norm["state_mean"], dtype=np.float32),
+            state_std=np.asarray(state_norm["state_std"], dtype=np.float32),
+            config=config,
+        )
+        unseen_val_loader = DataLoader(
+            unseen_dataset,
+            shuffle=False,
+            drop_last=False,
+            batch_size=int(config["training"]["batch_size"]),
+            num_workers=int(config["training"]["num_workers"]),
+            pin_memory=bool(config["training"]["pin_memory"]) and str(config["training"]["device"]) == "cuda",
+            persistent_workers=bool(config["training"]["persistent_workers"]) and int(config["training"]["num_workers"]) > 0,
+            collate_fn=localizer_collate,
+        )
 
     model = GlobalSplineLocalizer(
         config=config,
         state_dim=len(state_norm["state_dims"]),
-        checkpoint_class_counts=checkpoint_class_counts,
     )
     device = torch.device(str(config["training"]["device"]))
     model.to(device)
@@ -375,9 +446,17 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
     start_epoch = 0
     global_step = 0
     best_metric = float("inf")
+    best_unseen_metric = float("inf")
     if resume is not None:
         start_epoch, global_step, best_metric = _load_checkpoint(Path(resume), model, optimizer, scheduler, scaler)
         start_epoch += 1
+    best_unseen_checkpoint_path = paths["checkpoints_root"] / "best_unseen_val.pt"
+    if best_unseen_checkpoint_path.exists():
+        try:
+            best_unseen_payload = torch.load(best_unseen_checkpoint_path, map_location="cpu")
+            best_unseen_metric = float(best_unseen_payload.get("best_metric", float("inf")))
+        except Exception:
+            best_unseen_metric = float("inf")
 
     loader_kwargs = {
         "batch_size": batch_size,
@@ -396,8 +475,6 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
             state_dims=state_norm["state_dims"],
             state_mean=np.asarray(state_norm["state_mean"], dtype=np.float32),
             state_std=np.asarray(state_norm["state_std"], dtype=np.float32),
-            category_to_index=category_to_index,
-            categories=categories,
             config=config,
         )
         val_dataset = LocalizerDataset(
@@ -407,8 +484,6 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
             state_dims=state_norm["state_dims"],
             state_mean=np.asarray(state_norm["state_mean"], dtype=np.float32),
             state_std=np.asarray(state_norm["state_std"], dtype=np.float32),
-            category_to_index=category_to_index,
-            categories=categories,
             config=config,
         )
         train_loader = DataLoader(train_dataset, shuffle=True, drop_last=False, **loader_kwargs)
@@ -422,7 +497,7 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
             batch = _move_to_device(batch, device)
             with autocast(device_type=device.type, enabled=amp_enabled):
                 outputs = model(**_model_inputs(batch))
-                loss, metrics = _compute_losses(outputs, batch, checkpoint_class_counts, config)
+                loss, metrics = _compute_losses(outputs, batch, config)
                 loss = loss / grad_accum_steps
             scaler.scale(loss).backward()
             averages.update(metrics)
@@ -452,32 +527,68 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
                     iterator.set_postfix(
                         total=f"{current.get('total', float('nan')):.4f}",
                         mae=f"{current.get('phase_mae', float('nan')):.4f}",
-                        cp=f"{current.get('checkpoint_accuracy', float('nan')):.4f}",
+                        end_mae=f"{current.get('end_u_mae', float('nan')):.4f}",
                     )
 
                 if (
-                    val_loader is not None
+                    (val_loader is not None or unseen_val_loader is not None)
                     and int(config["training"]["validation_frequency_steps"]) > 0
                     and global_step % int(config["training"]["validation_frequency_steps"]) == 0
                 ):
-                    validation_metrics = _evaluate(
-                        model,
-                        val_loader,
-                        device,
-                        amp_enabled,
-                        checkpoint_class_counts,
-                        config,
-                        log_frequency_steps=int(config["training"]["validation_log_frequency_steps"]),
+                    validation_metrics: dict[str, float] | None = None
+                    unseen_validation_metrics: dict[str, float] | None = None
+                    if val_loader is not None:
+                        validation_metrics = _evaluate(
+                            model,
+                            val_loader,
+                            device,
+                            amp_enabled,
+                            config,
+                            log_frequency_steps=int(config["training"]["validation_log_frequency_steps"]),
+                            progress_desc="validation",
+                        )
+                        if wandb_run is not None:
+                            wandb_run.log({f"val/{key}": value for key, value in validation_metrics.items()}, step=global_step)
+                        tqdm.write(
+                            f"[val] epoch={epoch_index + 1}/{config['training']['epochs']} "
+                            f"slot={pairing_slot} step={global_step} "
+                            f"{_format_metric_summary(validation_metrics)}"
+                        )
+                    if unseen_val_loader is not None:
+                        unseen_validation_metrics = _evaluate(
+                            model,
+                            unseen_val_loader,
+                            device,
+                            amp_enabled,
+                            config,
+                            log_frequency_steps=int(config["training"]["validation_log_frequency_steps"]),
+                            progress_desc="unseen-validation",
+                        )
+                        if wandb_run is not None:
+                            wandb_run.log({f"unseen_val/{key}": value for key, value in unseen_validation_metrics.items()}, step=global_step)
+                        tqdm.write(
+                            f"[unseen-val] epoch={epoch_index + 1}/{config['training']['epochs']} "
+                            f"slot={pairing_slot} step={global_step} "
+                            f"{_format_metric_summary(unseen_validation_metrics)}"
+                        )
+                        best_unseen_metric = _save_best_unseen_checkpoint_if_improved(
+                            paths["checkpoints_root"],
+                            model,
+                            optimizer,
+                            scheduler,
+                            scaler,
+                            epoch_index,
+                            global_step,
+                            best_unseen_metric,
+                            unseen_validation_metrics,
+                            config,
+                            save_reason="validation",
+                        )
+                    metric_name, monitored = _resolve_checkpoint_metric(
+                        str(config["training"]["checkpoint_metric"]),
+                        validation_metrics,
+                        unseen_validation_metrics,
                     )
-                    if wandb_run is not None:
-                        wandb_run.log({f"val/{key}": value for key, value in validation_metrics.items()}, step=global_step)
-                    tqdm.write(
-                        f"[val] epoch={epoch_index + 1}/{config['training']['epochs']} "
-                        f"slot={pairing_slot} step={global_step} "
-                        f"{_format_metric_summary(validation_metrics)}"
-                    )
-                    metric_name = str(config["training"]["checkpoint_metric"]).replace("val_", "")
-                    monitored = float(validation_metrics.get(metric_name, float("inf")))
                     if monitored < best_metric:
                         best_metric = monitored
                         _save_checkpoint(paths["checkpoints_root"] / "best.pt", model, optimizer, scheduler, scaler, epoch_index, global_step, best_metric, config)
@@ -487,15 +598,17 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
                         )
                     model.train()
 
+        validation_metrics = None
+        unseen_validation_metrics = None
         if val_loader is not None:
             validation_metrics = _evaluate(
                 model,
                 val_loader,
                 device,
                 amp_enabled,
-                checkpoint_class_counts,
                 config,
                 log_frequency_steps=int(config["training"]["validation_log_frequency_steps"]),
+                progress_desc="validation",
             )
             if wandb_run is not None:
                 wandb_run.log({f"val_epoch/{key}": value for key, value in validation_metrics.items()}, step=global_step)
@@ -504,8 +617,42 @@ def train(config: dict[str, Any], resume: str | None = None) -> Path:
                 f"slot={pairing_slot} step={global_step} "
                 f"{_format_metric_summary(validation_metrics)}"
             )
-            metric_name = str(config["training"]["checkpoint_metric"]).replace("val_", "")
-            monitored = float(validation_metrics.get(metric_name, float("inf")))
+        if unseen_val_loader is not None:
+            unseen_validation_metrics = _evaluate(
+                model,
+                unseen_val_loader,
+                device,
+                amp_enabled,
+                config,
+                log_frequency_steps=int(config["training"]["validation_log_frequency_steps"]),
+                progress_desc="unseen-validation",
+            )
+            if wandb_run is not None:
+                wandb_run.log({f"unseen_val_epoch/{key}": value for key, value in unseen_validation_metrics.items()}, step=global_step)
+            tqdm.write(
+                f"[unseen-val-epoch] epoch={epoch_index + 1}/{config['training']['epochs']} "
+                f"slot={pairing_slot} step={global_step} "
+                f"{_format_metric_summary(unseen_validation_metrics)}"
+            )
+            best_unseen_metric = _save_best_unseen_checkpoint_if_improved(
+                paths["checkpoints_root"],
+                model,
+                optimizer,
+                scheduler,
+                scaler,
+                epoch_index,
+                global_step,
+                best_unseen_metric,
+                unseen_validation_metrics,
+                config,
+                save_reason="epoch_end",
+            )
+        if validation_metrics is not None or unseen_validation_metrics is not None:
+            metric_name, monitored = _resolve_checkpoint_metric(
+                str(config["training"]["checkpoint_metric"]),
+                validation_metrics,
+                unseen_validation_metrics,
+            )
             if monitored < best_metric:
                 best_metric = monitored
                 _save_checkpoint(paths["checkpoints_root"] / "best.pt", model, optimizer, scheduler, scaler, epoch_index, global_step, best_metric, config)

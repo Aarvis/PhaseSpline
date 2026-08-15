@@ -3,7 +3,7 @@
   "description": "Editable category-specific checkpoint vocabularies used automatically by FrameLine dataset mode.",
   "templates": [
     {
-      "category_id": "pant",
+      "category_id": "pants",
       "task": {
         "name": "pants folding",
         "description": "Sequential semantic phases for a pants-folding demonstration.",

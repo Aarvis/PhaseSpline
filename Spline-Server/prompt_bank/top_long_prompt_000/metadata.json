@@ -1,0 +1,14 @@
+{
+  "category_id": "top_long_sleeve",
+  "copied_annotation": true,
+  "copied_frame_embeddings": true,
+  "episode_index": 1333,
+  "frame_count": 64,
+  "prompt_id": "top_long_prompt_000",
+  "reference_top_view_video_filename": "top_view_reference.mp4",
+  "reference_top_view_video_fps": 23.000005483628627,
+  "saved_reference_top_view_video": true,
+  "source_type": "dataset_episode",
+  "supports_fixed_future_frames": true,
+  "supports_predicted_width": true
+}

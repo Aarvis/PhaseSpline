@@ -1,0 +1,42 @@
+paths:
+  prompt_bank_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Spline-Server/prompt_bank
+
+server:
+  host: 0.0.0.0
+  port: 9100
+  session_cache_size: 256
+  log_every_n_requests: 50
+
+runtime:
+  device: cuda
+  amp: true
+  seed: 2027
+  use_last_valid_fallback: true
+
+prompt_selection:
+  mode: request
+  fixed_prompt_id: null
+  fixed_category_id: null
+  category_aliases:
+    shorts: [shorts, short]
+    top_long_sleeve: [top_long_sleeve, top_long, top_longsleeve, top long sleeve, long_sleeve_top]
+    top_short_sleeve: [top_short_sleeve, top_short, topshort, top short sleeve]
+    pants: [pants, trouser, trousers]
+
+end_mode:
+  mode: predicted_width
+  fixed_future_frames: 24
+  min_interval_u: 1.0e-4
+  fallback_to_fixed_future_frames: true
+
+robot_embedder:
+  config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/lehome_robot_sim_embedding/configs/default.yaml
+  checkpoint_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/lehome_robot_sim_embedding/outputs/robot_sim_multiview_vae_joint_full_epoch_9_8_2026/checkpoints/best.pt
+
+localizer:
+  config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-spline-localizer/configs/default.yaml
+  checkpoint_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-spline-localizer/outputs/default_width_prediction_run/checkpoints/best.pt
+
+translator:
+  config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-to-robot-local-spline-translator/configs/default.yaml
+  checkpoint_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-to-robot-local-spline-translator/outputs/default_run_n010/checkpoints/best.pt

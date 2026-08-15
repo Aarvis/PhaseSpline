@@ -1,0 +1,1536 @@
+{
+  "category_id": "top_short_sleeve",
+  "task": {
+    "name": "short-sleeve top folding",
+    "description": "Sequential semantic phases for a short-sleeve top-folding demonstration.",
+    "garment_type": "top_short_sleeve"
+  },
+  "labels": [
+    "Idle",
+    "Reach first sleeve",
+    "Grasp first sleeve",
+    "Fold first sleeve",
+    "Ungrasp first sleeve",
+    "Reach second sleeve",
+    "Grasp second sleeve",
+    "Fold second sleeve",
+    "Ungrasp second sleeve",
+    "Reach bottom",
+    "Grasp bottom",
+    "Fold bottom",
+    "Ungrasp bottom",
+    "Reset"
+  ],
+  "schema_version": "1.0",
+  "template_description": "Manual contiguous temporal segment annotations created with FrameLine.",
+  "template_status": "manually_annotated",
+  "video_stem": "top_short_sleeve_episode_003426_top_view",
+  "video_file": "top_short_sleeve_episode_003426_top_view.mp4",
+  "frame_indexing": {
+    "base": 0,
+    "start_frame": 0,
+    "end_frame_exclusive": 224,
+    "end_frame_inclusive": 223,
+    "note": "Use zero-based decoded-video frame indices. Each segment is [start_frame, end_frame_exclusive).",
+    "annotation_sampling": {
+      "type": "full_rate_every_frame",
+      "original_frame_stride": 1,
+      "original_frame_offset": 0,
+      "annotation_frame_k_maps_to_original_frame": "k"
+    }
+  },
+  "summary": {
+    "num_labels": 14,
+    "num_unique_labels": 14,
+    "num_annotated_segments": 14,
+    "first_frame": 0,
+    "last_frame_inclusive": 223,
+    "num_labeled_frames": 224,
+    "coverage_is_contiguous": true,
+    "coverage_is_complete": true
+  },
+  "annotation_guidance": {
+    "segments": "Segments are sequential and non-overlapping. end_frame_exclusive equals the next segment's start_frame.",
+    "coverage": "Every decoded frame from 0 through 223 is labeled exactly once.",
+    "progress": "Progress starts at 0, changes by a constant normalized slope per frame, reverses at marked frames, and is clamped to [0, 1]."
+  },
+  "segment_schema": {
+    "segment_id": "zero-based integer in temporal order",
+    "label": "task-specific string included in labels",
+    "start_frame": "inclusive zero-based frame index",
+    "end_frame_exclusive": "exclusive zero-based frame boundary",
+    "end_frame_inclusive": "end_frame_exclusive - 1",
+    "num_frames": "end_frame_exclusive - start_frame",
+    "progress": "piecewise-linear per-frame progress with direction-change keyframes"
+  },
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Idle",
+      "start_frame": 0,
+      "end_frame_exclusive": 18,
+      "end_frame_inclusive": 17,
+      "num_frames": 18,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.058823529,
+        "control_points": [
+          {
+            "frame": 0,
+            "progress": 0
+          },
+          {
+            "frame": 17,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 0,
+            "end_frame_inclusive": 17,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.058823529
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 0,
+            "progress": 0
+          },
+          {
+            "frame": 1,
+            "progress": 0.058824
+          },
+          {
+            "frame": 2,
+            "progress": 0.117647
+          },
+          {
+            "frame": 3,
+            "progress": 0.176471
+          },
+          {
+            "frame": 4,
+            "progress": 0.235294
+          },
+          {
+            "frame": 5,
+            "progress": 0.294118
+          },
+          {
+            "frame": 6,
+            "progress": 0.352941
+          },
+          {
+            "frame": 7,
+            "progress": 0.411765
+          },
+          {
+            "frame": 8,
+            "progress": 0.470588
+          },
+          {
+            "frame": 9,
+            "progress": 0.529412
+          },
+          {
+            "frame": 10,
+            "progress": 0.588235
+          },
+          {
+            "frame": 11,
+            "progress": 0.647059
+          },
+          {
+            "frame": 12,
+            "progress": 0.705882
+          },
+          {
+            "frame": 13,
+            "progress": 0.764706
+          },
+          {
+            "frame": 14,
+            "progress": 0.823529
+          },
+          {
+            "frame": 15,
+            "progress": 0.882353
+          },
+          {
+            "frame": 16,
+            "progress": 0.941176
+          },
+          {
+            "frame": 17,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 1,
+      "label": "Reach first sleeve",
+      "start_frame": 18,
+      "end_frame_exclusive": 38,
+      "end_frame_inclusive": 37,
+      "num_frames": 20,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.052631579,
+        "control_points": [
+          {
+            "frame": 18,
+            "progress": 0
+          },
+          {
+            "frame": 37,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 18,
+            "end_frame_inclusive": 37,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.052631579
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 18,
+            "progress": 0
+          },
+          {
+            "frame": 19,
+            "progress": 0.052632
+          },
+          {
+            "frame": 20,
+            "progress": 0.105263
+          },
+          {
+            "frame": 21,
+            "progress": 0.157895
+          },
+          {
+            "frame": 22,
+            "progress": 0.210526
+          },
+          {
+            "frame": 23,
+            "progress": 0.263158
+          },
+          {
+            "frame": 24,
+            "progress": 0.315789
+          },
+          {
+            "frame": 25,
+            "progress": 0.368421
+          },
+          {
+            "frame": 26,
+            "progress": 0.421053
+          },
+          {
+            "frame": 27,
+            "progress": 0.473684
+          },
+          {
+            "frame": 28,
+            "progress": 0.526316
+          },
+          {
+            "frame": 29,
+            "progress": 0.578947
+          },
+          {
+            "frame": 30,
+            "progress": 0.631579
+          },
+          {
+            "frame": 31,
+            "progress": 0.684211
+          },
+          {
+            "frame": 32,
+            "progress": 0.736842
+          },
+          {
+            "frame": 33,
+            "progress": 0.789474
+          },
+          {
+            "frame": 34,
+            "progress": 0.842105
+          },
+          {
+            "frame": 35,
+            "progress": 0.894737
+          },
+          {
+            "frame": 36,
+            "progress": 0.947368
+          },
+          {
+            "frame": 37,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 2,
+      "label": "Grasp first sleeve",
+      "start_frame": 38,
+      "end_frame_exclusive": 49,
+      "end_frame_inclusive": 48,
+      "num_frames": 11,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.1,
+        "control_points": [
+          {
+            "frame": 38,
+            "progress": 0
+          },
+          {
+            "frame": 48,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 38,
+            "end_frame_inclusive": 48,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.1
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 38,
+            "progress": 0
+          },
+          {
+            "frame": 39,
+            "progress": 0.1
+          },
+          {
+            "frame": 40,
+            "progress": 0.2
+          },
+          {
+            "frame": 41,
+            "progress": 0.3
+          },
+          {
+            "frame": 42,
+            "progress": 0.4
+          },
+          {
+            "frame": 43,
+            "progress": 0.5
+          },
+          {
+            "frame": 44,
+            "progress": 0.6
+          },
+          {
+            "frame": 45,
+            "progress": 0.7
+          },
+          {
+            "frame": 46,
+            "progress": 0.8
+          },
+          {
+            "frame": 47,
+            "progress": 0.9
+          },
+          {
+            "frame": 48,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 3,
+      "label": "Fold first sleeve",
+      "start_frame": 49,
+      "end_frame_exclusive": 57,
+      "end_frame_inclusive": 56,
+      "num_frames": 8,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.142857143,
+        "control_points": [
+          {
+            "frame": 49,
+            "progress": 0
+          },
+          {
+            "frame": 56,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 49,
+            "end_frame_inclusive": 56,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.142857143
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 49,
+            "progress": 0
+          },
+          {
+            "frame": 50,
+            "progress": 0.142857
+          },
+          {
+            "frame": 51,
+            "progress": 0.285714
+          },
+          {
+            "frame": 52,
+            "progress": 0.428571
+          },
+          {
+            "frame": 53,
+            "progress": 0.571429
+          },
+          {
+            "frame": 54,
+            "progress": 0.714286
+          },
+          {
+            "frame": 55,
+            "progress": 0.857143
+          },
+          {
+            "frame": 56,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 4,
+      "label": "Ungrasp first sleeve",
+      "start_frame": 57,
+      "end_frame_exclusive": 76,
+      "end_frame_inclusive": 75,
+      "num_frames": 19,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.055555556,
+        "control_points": [
+          {
+            "frame": 57,
+            "progress": 0
+          },
+          {
+            "frame": 75,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 57,
+            "end_frame_inclusive": 75,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.055555556
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 57,
+            "progress": 0
+          },
+          {
+            "frame": 58,
+            "progress": 0.055556
+          },
+          {
+            "frame": 59,
+            "progress": 0.111111
+          },
+          {
+            "frame": 60,
+            "progress": 0.166667
+          },
+          {
+            "frame": 61,
+            "progress": 0.222222
+          },
+          {
+            "frame": 62,
+            "progress": 0.277778
+          },
+          {
+            "frame": 63,
+            "progress": 0.333333
+          },
+          {
+            "frame": 64,
+            "progress": 0.388889
+          },
+          {
+            "frame": 65,
+            "progress": 0.444444
+          },
+          {
+            "frame": 66,
+            "progress": 0.5
+          },
+          {
+            "frame": 67,
+            "progress": 0.555556
+          },
+          {
+            "frame": 68,
+            "progress": 0.611111
+          },
+          {
+            "frame": 69,
+            "progress": 0.666667
+          },
+          {
+            "frame": 70,
+            "progress": 0.722222
+          },
+          {
+            "frame": 71,
+            "progress": 0.777778
+          },
+          {
+            "frame": 72,
+            "progress": 0.833333
+          },
+          {
+            "frame": 73,
+            "progress": 0.888889
+          },
+          {
+            "frame": 74,
+            "progress": 0.944444
+          },
+          {
+            "frame": 75,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 5,
+      "label": "Reach second sleeve",
+      "start_frame": 76,
+      "end_frame_exclusive": 101,
+      "end_frame_inclusive": 100,
+      "num_frames": 25,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.041666667,
+        "control_points": [
+          {
+            "frame": 76,
+            "progress": 0
+          },
+          {
+            "frame": 100,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 76,
+            "end_frame_inclusive": 100,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.041666667
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 76,
+            "progress": 0
+          },
+          {
+            "frame": 77,
+            "progress": 0.041667
+          },
+          {
+            "frame": 78,
+            "progress": 0.083333
+          },
+          {
+            "frame": 79,
+            "progress": 0.125
+          },
+          {
+            "frame": 80,
+            "progress": 0.166667
+          },
+          {
+            "frame": 81,
+            "progress": 0.208333
+          },
+          {
+            "frame": 82,
+            "progress": 0.25
+          },
+          {
+            "frame": 83,
+            "progress": 0.291667
+          },
+          {
+            "frame": 84,
+            "progress": 0.333333
+          },
+          {
+            "frame": 85,
+            "progress": 0.375
+          },
+          {
+            "frame": 86,
+            "progress": 0.416667
+          },
+          {
+            "frame": 87,
+            "progress": 0.458333
+          },
+          {
+            "frame": 88,
+            "progress": 0.5
+          },
+          {
+            "frame": 89,
+            "progress": 0.541667
+          },
+          {
+            "frame": 90,
+            "progress": 0.583333
+          },
+          {
+            "frame": 91,
+            "progress": 0.625
+          },
+          {
+            "frame": 92,
+            "progress": 0.666667
+          },
+          {
+            "frame": 93,
+            "progress": 0.708333
+          },
+          {
+            "frame": 94,
+            "progress": 0.75
+          },
+          {
+            "frame": 95,
+            "progress": 0.791667
+          },
+          {
+            "frame": 96,
+            "progress": 0.833333
+          },
+          {
+            "frame": 97,
+            "progress": 0.875
+          },
+          {
+            "frame": 98,
+            "progress": 0.916667
+          },
+          {
+            "frame": 99,
+            "progress": 0.958333
+          },
+          {
+            "frame": 100,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 6,
+      "label": "Grasp second sleeve",
+      "start_frame": 101,
+      "end_frame_exclusive": 110,
+      "end_frame_inclusive": 109,
+      "num_frames": 9,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.125,
+        "control_points": [
+          {
+            "frame": 101,
+            "progress": 0
+          },
+          {
+            "frame": 109,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 101,
+            "end_frame_inclusive": 109,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.125
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 101,
+            "progress": 0
+          },
+          {
+            "frame": 102,
+            "progress": 0.125
+          },
+          {
+            "frame": 103,
+            "progress": 0.25
+          },
+          {
+            "frame": 104,
+            "progress": 0.375
+          },
+          {
+            "frame": 105,
+            "progress": 0.5
+          },
+          {
+            "frame": 106,
+            "progress": 0.625
+          },
+          {
+            "frame": 107,
+            "progress": 0.75
+          },
+          {
+            "frame": 108,
+            "progress": 0.875
+          },
+          {
+            "frame": 109,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 7,
+      "label": "Fold second sleeve",
+      "start_frame": 110,
+      "end_frame_exclusive": 120,
+      "end_frame_inclusive": 119,
+      "num_frames": 10,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.111111111,
+        "control_points": [
+          {
+            "frame": 110,
+            "progress": 0
+          },
+          {
+            "frame": 119,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 110,
+            "end_frame_inclusive": 119,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.111111111
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 110,
+            "progress": 0
+          },
+          {
+            "frame": 111,
+            "progress": 0.111111
+          },
+          {
+            "frame": 112,
+            "progress": 0.222222
+          },
+          {
+            "frame": 113,
+            "progress": 0.333333
+          },
+          {
+            "frame": 114,
+            "progress": 0.444444
+          },
+          {
+            "frame": 115,
+            "progress": 0.555556
+          },
+          {
+            "frame": 116,
+            "progress": 0.666667
+          },
+          {
+            "frame": 117,
+            "progress": 0.777778
+          },
+          {
+            "frame": 118,
+            "progress": 0.888889
+          },
+          {
+            "frame": 119,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 8,
+      "label": "Ungrasp second sleeve",
+      "start_frame": 120,
+      "end_frame_exclusive": 136,
+      "end_frame_inclusive": 135,
+      "num_frames": 16,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.066666667,
+        "control_points": [
+          {
+            "frame": 120,
+            "progress": 0
+          },
+          {
+            "frame": 135,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 120,
+            "end_frame_inclusive": 135,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.066666667
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 120,
+            "progress": 0
+          },
+          {
+            "frame": 121,
+            "progress": 0.066667
+          },
+          {
+            "frame": 122,
+            "progress": 0.133333
+          },
+          {
+            "frame": 123,
+            "progress": 0.2
+          },
+          {
+            "frame": 124,
+            "progress": 0.266667
+          },
+          {
+            "frame": 125,
+            "progress": 0.333333
+          },
+          {
+            "frame": 126,
+            "progress": 0.4
+          },
+          {
+            "frame": 127,
+            "progress": 0.466667
+          },
+          {
+            "frame": 128,
+            "progress": 0.533333
+          },
+          {
+            "frame": 129,
+            "progress": 0.6
+          },
+          {
+            "frame": 130,
+            "progress": 0.666667
+          },
+          {
+            "frame": 131,
+            "progress": 0.733333
+          },
+          {
+            "frame": 132,
+            "progress": 0.8
+          },
+          {
+            "frame": 133,
+            "progress": 0.866667
+          },
+          {
+            "frame": 134,
+            "progress": 0.933333
+          },
+          {
+            "frame": 135,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 9,
+      "label": "Reach bottom",
+      "start_frame": 136,
+      "end_frame_exclusive": 145,
+      "end_frame_inclusive": 144,
+      "num_frames": 9,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.125,
+        "control_points": [
+          {
+            "frame": 136,
+            "progress": 0
+          },
+          {
+            "frame": 144,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 136,
+            "end_frame_inclusive": 144,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.125
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 136,
+            "progress": 0
+          },
+          {
+            "frame": 137,
+            "progress": 0.125
+          },
+          {
+            "frame": 138,
+            "progress": 0.25
+          },
+          {
+            "frame": 139,
+            "progress": 0.375
+          },
+          {
+            "frame": 140,
+            "progress": 0.5
+          },
+          {
+            "frame": 141,
+            "progress": 0.625
+          },
+          {
+            "frame": 142,
+            "progress": 0.75
+          },
+          {
+            "frame": 143,
+            "progress": 0.875
+          },
+          {
+            "frame": 144,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 10,
+      "label": "Grasp bottom",
+      "start_frame": 145,
+      "end_frame_exclusive": 158,
+      "end_frame_inclusive": 157,
+      "num_frames": 13,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.083333333,
+        "control_points": [
+          {
+            "frame": 145,
+            "progress": 0
+          },
+          {
+            "frame": 157,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 145,
+            "end_frame_inclusive": 157,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.083333333
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 145,
+            "progress": 0
+          },
+          {
+            "frame": 146,
+            "progress": 0.083333
+          },
+          {
+            "frame": 147,
+            "progress": 0.166667
+          },
+          {
+            "frame": 148,
+            "progress": 0.25
+          },
+          {
+            "frame": 149,
+            "progress": 0.333333
+          },
+          {
+            "frame": 150,
+            "progress": 0.416667
+          },
+          {
+            "frame": 151,
+            "progress": 0.5
+          },
+          {
+            "frame": 152,
+            "progress": 0.583333
+          },
+          {
+            "frame": 153,
+            "progress": 0.666667
+          },
+          {
+            "frame": 154,
+            "progress": 0.75
+          },
+          {
+            "frame": 155,
+            "progress": 0.833333
+          },
+          {
+            "frame": 156,
+            "progress": 0.916667
+          },
+          {
+            "frame": 157,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 11,
+      "label": "Fold bottom",
+      "start_frame": 158,
+      "end_frame_exclusive": 179,
+      "end_frame_inclusive": 178,
+      "num_frames": 21,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.05,
+        "control_points": [
+          {
+            "frame": 158,
+            "progress": 0
+          },
+          {
+            "frame": 178,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 158,
+            "end_frame_inclusive": 178,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.05
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 158,
+            "progress": 0
+          },
+          {
+            "frame": 159,
+            "progress": 0.05
+          },
+          {
+            "frame": 160,
+            "progress": 0.1
+          },
+          {
+            "frame": 161,
+            "progress": 0.15
+          },
+          {
+            "frame": 162,
+            "progress": 0.2
+          },
+          {
+            "frame": 163,
+            "progress": 0.25
+          },
+          {
+            "frame": 164,
+            "progress": 0.3
+          },
+          {
+            "frame": 165,
+            "progress": 0.35
+          },
+          {
+            "frame": 166,
+            "progress": 0.4
+          },
+          {
+            "frame": 167,
+            "progress": 0.45
+          },
+          {
+            "frame": 168,
+            "progress": 0.5
+          },
+          {
+            "frame": 169,
+            "progress": 0.55
+          },
+          {
+            "frame": 170,
+            "progress": 0.6
+          },
+          {
+            "frame": 171,
+            "progress": 0.65
+          },
+          {
+            "frame": 172,
+            "progress": 0.7
+          },
+          {
+            "frame": 173,
+            "progress": 0.75
+          },
+          {
+            "frame": 174,
+            "progress": 0.8
+          },
+          {
+            "frame": 175,
+            "progress": 0.85
+          },
+          {
+            "frame": 176,
+            "progress": 0.9
+          },
+          {
+            "frame": 177,
+            "progress": 0.95
+          },
+          {
+            "frame": 178,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 12,
+      "label": "Ungrasp bottom",
+      "start_frame": 179,
+      "end_frame_exclusive": 202,
+      "end_frame_inclusive": 201,
+      "num_frames": 23,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.045454545,
+        "control_points": [
+          {
+            "frame": 179,
+            "progress": 0
+          },
+          {
+            "frame": 201,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 179,
+            "end_frame_inclusive": 201,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.045454545
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 179,
+            "progress": 0
+          },
+          {
+            "frame": 180,
+            "progress": 0.045455
+          },
+          {
+            "frame": 181,
+            "progress": 0.090909
+          },
+          {
+            "frame": 182,
+            "progress": 0.136364
+          },
+          {
+            "frame": 183,
+            "progress": 0.181818
+          },
+          {
+            "frame": 184,
+            "progress": 0.227273
+          },
+          {
+            "frame": 185,
+            "progress": 0.272727
+          },
+          {
+            "frame": 186,
+            "progress": 0.318182
+          },
+          {
+            "frame": 187,
+            "progress": 0.363636
+          },
+          {
+            "frame": 188,
+            "progress": 0.409091
+          },
+          {
+            "frame": 189,
+            "progress": 0.454545
+          },
+          {
+            "frame": 190,
+            "progress": 0.5
+          },
+          {
+            "frame": 191,
+            "progress": 0.545455
+          },
+          {
+            "frame": 192,
+            "progress": 0.590909
+          },
+          {
+            "frame": 193,
+            "progress": 0.636364
+          },
+          {
+            "frame": 194,
+            "progress": 0.681818
+          },
+          {
+            "frame": 195,
+            "progress": 0.727273
+          },
+          {
+            "frame": 196,
+            "progress": 0.772727
+          },
+          {
+            "frame": 197,
+            "progress": 0.818182
+          },
+          {
+            "frame": 198,
+            "progress": 0.863636
+          },
+          {
+            "frame": 199,
+            "progress": 0.909091
+          },
+          {
+            "frame": 200,
+            "progress": 0.954545
+          },
+          {
+            "frame": 201,
+            "progress": 1
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 13,
+      "label": "Reset",
+      "start_frame": 202,
+      "end_frame_exclusive": 224,
+      "end_frame_inclusive": 223,
+      "num_frames": 22,
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.047619048,
+        "control_points": [
+          {
+            "frame": 202,
+            "progress": 0
+          },
+          {
+            "frame": 223,
+            "progress": 1
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 202,
+            "end_frame_inclusive": 223,
+            "start_progress": 0,
+            "end_progress": 1,
+            "slope_per_frame": 0.047619048
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1,
+        "per_frame": [
+          {
+            "frame": 202,
+            "progress": 0
+          },
+          {
+            "frame": 203,
+            "progress": 0.047619
+          },
+          {
+            "frame": 204,
+            "progress": 0.095238
+          },
+          {
+            "frame": 205,
+            "progress": 0.142857
+          },
+          {
+            "frame": 206,
+            "progress": 0.190476
+          },
+          {
+            "frame": 207,
+            "progress": 0.238095
+          },
+          {
+            "frame": 208,
+            "progress": 0.285714
+          },
+          {
+            "frame": 209,
+            "progress": 0.333333
+          },
+          {
+            "frame": 210,
+            "progress": 0.380952
+          },
+          {
+            "frame": 211,
+            "progress": 0.428571
+          },
+          {
+            "frame": 212,
+            "progress": 0.47619
+          },
+          {
+            "frame": 213,
+            "progress": 0.52381
+          },
+          {
+            "frame": 214,
+            "progress": 0.571429
+          },
+          {
+            "frame": 215,
+            "progress": 0.619048
+          },
+          {
+            "frame": 216,
+            "progress": 0.666667
+          },
+          {
+            "frame": 217,
+            "progress": 0.714286
+          },
+          {
+            "frame": 218,
+            "progress": 0.761905
+          },
+          {
+            "frame": 219,
+            "progress": 0.809524
+          },
+          {
+            "frame": 220,
+            "progress": 0.857143
+          },
+          {
+            "frame": 221,
+            "progress": 0.904762
+          },
+          {
+            "frame": 222,
+            "progress": 0.952381
+          },
+          {
+            "frame": 223,
+            "progress": 1
+          }
+        ]
+      }
+    }
+  ],
+  "frames": [],
+  "video_metadata": {
+    "frame_count": 224,
+    "fps": 23,
+    "width": 640,
+    "height": 480,
+    "duration_seconds": 9.73913
+  },
+  "annotation_tool": {
+    "name": "FrameLine",
+    "format": "contiguous_single_timeline"
+  }
+}

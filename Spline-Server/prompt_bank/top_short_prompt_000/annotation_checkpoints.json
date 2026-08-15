@@ -1,0 +1,4463 @@
+{
+  "category_id": "shorts",
+  "task": {
+    "name": "shorts folding",
+    "description": "Sequential semantic phases for a shorts-folding demonstration.",
+    "garment_type": "shorts"
+  },
+  "labels": [
+    "Idle",
+    "Reach first half",
+    "Grasp first half",
+    "Fold first half",
+    "Ungrasp first half",
+    "Reset"
+  ],
+  "schema_version": "1.0",
+  "template_description": "Temporal segment checkpoints transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+  "template_status": "dtw_transferred_requires_review",
+  "video_stem": "human_episode_001814_top_rgb",
+  "video_file": "human_episode_001814_top_rgb.mp4",
+  "source_file": "D:\\pretrain_lehome_all_garment_data_z180\\data\\chunk-001\\episode_001814.parquet",
+  "embedding_file": "D:\\pretrain_lehome_all_garment_data_z180\\embeddings\\human_visual_vae_joint_full_epoch\\frame_embeddings\\chunk-001\\episode_001814\\frame_embeddings.npz",
+  "frame_indexing": {
+    "base": 0,
+    "start_frame": 0,
+    "end_frame_exclusive": 76,
+    "end_frame_inclusive": 75,
+    "note": "Use zero-based decoded-video frame indices. Each segment is [start_frame, end_frame_exclusive).",
+    "annotation_sampling": {
+      "type": "full_rate_every_frame",
+      "original_frame_stride": 1,
+      "original_frame_offset": 0,
+      "annotation_frame_k_maps_to_original_frame": "k"
+    }
+  },
+  "summary": {
+    "num_labels": 6,
+    "num_unique_labels": 6,
+    "num_annotated_segments": 6,
+    "first_frame": 0,
+    "last_frame_inclusive": 75,
+    "num_labeled_frames": 76,
+    "coverage_is_contiguous": true,
+    "coverage_is_complete": true,
+    "num_references_total": 255,
+    "top_k": 10,
+    "best_reference_episode_index": 1831,
+    "best_reference_normalized_cost": 0.047797396779060364,
+    "mean_topk_normalized_cost": 0.08974271714687347
+  },
+  "annotation_guidance": {
+    "segments": "Segments are sequential and non-overlapping. end_frame_exclusive equals the next segment's start_frame.",
+    "coverage": "Every decoded frame from 0 through 75 is labeled exactly once.",
+    "progress": "Transferred segments use a simple monotonic 0..1 progress ramp inside each segment. Review before downstream use if within-segment progress semantics matter."
+  },
+  "segment_schema": {
+    "segment_id": "zero-based integer in temporal order",
+    "label": "task-specific string included in labels",
+    "start_frame": "inclusive zero-based frame index",
+    "end_frame_exclusive": "exclusive zero-based frame boundary",
+    "end_frame_inclusive": "end_frame_exclusive - 1",
+    "num_frames": "end_frame_exclusive - start_frame",
+    "progress": "piecewise-linear per-frame progress"
+  },
+  "method": {
+    "name": "multi_reference_frame_embedding_dtw",
+    "dataset": "human",
+    "garment_type": "shorts",
+    "embedding_key": "mean",
+    "embedding_dimension": 2048,
+    "distance": "1 - cosine similarity over L2-normalized 2048-D frame embeddings",
+    "temporal_smoothing_window": 1,
+    "boundary_mapping": "median target frame votes around each reference boundary",
+    "boundary_source_window": 3,
+    "top_k_fusion": "weighted median of top-K transferred boundaries",
+    "reference_weight": "exp(-normalized_dtw_cost / temperature)",
+    "temperature": 0.08,
+    "candidate_pool_policy": "require_manifest",
+    "candidate_pool_source": "dataset_default_category_range",
+    "save_mode": "dataset",
+    "reference_manifest": null
+  },
+  "segments": [
+    {
+      "segment_id": 0,
+      "label": "Idle",
+      "start_frame": 0,
+      "end_frame_exclusive": 12,
+      "end_frame_inclusive": 11,
+      "num_frames": 12,
+      "confidence": 0.624266441036531,
+      "notes": "Checkpoint label transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.090909091,
+        "control_points": [
+          {
+            "frame": 0,
+            "progress": 0.0
+          },
+          {
+            "frame": 11,
+            "progress": 1.0
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 0,
+            "end_frame_inclusive": 11,
+            "start_progress": 0.0,
+            "end_progress": 1.0,
+            "slope_per_frame": 0.090909091
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1.0,
+        "per_frame": [
+          {
+            "frame": 0,
+            "progress": 0.0
+          },
+          {
+            "frame": 1,
+            "progress": 0.090909
+          },
+          {
+            "frame": 2,
+            "progress": 0.181818
+          },
+          {
+            "frame": 3,
+            "progress": 0.272727
+          },
+          {
+            "frame": 4,
+            "progress": 0.363636
+          },
+          {
+            "frame": 5,
+            "progress": 0.454545
+          },
+          {
+            "frame": 6,
+            "progress": 0.545455
+          },
+          {
+            "frame": 7,
+            "progress": 0.636364
+          },
+          {
+            "frame": 8,
+            "progress": 0.727273
+          },
+          {
+            "frame": 9,
+            "progress": 0.818182
+          },
+          {
+            "frame": 10,
+            "progress": 0.909091
+          },
+          {
+            "frame": 11,
+            "progress": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 1,
+      "label": "Reach first half",
+      "start_frame": 12,
+      "end_frame_exclusive": 25,
+      "end_frame_inclusive": 24,
+      "num_frames": 13,
+      "confidence": 0.24829003432432034,
+      "notes": "Checkpoint label transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.083333333,
+        "control_points": [
+          {
+            "frame": 12,
+            "progress": 0.0
+          },
+          {
+            "frame": 24,
+            "progress": 1.0
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 12,
+            "end_frame_inclusive": 24,
+            "start_progress": 0.0,
+            "end_progress": 1.0,
+            "slope_per_frame": 0.083333333
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1.0,
+        "per_frame": [
+          {
+            "frame": 12,
+            "progress": 0.0
+          },
+          {
+            "frame": 13,
+            "progress": 0.083333
+          },
+          {
+            "frame": 14,
+            "progress": 0.166667
+          },
+          {
+            "frame": 15,
+            "progress": 0.25
+          },
+          {
+            "frame": 16,
+            "progress": 0.333333
+          },
+          {
+            "frame": 17,
+            "progress": 0.416667
+          },
+          {
+            "frame": 18,
+            "progress": 0.5
+          },
+          {
+            "frame": 19,
+            "progress": 0.583333
+          },
+          {
+            "frame": 20,
+            "progress": 0.666667
+          },
+          {
+            "frame": 21,
+            "progress": 0.75
+          },
+          {
+            "frame": 22,
+            "progress": 0.833333
+          },
+          {
+            "frame": 23,
+            "progress": 0.916667
+          },
+          {
+            "frame": 24,
+            "progress": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 2,
+      "label": "Grasp first half",
+      "start_frame": 25,
+      "end_frame_exclusive": 40,
+      "end_frame_inclusive": 39,
+      "num_frames": 15,
+      "confidence": 0.23390244506252486,
+      "notes": "Checkpoint label transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.071428571,
+        "control_points": [
+          {
+            "frame": 25,
+            "progress": 0.0
+          },
+          {
+            "frame": 39,
+            "progress": 1.0
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 25,
+            "end_frame_inclusive": 39,
+            "start_progress": 0.0,
+            "end_progress": 1.0,
+            "slope_per_frame": 0.071428571
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1.0,
+        "per_frame": [
+          {
+            "frame": 25,
+            "progress": 0.0
+          },
+          {
+            "frame": 26,
+            "progress": 0.071429
+          },
+          {
+            "frame": 27,
+            "progress": 0.142857
+          },
+          {
+            "frame": 28,
+            "progress": 0.214286
+          },
+          {
+            "frame": 29,
+            "progress": 0.285714
+          },
+          {
+            "frame": 30,
+            "progress": 0.357143
+          },
+          {
+            "frame": 31,
+            "progress": 0.428571
+          },
+          {
+            "frame": 32,
+            "progress": 0.5
+          },
+          {
+            "frame": 33,
+            "progress": 0.571429
+          },
+          {
+            "frame": 34,
+            "progress": 0.642857
+          },
+          {
+            "frame": 35,
+            "progress": 0.714286
+          },
+          {
+            "frame": 36,
+            "progress": 0.785714
+          },
+          {
+            "frame": 37,
+            "progress": 0.857143
+          },
+          {
+            "frame": 38,
+            "progress": 0.928571
+          },
+          {
+            "frame": 39,
+            "progress": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 3,
+      "label": "Fold first half",
+      "start_frame": 40,
+      "end_frame_exclusive": 46,
+      "end_frame_inclusive": 45,
+      "num_frames": 6,
+      "confidence": 0.22456133289075617,
+      "notes": "Checkpoint label transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.2,
+        "control_points": [
+          {
+            "frame": 40,
+            "progress": 0.0
+          },
+          {
+            "frame": 45,
+            "progress": 1.0
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 40,
+            "end_frame_inclusive": 45,
+            "start_progress": 0.0,
+            "end_progress": 1.0,
+            "slope_per_frame": 0.2
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1.0,
+        "per_frame": [
+          {
+            "frame": 40,
+            "progress": 0.0
+          },
+          {
+            "frame": 41,
+            "progress": 0.2
+          },
+          {
+            "frame": 42,
+            "progress": 0.4
+          },
+          {
+            "frame": 43,
+            "progress": 0.6
+          },
+          {
+            "frame": 44,
+            "progress": 0.8
+          },
+          {
+            "frame": 45,
+            "progress": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 4,
+      "label": "Ungrasp first half",
+      "start_frame": 46,
+      "end_frame_exclusive": 62,
+      "end_frame_inclusive": 61,
+      "num_frames": 16,
+      "confidence": 0.2400153779062288,
+      "notes": "Checkpoint label transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.066666667,
+        "control_points": [
+          {
+            "frame": 46,
+            "progress": 0.0
+          },
+          {
+            "frame": 61,
+            "progress": 1.0
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 46,
+            "end_frame_inclusive": 61,
+            "start_progress": 0.0,
+            "end_progress": 1.0,
+            "slope_per_frame": 0.066666667
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1.0,
+        "per_frame": [
+          {
+            "frame": 46,
+            "progress": 0.0
+          },
+          {
+            "frame": 47,
+            "progress": 0.066667
+          },
+          {
+            "frame": 48,
+            "progress": 0.133333
+          },
+          {
+            "frame": 49,
+            "progress": 0.2
+          },
+          {
+            "frame": 50,
+            "progress": 0.266667
+          },
+          {
+            "frame": 51,
+            "progress": 0.333333
+          },
+          {
+            "frame": 52,
+            "progress": 0.4
+          },
+          {
+            "frame": 53,
+            "progress": 0.466667
+          },
+          {
+            "frame": 54,
+            "progress": 0.533333
+          },
+          {
+            "frame": 55,
+            "progress": 0.6
+          },
+          {
+            "frame": 56,
+            "progress": 0.666667
+          },
+          {
+            "frame": 57,
+            "progress": 0.733333
+          },
+          {
+            "frame": 58,
+            "progress": 0.8
+          },
+          {
+            "frame": 59,
+            "progress": 0.866667
+          },
+          {
+            "frame": 60,
+            "progress": 0.933333
+          },
+          {
+            "frame": 61,
+            "progress": 1.0
+          }
+        ]
+      }
+    },
+    {
+      "segment_id": 5,
+      "label": "Reset",
+      "start_frame": 62,
+      "end_frame_exclusive": 76,
+      "end_frame_inclusive": 75,
+      "num_frames": 14,
+      "confidence": 0.6253328967902081,
+      "notes": "Checkpoint label transferred with multi-reference DTW over precomputed 2048-D frame embeddings.",
+      "progress": {
+        "method": "piecewise_linear_direction_toggles",
+        "range": [
+          0,
+          1
+        ],
+        "initial_direction": "increasing",
+        "slope_per_frame": 0.076923077,
+        "control_points": [
+          {
+            "frame": 62,
+            "progress": 0.0
+          },
+          {
+            "frame": 75,
+            "progress": 1.0
+          }
+        ],
+        "linear_pieces": [
+          {
+            "start_frame": 62,
+            "end_frame_inclusive": 75,
+            "start_progress": 0.0,
+            "end_progress": 1.0,
+            "slope_per_frame": 0.076923077
+          }
+        ],
+        "direction_changes": [],
+        "end_progress": 1.0,
+        "per_frame": [
+          {
+            "frame": 62,
+            "progress": 0.0
+          },
+          {
+            "frame": 63,
+            "progress": 0.076923
+          },
+          {
+            "frame": 64,
+            "progress": 0.153846
+          },
+          {
+            "frame": 65,
+            "progress": 0.230769
+          },
+          {
+            "frame": 66,
+            "progress": 0.307692
+          },
+          {
+            "frame": 67,
+            "progress": 0.384615
+          },
+          {
+            "frame": 68,
+            "progress": 0.461538
+          },
+          {
+            "frame": 69,
+            "progress": 0.538462
+          },
+          {
+            "frame": 70,
+            "progress": 0.615385
+          },
+          {
+            "frame": 71,
+            "progress": 0.692308
+          },
+          {
+            "frame": 72,
+            "progress": 0.769231
+          },
+          {
+            "frame": 73,
+            "progress": 0.846154
+          },
+          {
+            "frame": 74,
+            "progress": 0.923077
+          },
+          {
+            "frame": 75,
+            "progress": 1.0
+          }
+        ]
+      }
+    }
+  ],
+  "boundaries": {
+    "fused": [
+      0,
+      12,
+      25,
+      40,
+      46,
+      62,
+      76
+    ],
+    "confidence": [
+      {
+        "boundary_index": 1,
+        "weighted_median_frame": 12,
+        "vote_min_frame": 8,
+        "vote_max_frame": 14,
+        "vote_std_frame": 1.552417516708374,
+        "num_votes": 10,
+        "reference_agreement_score": 0.7630771371406389,
+        "reference_match_quality": 0.32569824199470937,
+        "confidence": 0.24853288207306182
+      },
+      {
+        "boundary_index": 2,
+        "weighted_median_frame": 25,
+        "vote_min_frame": 21,
+        "vote_max_frame": 26,
+        "vote_std_frame": 1.565247654914856,
+        "num_votes": 10,
+        "reference_agreement_score": 0.7615858932993814,
+        "reference_match_quality": 0.32569824199470937,
+        "confidence": 0.24804718657557884
+      },
+      {
+        "boundary_index": 3,
+        "weighted_median_frame": 40,
+        "vote_min_frame": 34,
+        "vote_max_frame": 41,
+        "vote_std_frame": 2.4103941917419434,
+        "num_votes": 10,
+        "reference_agreement_score": 0.6747279389768417,
+        "reference_match_quality": 0.32569824199470937,
+        "confidence": 0.21975770354947088
+      },
+      {
+        "boundary_index": 4,
+        "weighted_median_frame": 46,
+        "vote_min_frame": 41,
+        "vote_max_frame": 48,
+        "vote_std_frame": 2.0999999046325684,
+        "num_votes": 10,
+        "reference_agreement_score": 0.7042253615718541,
+        "reference_match_quality": 0.32569824199470937,
+        "confidence": 0.22936496223204145
+      },
+      {
+        "boundary_index": 5,
+        "weighted_median_frame": 62,
+        "vote_min_frame": 61,
+        "vote_max_frame": 66,
+        "vote_std_frame": 1.4966630935668945,
+        "num_votes": 10,
+        "reference_agreement_score": 0.7696258722344836,
+        "reference_match_quality": 0.32569824199470937,
+        "confidence": 0.25066579358041613
+      }
+    ]
+  },
+  "top_references": [
+    {
+      "rank": 1,
+      "reference_episode_index": 1831,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001831\\checkpoints.json",
+      "normalized_cost": 0.047797396779060364,
+      "total_cost": 3.6326022148132324,
+      "path_length": 76,
+      "weight": 0.5502032851183326,
+      "boundaries": [
+        0,
+        12,
+        26,
+        40,
+        45,
+        62,
+        76
+      ]
+    },
+    {
+      "rank": 2,
+      "reference_episode_index": 1822,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001822\\checkpoints.json",
+      "normalized_cost": 0.05647418648004532,
+      "total_cost": 4.461460590362549,
+      "path_length": 79,
+      "weight": 0.49365058444448384,
+      "boundaries": [
+        0,
+        12,
+        24,
+        40,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "rank": 3,
+      "reference_episode_index": 1841,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001841\\checkpoints.json",
+      "normalized_cost": 0.05918692797422409,
+      "total_cost": 4.557393550872803,
+      "path_length": 77,
+      "weight": 0.47719188245829397,
+      "boundaries": [
+        0,
+        11,
+        26,
+        40,
+        47,
+        66,
+        76
+      ]
+    },
+    {
+      "rank": 4,
+      "reference_episode_index": 1925,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001925\\checkpoints.json",
+      "normalized_cost": 0.09140191227197647,
+      "total_cost": 6.946545124053955,
+      "path_length": 76,
+      "weight": 0.3190128472811264,
+      "boundaries": [
+        0,
+        10,
+        24,
+        36,
+        45,
+        61,
+        76
+      ]
+    },
+    {
+      "rank": 5,
+      "reference_episode_index": 1455,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001455\\checkpoints.json",
+      "normalized_cost": 0.09215966612100601,
+      "total_cost": 7.1884541511535645,
+      "path_length": 78,
+      "weight": 0.3160054475338719,
+      "boundaries": [
+        0,
+        14,
+        26,
+        40,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "rank": 6,
+      "reference_episode_index": 1420,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001420\\checkpoints.json",
+      "normalized_cost": 0.09807173162698746,
+      "total_cost": 7.453451633453369,
+      "path_length": 76,
+      "weight": 0.2934944219025524,
+      "boundaries": [
+        0,
+        12,
+        25,
+        37,
+        47,
+        62,
+        76
+      ]
+    },
+    {
+      "rank": 7,
+      "reference_episode_index": 1741,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001741\\checkpoints.json",
+      "normalized_cost": 0.10433074086904526,
+      "total_cost": 8.242128372192383,
+      "path_length": 79,
+      "weight": 0.27140740137386726,
+      "boundaries": [
+        0,
+        10,
+        26,
+        41,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "rank": 8,
+      "reference_episode_index": 1748,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001748\\checkpoints.json",
+      "normalized_cost": 0.11258189380168915,
+      "total_cost": 8.55622386932373,
+      "path_length": 76,
+      "weight": 0.24480980586182371,
+      "boundaries": [
+        0,
+        12,
+        21,
+        35,
+        42,
+        61,
+        76
+      ]
+    },
+    {
+      "rank": 9,
+      "reference_episode_index": 1458,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001458\\checkpoints.json",
+      "normalized_cost": 0.11763563007116318,
+      "total_cost": 8.9403076171875,
+      "path_length": 76,
+      "weight": 0.22982310471981907,
+      "boundaries": [
+        0,
+        8,
+        24,
+        40,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "rank": 10,
+      "reference_episode_index": 1930,
+      "reference_checkpoint": "D:\\pretrain_lehome_all_garment_data_z180\\annotations\\temporal_checkpoints\\chunk-001\\episode_001930\\checkpoints.json",
+      "normalized_cost": 0.11778708547353745,
+      "total_cost": 8.951818466186523,
+      "path_length": 76,
+      "weight": 0.2293884169384794,
+      "boundaries": [
+        0,
+        12,
+        23,
+        34,
+        41,
+        62,
+        76
+      ]
+    }
+  ],
+  "all_reference_votes": [
+    {
+      "reference_episode_index": 1831,
+      "normalized_cost": 0.047797396779060364,
+      "weight": 0.5502032851183326,
+      "boundaries": [
+        0,
+        12,
+        26,
+        40,
+        45,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1822,
+      "normalized_cost": 0.05647418648004532,
+      "weight": 0.49365058444448384,
+      "boundaries": [
+        0,
+        12,
+        24,
+        40,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1841,
+      "normalized_cost": 0.05918692797422409,
+      "weight": 0.47719188245829397,
+      "boundaries": [
+        0,
+        11,
+        26,
+        40,
+        47,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1925,
+      "normalized_cost": 0.09140191227197647,
+      "weight": 0.3190128472811264,
+      "boundaries": [
+        0,
+        10,
+        24,
+        36,
+        45,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1455,
+      "normalized_cost": 0.09215966612100601,
+      "weight": 0.3160054475338719,
+      "boundaries": [
+        0,
+        14,
+        26,
+        40,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1420,
+      "normalized_cost": 0.09807173162698746,
+      "weight": 0.2934944219025524,
+      "boundaries": [
+        0,
+        12,
+        25,
+        37,
+        47,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1741,
+      "normalized_cost": 0.10433074086904526,
+      "weight": 0.27140740137386726,
+      "boundaries": [
+        0,
+        10,
+        26,
+        41,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1748,
+      "normalized_cost": 0.11258189380168915,
+      "weight": 0.24480980586182371,
+      "boundaries": [
+        0,
+        12,
+        21,
+        35,
+        42,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1458,
+      "normalized_cost": 0.11763563007116318,
+      "weight": 0.22982310471981907,
+      "boundaries": [
+        0,
+        8,
+        24,
+        40,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1930,
+      "normalized_cost": 0.11778708547353745,
+      "weight": 0.2293884169384794,
+      "boundaries": [
+        0,
+        12,
+        23,
+        34,
+        41,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1533,
+      "normalized_cost": 0.11841407418251038,
+      "weight": 0.22759764422668893,
+      "boundaries": [
+        0,
+        11,
+        25,
+        38,
+        48,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1438,
+      "normalized_cost": 0.12001683562994003,
+      "weight": 0.22308320837893547,
+      "boundaries": [
+        0,
+        15,
+        25,
+        37,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1934,
+      "normalized_cost": 0.12048184126615524,
+      "weight": 0.2217902827642608,
+      "boundaries": [
+        0,
+        9,
+        21,
+        37,
+        45,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1280,
+      "normalized_cost": 0.12267521768808365,
+      "weight": 0.21579201663898584,
+      "boundaries": [
+        0,
+        13,
+        24,
+        39,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1754,
+      "normalized_cost": 0.12432603538036346,
+      "weight": 0.21138472971135824,
+      "boundaries": [
+        0,
+        13,
+        26,
+        38,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1976,
+      "normalized_cost": 0.12531600892543793,
+      "weight": 0.2087850319580312,
+      "boundaries": [
+        0,
+        13,
+        23,
+        38,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1824,
+      "normalized_cost": 0.126792311668396,
+      "weight": 0.2049674903957146,
+      "boundaries": [
+        0,
+        14,
+        25,
+        37,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1517,
+      "normalized_cost": 0.12776102125644684,
+      "weight": 0.20250053191351503,
+      "boundaries": [
+        0,
+        14,
+        26,
+        39,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1909,
+      "normalized_cost": 0.131011500954628,
+      "weight": 0.19443764434878752,
+      "boundaries": [
+        0,
+        14,
+        27,
+        39,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1760,
+      "normalized_cost": 0.13238731026649475,
+      "weight": 0.19112236945038288,
+      "boundaries": [
+        0,
+        11,
+        29,
+        40,
+        46,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1592,
+      "normalized_cost": 0.1356722116470337,
+      "weight": 0.18343357876667615,
+      "boundaries": [
+        0,
+        14,
+        24,
+        37,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1743,
+      "normalized_cost": 0.139630526304245,
+      "weight": 0.17457836085370632,
+      "boundaries": [
+        0,
+        13,
+        25,
+        38,
+        43,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2008,
+      "normalized_cost": 0.14006561040878296,
+      "weight": 0.17363148463249298,
+      "boundaries": [
+        0,
+        16,
+        26,
+        41,
+        46,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1459,
+      "normalized_cost": 0.14088554680347443,
+      "weight": 0.17186098855077991,
+      "boundaries": [
+        0,
+        13,
+        26,
+        36,
+        44,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1845,
+      "normalized_cost": 0.14261655509471893,
+      "weight": 0.16818227143649062,
+      "boundaries": [
+        0,
+        12,
+        24,
+        36,
+        47,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1745,
+      "normalized_cost": 0.14582009613513947,
+      "weight": 0.16158059804768105,
+      "boundaries": [
+        0,
+        10,
+        26,
+        37,
+        42,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1434,
+      "normalized_cost": 0.1470469981431961,
+      "weight": 0.15912145876259284,
+      "boundaries": [
+        0,
+        12,
+        22,
+        37,
+        44,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1724,
+      "normalized_cost": 0.1503973752260208,
+      "weight": 0.15259511227075287,
+      "boundaries": [
+        0,
+        10,
+        22,
+        38,
+        48,
+        67,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1535,
+      "normalized_cost": 0.15266914665699005,
+      "weight": 0.14832279496132672,
+      "boundaries": [
+        0,
+        15,
+        30,
+        38,
+        46,
+        60,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1631,
+      "normalized_cost": 0.15487317740917206,
+      "weight": 0.14429222180294096,
+      "boundaries": [
+        0,
+        12,
+        20,
+        38,
+        47,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1849,
+      "normalized_cost": 0.1586492508649826,
+      "weight": 0.13763973328705115,
+      "boundaries": [
+        0,
+        10,
+        22,
+        36,
+        46,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1508,
+      "normalized_cost": 0.16003786027431488,
+      "weight": 0.13527125050281547,
+      "boundaries": [
+        0,
+        14,
+        29,
+        41,
+        49,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1527,
+      "normalized_cost": 0.16149094700813293,
+      "weight": 0.13283641932904605,
+      "boundaries": [
+        0,
+        12,
+        22,
+        33,
+        46,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1625,
+      "normalized_cost": 0.1615317016839981,
+      "weight": 0.13276876524797454,
+      "boundaries": [
+        0,
+        10,
+        22,
+        36,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1731,
+      "normalized_cost": 0.16613167524337769,
+      "weight": 0.12534993905930897,
+      "boundaries": [
+        0,
+        10,
+        24,
+        35,
+        39,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1816,
+      "normalized_cost": 0.1687512993812561,
+      "weight": 0.12131179345224306,
+      "boundaries": [
+        0,
+        15,
+        25,
+        41,
+        50,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1911,
+      "normalized_cost": 0.1690133959054947,
+      "weight": 0.12091500130101875,
+      "boundaries": [
+        0,
+        14,
+        24,
+        37,
+        47,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1918,
+      "normalized_cost": 0.17252251505851746,
+      "weight": 0.1157258278803239,
+      "boundaries": [
+        0,
+        11,
+        17,
+        30,
+        45,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1511,
+      "normalized_cost": 0.17415781319141388,
+      "weight": 0.11338426375698622,
+      "boundaries": [
+        0,
+        14,
+        26,
+        40,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1833,
+      "normalized_cost": 0.17627638578414917,
+      "weight": 0.11042101364085988,
+      "boundaries": [
+        0,
+        7,
+        14,
+        25,
+        42,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1600,
+      "normalized_cost": 0.17771892249584198,
+      "weight": 0.10844777793770731,
+      "boundaries": [
+        0,
+        5,
+        11,
+        22,
+        40,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1606,
+      "normalized_cost": 0.17782433331012726,
+      "weight": 0.10830497743060552,
+      "boundaries": [
+        0,
+        13,
+        30,
+        40,
+        45,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1844,
+      "normalized_cost": 0.17844648659229279,
+      "weight": 0.10746596540748475,
+      "boundaries": [
+        0,
+        13,
+        24,
+        38,
+        41,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1259,
+      "normalized_cost": 0.18216249346733093,
+      "weight": 0.10258832251752346,
+      "boundaries": [
+        0,
+        16,
+        23,
+        36,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1614,
+      "normalized_cost": 0.18227151036262512,
+      "weight": 0.10244861947141573,
+      "boundaries": [
+        0,
+        12,
+        24,
+        38,
+        48,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1503,
+      "normalized_cost": 0.18284444510936737,
+      "weight": 0.1017175358182058,
+      "boundaries": [
+        0,
+        16,
+        23,
+        37,
+        48,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1348,
+      "normalized_cost": 0.1868228316307068,
+      "weight": 0.09678285720389761,
+      "boundaries": [
+        0,
+        14,
+        22,
+        31,
+        40,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1268,
+      "normalized_cost": 0.1870829164981842,
+      "weight": 0.09646872116090319,
+      "boundaries": [
+        0,
+        14,
+        24,
+        37,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1907,
+      "normalized_cost": 0.18834520876407623,
+      "weight": 0.09495852045208945,
+      "boundaries": [
+        0,
+        14,
+        19,
+        34,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1111,
+      "normalized_cost": 0.18847273290157318,
+      "weight": 0.09480727224011941,
+      "boundaries": [
+        0,
+        9,
+        21,
+        35,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1587,
+      "normalized_cost": 0.18961700797080994,
+      "weight": 0.09346085442221011,
+      "boundaries": [
+        0,
+        7,
+        11,
+        24,
+        33,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1515,
+      "normalized_cost": 0.190066859126091,
+      "weight": 0.09293678584177675,
+      "boundaries": [
+        0,
+        6,
+        26,
+        38,
+        47,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1130,
+      "normalized_cost": 0.19171985983848572,
+      "weight": 0.09103618191918653,
+      "boundaries": [
+        0,
+        15,
+        22,
+        35,
+        46,
+        60,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2012,
+      "normalized_cost": 0.19242006540298462,
+      "weight": 0.09024285827950997,
+      "boundaries": [
+        0,
+        12,
+        23,
+        32,
+        46,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1284,
+      "normalized_cost": 0.1961965411901474,
+      "weight": 0.08608184365465524,
+      "boundaries": [
+        0,
+        12,
+        26,
+        40,
+        48,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1628,
+      "normalized_cost": 0.19791291654109955,
+      "weight": 0.08425465519266936,
+      "boundaries": [
+        0,
+        17,
+        21,
+        34,
+        44,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1998,
+      "normalized_cost": 0.19836540520191193,
+      "weight": 0.08377944692307426,
+      "boundaries": [
+        0,
+        14,
+        26,
+        39,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1437,
+      "normalized_cost": 0.20142090320587158,
+      "weight": 0.08063993424501635,
+      "boundaries": [
+        0,
+        12,
+        24,
+        39,
+        51,
+        69,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1402,
+      "normalized_cost": 0.20284616947174072,
+      "weight": 0.07921598906552403,
+      "boundaries": [
+        0,
+        12,
+        20,
+        31,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1293,
+      "normalized_cost": 0.20290511846542358,
+      "weight": 0.07915763928055854,
+      "boundaries": [
+        0,
+        16,
+        24,
+        38,
+        49,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1530,
+      "normalized_cost": 0.2029823362827301,
+      "weight": 0.07908127139089376,
+      "boundaries": [
+        0,
+        10,
+        22,
+        38,
+        50,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1737,
+      "normalized_cost": 0.20341052114963531,
+      "weight": 0.07865913455660879,
+      "boundaries": [
+        0,
+        11,
+        22,
+        38,
+        49,
+        70,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1356,
+      "normalized_cost": 0.20632509887218475,
+      "weight": 0.07584498172410219,
+      "boundaries": [
+        0,
+        11,
+        26,
+        37,
+        46,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1766,
+      "normalized_cost": 0.20732565224170685,
+      "weight": 0.07490230211965646,
+      "boundaries": [
+        0,
+        12,
+        30,
+        42,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1071,
+      "normalized_cost": 0.2098221778869629,
+      "weight": 0.07260095350303328,
+      "boundaries": [
+        0,
+        6,
+        21,
+        33,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1448,
+      "normalized_cost": 0.20999544858932495,
+      "weight": 0.07244387844003246,
+      "boundaries": [
+        0,
+        14,
+        26,
+        37,
+        49,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1114,
+      "normalized_cost": 0.21099865436553955,
+      "weight": 0.07154109926218316,
+      "boundaries": [
+        0,
+        16,
+        23,
+        33,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1596,
+      "normalized_cost": 0.21506182849407196,
+      "weight": 0.06799828082058146,
+      "boundaries": [
+        0,
+        13,
+        21,
+        36,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1723,
+      "normalized_cost": 0.2162703424692154,
+      "weight": 0.06697878973262869,
+      "boundaries": [
+        0,
+        16,
+        22,
+        39,
+        48,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1375,
+      "normalized_cost": 0.22064316272735596,
+      "weight": 0.06341597142192423,
+      "boundaries": [
+        0,
+        8,
+        18,
+        30,
+        37,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1846,
+      "normalized_cost": 0.2213509976863861,
+      "weight": 0.06285734588889069,
+      "boundaries": [
+        0,
+        12,
+        26,
+        39,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1404,
+      "normalized_cost": 0.22276951372623444,
+      "weight": 0.061752617137544645,
+      "boundaries": [
+        0,
+        12,
+        22,
+        33,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1113,
+      "normalized_cost": 0.22294721007347107,
+      "weight": 0.06161560417954489,
+      "boundaries": [
+        0,
+        15,
+        22,
+        37,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1087,
+      "normalized_cost": 0.22305090725421906,
+      "weight": 0.061535788864071364,
+      "boundaries": [
+        0,
+        9,
+        22,
+        35,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1828,
+      "normalized_cost": 0.22314606606960297,
+      "weight": 0.06146263646989108,
+      "boundaries": [
+        0,
+        12,
+        28,
+        39,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1116,
+      "normalized_cost": 0.22353209555149078,
+      "weight": 0.061166771002530526,
+      "boundaries": [
+        0,
+        9,
+        23,
+        32,
+        40,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1119,
+      "normalized_cost": 0.2237197905778885,
+      "weight": 0.06102343048644558,
+      "boundaries": [
+        0,
+        15,
+        21,
+        34,
+        48,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1131,
+      "normalized_cost": 0.2269248217344284,
+      "weight": 0.058626980417333815,
+      "boundaries": [
+        0,
+        11,
+        22,
+        35,
+        47,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1977,
+      "normalized_cost": 0.2276252955198288,
+      "weight": 0.05811588793939467,
+      "boundaries": [
+        0,
+        12,
+        26,
+        40,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1416,
+      "normalized_cost": 0.2285131961107254,
+      "weight": 0.057474440020861634,
+      "boundaries": [
+        0,
+        11,
+        19,
+        30,
+        50,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1260,
+      "normalized_cost": 0.22907209396362305,
+      "weight": 0.05707431008276785,
+      "boundaries": [
+        0,
+        14,
+        25,
+        42,
+        49,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1619,
+      "normalized_cost": 0.22957798838615417,
+      "weight": 0.056714529162202945,
+      "boundaries": [
+        0,
+        16,
+        22,
+        36,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1991,
+      "normalized_cost": 0.22978954017162323,
+      "weight": 0.05656475153643103,
+      "boundaries": [
+        0,
+        8,
+        24,
+        38,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2009,
+      "normalized_cost": 0.23049472272396088,
+      "weight": 0.05606833669674154,
+      "boundaries": [
+        0,
+        6,
+        11,
+        21,
+        41,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1502,
+      "normalized_cost": 0.23105859756469727,
+      "weight": 0.05567453212485439,
+      "boundaries": [
+        0,
+        10,
+        19,
+        30,
+        44,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1730,
+      "normalized_cost": 0.23262779414653778,
+      "weight": 0.054593119162822855,
+      "boundaries": [
+        0,
+        7,
+        30,
+        39,
+        46,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1093,
+      "normalized_cost": 0.2326529175043106,
+      "weight": 0.05457597732378393,
+      "boundaries": [
+        0,
+        13,
+        24,
+        37,
+        48,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1097,
+      "normalized_cost": 0.23318637907505035,
+      "weight": 0.054213260681661726,
+      "boundaries": [
+        0,
+        12,
+        21,
+        32,
+        41,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1379,
+      "normalized_cost": 0.23385055363178253,
+      "weight": 0.05376503552482503,
+      "boundaries": [
+        0,
+        6,
+        13,
+        22,
+        29,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1028,
+      "normalized_cost": 0.234212726354599,
+      "weight": 0.05352218278972314,
+      "boundaries": [
+        0,
+        14,
+        24,
+        37,
+        46,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2004,
+      "normalized_cost": 0.2347821742296219,
+      "weight": 0.05314255932548868,
+      "boundaries": [
+        0,
+        14,
+        26,
+        39,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1629,
+      "normalized_cost": 0.23596756160259247,
+      "weight": 0.052360932953976175,
+      "boundaries": [
+        0,
+        11,
+        24,
+        38,
+        45,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1349,
+      "normalized_cost": 0.23728179931640625,
+      "weight": 0.05150777604965314,
+      "boundaries": [
+        0,
+        11,
+        26,
+        37,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2024,
+      "normalized_cost": 0.2374153584241867,
+      "weight": 0.05142185613311879,
+      "boundaries": [
+        0,
+        12,
+        30,
+        41,
+        48,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1985,
+      "normalized_cost": 0.2376207858324051,
+      "weight": 0.05128998228832978,
+      "boundaries": [
+        0,
+        13,
+        24,
+        36,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1038,
+      "normalized_cost": 0.24097149074077606,
+      "weight": 0.04918612860004146,
+      "boundaries": [
+        0,
+        12,
+        24,
+        37,
+        44,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1022,
+      "normalized_cost": 0.24112114310264587,
+      "weight": 0.04909420435214991,
+      "boundaries": [
+        0,
+        14,
+        24,
+        38,
+        44,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2031,
+      "normalized_cost": 0.24169884622097015,
+      "weight": 0.04874095789775135,
+      "boundaries": [
+        0,
+        10,
+        20,
+        37,
+        45,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1406,
+      "normalized_cost": 0.2452356368303299,
+      "weight": 0.04663306405457623,
+      "boundaries": [
+        0,
+        10,
+        22,
+        35,
+        48,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1640,
+      "normalized_cost": 0.2457219362258911,
+      "weight": 0.046350453497415026,
+      "boundaries": [
+        0,
+        15,
+        24,
+        38,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1859,
+      "normalized_cost": 0.2463657706975937,
+      "weight": 0.045978925272692185,
+      "boundaries": [
+        0,
+        8,
+        19,
+        30,
+        40,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2034,
+      "normalized_cost": 0.2465311586856842,
+      "weight": 0.04588396893617835,
+      "boundaries": [
+        0,
+        16,
+        26,
+        36,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1344,
+      "normalized_cost": 0.24675078690052032,
+      "weight": 0.04575817401356382,
+      "boundaries": [
+        0,
+        13,
+        24,
+        36,
+        46,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1717,
+      "normalized_cost": 0.24834342300891876,
+      "weight": 0.04485623022622138,
+      "boundaries": [
+        0,
+        8,
+        16,
+        25,
+        42,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1936,
+      "normalized_cost": 0.2486233413219452,
+      "weight": 0.04469955348670212,
+      "boundaries": [
+        0,
+        10,
+        16,
+        27,
+        33,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1408,
+      "normalized_cost": 0.2487570196390152,
+      "weight": 0.04462492384280097,
+      "boundaries": [
+        0,
+        17,
+        24,
+        39,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1604,
+      "normalized_cost": 0.2535375952720642,
+      "weight": 0.04203637597494352,
+      "boundaries": [
+        0,
+        12,
+        25,
+        37,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1877,
+      "normalized_cost": 0.2557888329029083,
+      "weight": 0.04086994156082971,
+      "boundaries": [
+        0,
+        7,
+        15,
+        28,
+        41,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1894,
+      "normalized_cost": 0.25666865706443787,
+      "weight": 0.04042292464240513,
+      "boundaries": [
+        0,
+        13,
+        30,
+        40,
+        50,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2018,
+      "normalized_cost": 0.2586740553379059,
+      "weight": 0.03942221883818366,
+      "boundaries": [
+        0,
+        12,
+        29,
+        41,
+        50,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1660,
+      "normalized_cost": 0.2594791352748871,
+      "weight": 0.03902748291366136,
+      "boundaries": [
+        0,
+        7,
+        20,
+        30,
+        42,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1451,
+      "normalized_cost": 0.26023662090301514,
+      "weight": 0.03865969241894898,
+      "boundaries": [
+        0,
+        17,
+        21,
+        31,
+        43,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1923,
+      "normalized_cost": 0.2616622745990753,
+      "weight": 0.03797685314971499,
+      "boundaries": [
+        0,
+        12,
+        26,
+        40,
+        50,
+        69,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1943,
+      "normalized_cost": 0.2632072865962982,
+      "weight": 0.037250456378726524,
+      "boundaries": [
+        0,
+        10,
+        21,
+        36,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1359,
+      "normalized_cost": 0.2656312882900238,
+      "weight": 0.03613869501512776,
+      "boundaries": [
+        0,
+        12,
+        26,
+        38,
+        48,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1368,
+      "normalized_cost": 0.2667355239391327,
+      "weight": 0.03564330138417931,
+      "boundaries": [
+        0,
+        15,
+        22,
+        34,
+        48,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1396,
+      "normalized_cost": 0.2671976685523987,
+      "weight": 0.035437990479273415,
+      "boundaries": [
+        0,
+        10,
+        21,
+        35,
+        46,
+        67,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1698,
+      "normalized_cost": 0.2673092782497406,
+      "weight": 0.035388584658443856,
+      "boundaries": [
+        0,
+        7,
+        20,
+        29,
+        35,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1105,
+      "normalized_cost": 0.2675057351589203,
+      "weight": 0.035301787127377075,
+      "boundaries": [
+        0,
+        9,
+        19,
+        33,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1068,
+      "normalized_cost": 0.26769885420799255,
+      "weight": 0.03521667180788743,
+      "boundaries": [
+        0,
+        9,
+        13,
+        24,
+        39,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1417,
+      "normalized_cost": 0.26895180344581604,
+      "weight": 0.03466940979031135,
+      "boundaries": [
+        0,
+        14,
+        25,
+        35,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1635,
+      "normalized_cost": 0.2693274915218353,
+      "weight": 0.03450698043289001,
+      "boundaries": [
+        0,
+        10,
+        19,
+        32,
+        40,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1072,
+      "normalized_cost": 0.27247729897499084,
+      "weight": 0.03317474991374236,
+      "boundaries": [
+        0,
+        9,
+        22,
+        37,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1138,
+      "normalized_cost": 0.27545157074928284,
+      "weight": 0.031964011989822835,
+      "boundaries": [
+        0,
+        18,
+        25,
+        37,
+        47,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1232,
+      "normalized_cost": 0.27580663561820984,
+      "weight": 0.031822460126179855,
+      "boundaries": [
+        0,
+        15,
+        27,
+        38,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1552,
+      "normalized_cost": 0.277232825756073,
+      "weight": 0.03126017605800035,
+      "boundaries": [
+        0,
+        11,
+        20,
+        32,
+        42,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1235,
+      "normalized_cost": 0.2773699164390564,
+      "weight": 0.031206653444096396,
+      "boundaries": [
+        0,
+        15,
+        23,
+        34,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1037,
+      "normalized_cost": 0.2791444957256317,
+      "weight": 0.03052204112363251,
+      "boundaries": [
+        0,
+        12,
+        21,
+        36,
+        44,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1713,
+      "normalized_cost": 0.2802482843399048,
+      "weight": 0.030103809485698563,
+      "boundaries": [
+        0,
+        9,
+        22,
+        33,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1279,
+      "normalized_cost": 0.2814667820930481,
+      "weight": 0.029648765914860795,
+      "boundaries": [
+        0,
+        16,
+        29,
+        39,
+        55,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1092,
+      "normalized_cost": 0.28182411193847656,
+      "weight": 0.0295166313703758,
+      "boundaries": [
+        0,
+        11,
+        19,
+        34,
+        43,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1865,
+      "normalized_cost": 0.28304988145828247,
+      "weight": 0.0290678211741913,
+      "boundaries": [
+        0,
+        7,
+        18,
+        31,
+        40,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1370,
+      "normalized_cost": 0.28315240144729614,
+      "weight": 0.029030594623352907,
+      "boundaries": [
+        0,
+        11,
+        28,
+        39,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1645,
+      "normalized_cost": 0.28397977352142334,
+      "weight": 0.028731903051264,
+      "boundaries": [
+        0,
+        11,
+        16,
+        28,
+        37,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1928,
+      "normalized_cost": 0.28593337535858154,
+      "weight": 0.028038766963442426,
+      "boundaries": [
+        0,
+        12,
+        23,
+        35,
+        45,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1879,
+      "normalized_cost": 0.28989672660827637,
+      "weight": 0.026683521334197515,
+      "boundaries": [
+        0,
+        9,
+        14,
+        27,
+        35,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1966,
+      "normalized_cost": 0.2904166579246521,
+      "weight": 0.026510663676164507,
+      "boundaries": [
+        0,
+        9,
+        16,
+        29,
+        44,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1868,
+      "normalized_cost": 0.29044708609580994,
+      "weight": 0.02650058220589236,
+      "boundaries": [
+        0,
+        8,
+        17,
+        29,
+        38,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1702,
+      "normalized_cost": 0.29060521721839905,
+      "weight": 0.02644825185686739,
+      "boundaries": [
+        0,
+        11,
+        20,
+        32,
+        42,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1526,
+      "normalized_cost": 0.29424142837524414,
+      "weight": 0.025273020018514638,
+      "boundaries": [
+        0,
+        12,
+        30,
+        41,
+        50,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1598,
+      "normalized_cost": 0.2959251403808594,
+      "weight": 0.024746672220105348,
+      "boundaries": [
+        0,
+        12,
+        25,
+        38,
+        50,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1050,
+      "normalized_cost": 0.2965545356273651,
+      "weight": 0.024552743109998956,
+      "boundaries": [
+        0,
+        13,
+        21,
+        32,
+        48,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1693,
+      "normalized_cost": 0.2983325719833374,
+      "weight": 0.02401306672799924,
+      "boundaries": [
+        0,
+        11,
+        15,
+        25,
+        42,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1536,
+      "normalized_cost": 0.29868820309638977,
+      "weight": 0.023906556223104947,
+      "boundaries": [
+        0,
+        15,
+        30,
+        40,
+        50,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1331,
+      "normalized_cost": 0.3003658056259155,
+      "weight": 0.023410454794124957,
+      "boundaries": [
+        0,
+        15,
+        20,
+        32,
+        42,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1785,
+      "normalized_cost": 0.3004043996334076,
+      "weight": 0.023399163727044526,
+      "boundaries": [
+        0,
+        15,
+        22,
+        33,
+        44,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1581,
+      "normalized_cost": 0.30045828223228455,
+      "weight": 0.023383408936407262,
+      "boundaries": [
+        0,
+        12,
+        24,
+        36,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1244,
+      "normalized_cost": 0.3005252778530121,
+      "weight": 0.02336383480872619,
+      "boundaries": [
+        0,
+        13,
+        28,
+        37,
+        46,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1546,
+      "normalized_cost": 0.3006589114665985,
+      "weight": 0.02332483996577049,
+      "boundaries": [
+        0,
+        12,
+        18,
+        32,
+        43,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1946,
+      "normalized_cost": 0.3011871576309204,
+      "weight": 0.023171331621670593,
+      "boundaries": [
+        0,
+        14,
+        22,
+        37,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1993,
+      "normalized_cost": 0.3020332157611847,
+      "weight": 0.022927569207138437,
+      "boundaries": [
+        0,
+        15,
+        34,
+        47,
+        50,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1952,
+      "normalized_cost": 0.3024187386035919,
+      "weight": 0.022817346234032324,
+      "boundaries": [
+        0,
+        9,
+        15,
+        28,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1857,
+      "normalized_cost": 0.30253395438194275,
+      "weight": 0.022784508407353576,
+      "boundaries": [
+        0,
+        8,
+        18,
+        37,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1314,
+      "normalized_cost": 0.302798330783844,
+      "weight": 0.02270933660668249,
+      "boundaries": [
+        0,
+        12,
+        20,
+        32,
+        40,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1871,
+      "normalized_cost": 0.30280470848083496,
+      "weight": 0.022707526262998053,
+      "boundaries": [
+        0,
+        10,
+        17,
+        28,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1243,
+      "normalized_cost": 0.3028826415538788,
+      "weight": 0.022685416192871035,
+      "boundaries": [
+        0,
+        13,
+        22,
+        37,
+        50,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1323,
+      "normalized_cost": 0.303043395280838,
+      "weight": 0.0226398773965064,
+      "boundaries": [
+        0,
+        12,
+        21,
+        35,
+        48,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1490,
+      "normalized_cost": 0.30386263132095337,
+      "weight": 0.022409217896969893,
+      "boundaries": [
+        0,
+        11,
+        20,
+        34,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1388,
+      "normalized_cost": 0.3040451407432556,
+      "weight": 0.02235815250093477,
+      "boundaries": [
+        0,
+        14,
+        26,
+        37,
+        48,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1159,
+      "normalized_cost": 0.3041714131832123,
+      "weight": 0.022322890106569116,
+      "boundaries": [
+        0,
+        14,
+        24,
+        39,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1158,
+      "normalized_cost": 0.3046078085899353,
+      "weight": 0.022201451544052047,
+      "boundaries": [
+        0,
+        12,
+        21,
+        35,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1251,
+      "normalized_cost": 0.30543649196624756,
+      "weight": 0.02197266387035986,
+      "boundaries": [
+        0,
+        12,
+        26,
+        36,
+        43,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1856,
+      "normalized_cost": 0.30591973662376404,
+      "weight": 0.021840336782131705,
+      "boundaries": [
+        0,
+        14,
+        20,
+        30,
+        38,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1308,
+      "normalized_cost": 0.30632245540618896,
+      "weight": 0.021730669123426586,
+      "boundaries": [
+        0,
+        10,
+        21,
+        36,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1711,
+      "normalized_cost": 0.3064936697483063,
+      "weight": 0.021684211327443793,
+      "boundaries": [
+        0,
+        12,
+        20,
+        33,
+        38,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1571,
+      "normalized_cost": 0.30656561255455017,
+      "weight": 0.02166471980529886,
+      "boundaries": [
+        0,
+        8,
+        18,
+        32,
+        41,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1049,
+      "normalized_cost": 0.3066789507865906,
+      "weight": 0.021634048523854227,
+      "boundaries": [
+        0,
+        13,
+        22,
+        35,
+        49,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1773,
+      "normalized_cost": 0.30730438232421875,
+      "weight": 0.021465575232205616,
+      "boundaries": [
+        0,
+        8,
+        16,
+        33,
+        41,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1960,
+      "normalized_cost": 0.30780935287475586,
+      "weight": 0.021330508418648482,
+      "boundaries": [
+        0,
+        10,
+        20,
+        37,
+        49,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1148,
+      "normalized_cost": 0.3084133565425873,
+      "weight": 0.021170068528523395,
+      "boundaries": [
+        0,
+        9,
+        26,
+        38,
+        49,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1964,
+      "normalized_cost": 0.3090514540672302,
+      "weight": 0.0210018830582064,
+      "boundaries": [
+        0,
+        10,
+        16,
+        29,
+        42,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1250,
+      "normalized_cost": 0.30927664041519165,
+      "weight": 0.020942849465102484,
+      "boundaries": [
+        0,
+        17,
+        21,
+        34,
+        49,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1073,
+      "normalized_cost": 0.31011292338371277,
+      "weight": 0.020725062914239537,
+      "boundaries": [
+        0,
+        8,
+        17,
+        29,
+        43,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1796,
+      "normalized_cost": 0.31077367067337036,
+      "weight": 0.020554592505586992,
+      "boundaries": [
+        0,
+        12,
+        19,
+        31,
+        38,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1462,
+      "normalized_cost": 0.31294214725494385,
+      "weight": 0.020004923900847484,
+      "boundaries": [
+        0,
+        9,
+        21,
+        34,
+        44,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1254,
+      "normalized_cost": 0.3134560286998749,
+      "weight": 0.019876833745993566,
+      "boundaries": [
+        0,
+        13,
+        24,
+        36,
+        47,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1699,
+      "normalized_cost": 0.31359943747520447,
+      "weight": 0.01984123425870784,
+      "boundaries": [
+        0,
+        6,
+        19,
+        30,
+        41,
+        69,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1222,
+      "normalized_cost": 0.3180555999279022,
+      "weight": 0.018766254431443686,
+      "boundaries": [
+        0,
+        18,
+        29,
+        38,
+        47,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1634,
+      "normalized_cost": 0.31837376952171326,
+      "weight": 0.01869176700796266,
+      "boundaries": [
+        0,
+        13,
+        18,
+        31,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1569,
+      "normalized_cost": 0.31866875290870667,
+      "weight": 0.018622971910464876,
+      "boundaries": [
+        0,
+        10,
+        21,
+        33,
+        42,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1869,
+      "normalized_cost": 0.320138543844223,
+      "weight": 0.018283947350563726,
+      "boundaries": [
+        0,
+        9,
+        21,
+        34,
+        42,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1274,
+      "normalized_cost": 0.32047200202941895,
+      "weight": 0.018207894315074812,
+      "boundaries": [
+        0,
+        13,
+        20,
+        35,
+        46,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1499,
+      "normalized_cost": 0.3214295506477356,
+      "weight": 0.017991256608019996,
+      "boundaries": [
+        0,
+        14,
+        23,
+        38,
+        48,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1804,
+      "normalized_cost": 0.3217605650424957,
+      "weight": 0.017916968343075147,
+      "boundaries": [
+        0,
+        9,
+        13,
+        24,
+        31,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1351,
+      "normalized_cost": 0.32442060112953186,
+      "weight": 0.01733101662729573,
+      "boundaries": [
+        0,
+        10,
+        19,
+        34,
+        47,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1575,
+      "normalized_cost": 0.3260989487171173,
+      "weight": 0.016971210696086928,
+      "boundaries": [
+        0,
+        9,
+        21,
+        35,
+        46,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1307,
+      "normalized_cost": 0.32726559042930603,
+      "weight": 0.016725515014189687,
+      "boundaries": [
+        0,
+        16,
+        21,
+        31,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1547,
+      "normalized_cost": 0.3278205692768097,
+      "weight": 0.01660988770676064,
+      "boundaries": [
+        0,
+        12,
+        27,
+        36,
+        48,
+        60,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1321,
+      "normalized_cost": 0.32930880784988403,
+      "weight": 0.01630375062208966,
+      "boundaries": [
+        0,
+        13,
+        21,
+        33,
+        44,
+        61,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1959,
+      "normalized_cost": 0.32988807559013367,
+      "weight": 0.01618612403431048,
+      "boundaries": [
+        0,
+        14,
+        27,
+        43,
+        51,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1306,
+      "normalized_cost": 0.33148184418678284,
+      "weight": 0.015866853165801706,
+      "boundaries": [
+        0,
+        15,
+        21,
+        33,
+        45,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1239,
+      "normalized_cost": 0.33251914381980896,
+      "weight": 0.01566244770319306,
+      "boundaries": [
+        0,
+        14,
+        22,
+        31,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1678,
+      "normalized_cost": 0.33279332518577576,
+      "weight": 0.015608860193679922,
+      "boundaries": [
+        0,
+        7,
+        12,
+        21,
+        40,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2033,
+      "normalized_cost": 0.3334886133670807,
+      "weight": 0.015473789798996456,
+      "boundaries": [
+        0,
+        10,
+        22,
+        38,
+        44,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1067,
+      "normalized_cost": 0.3347795605659485,
+      "weight": 0.015226095604715923,
+      "boundaries": [
+        0,
+        10,
+        22,
+        35,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1580,
+      "normalized_cost": 0.3355589807033539,
+      "weight": 0.01507847183420018,
+      "boundaries": [
+        0,
+        12,
+        22,
+        34,
+        41,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1789,
+      "normalized_cost": 0.33701619505882263,
+      "weight": 0.01480630110862615,
+      "boundaries": [
+        0,
+        7,
+        14,
+        26,
+        35,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1070,
+      "normalized_cost": 0.33797305822372437,
+      "weight": 0.014630260945253553,
+      "boundaries": [
+        0,
+        10,
+        17,
+        29,
+        45,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1204,
+      "normalized_cost": 0.33825448155403137,
+      "weight": 0.014578885153418517,
+      "boundaries": [
+        0,
+        9,
+        24,
+        36,
+        48,
+        60,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1779,
+      "normalized_cost": 0.3384990990161896,
+      "weight": 0.014534375114086742,
+      "boundaries": [
+        0,
+        10,
+        16,
+        28,
+        36,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1707,
+      "normalized_cost": 0.3397539258003235,
+      "weight": 0.014308177206840916,
+      "boundaries": [
+        0,
+        13,
+        16,
+        33,
+        49,
+        67,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1564,
+      "normalized_cost": 0.34093737602233887,
+      "weight": 0.014098072398367358,
+      "boundaries": [
+        0,
+        11,
+        25,
+        38,
+        48,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1125,
+      "normalized_cost": 0.34117260575294495,
+      "weight": 0.01405667971097778,
+      "boundaries": [
+        0,
+        15,
+        22,
+        36,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1165,
+      "normalized_cost": 0.34152737259864807,
+      "weight": 0.013994482174030232,
+      "boundaries": [
+        0,
+        11,
+        23,
+        37,
+        49,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1973,
+      "normalized_cost": 0.3417941629886627,
+      "weight": 0.013947889989913968,
+      "boundaries": [
+        0,
+        10,
+        22,
+        32,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1685,
+      "normalized_cost": 0.34274792671203613,
+      "weight": 0.01378258991181005,
+      "boundaries": [
+        0,
+        12,
+        23,
+        35,
+        43,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1652,
+      "normalized_cost": 0.3429073393344879,
+      "weight": 0.013755153271780448,
+      "boundaries": [
+        0,
+        7,
+        14,
+        28,
+        41,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1322,
+      "normalized_cost": 0.3474758267402649,
+      "weight": 0.01299165781223948,
+      "boundaries": [
+        0,
+        14,
+        22,
+        32,
+        43,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1326,
+      "normalized_cost": 0.35023218393325806,
+      "weight": 0.012551660653556295,
+      "boundaries": [
+        0,
+        11,
+        22,
+        37,
+        49,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1957,
+      "normalized_cost": 0.3504442870616913,
+      "weight": 0.012518426648356349,
+      "boundaries": [
+        0,
+        11,
+        15,
+        26,
+        43,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1023,
+      "normalized_cost": 0.3516526222229004,
+      "weight": 0.012330766752801666,
+      "boundaries": [
+        0,
+        10,
+        18,
+        28,
+        36,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1203,
+      "normalized_cost": 0.35567963123321533,
+      "weight": 0.011725428840742926,
+      "boundaries": [
+        0,
+        14,
+        22,
+        35,
+        47,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1801,
+      "normalized_cost": 0.35640037059783936,
+      "weight": 0.011620266043937653,
+      "boundaries": [
+        0,
+        12,
+        22,
+        33,
+        39,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1700,
+      "normalized_cost": 0.3612005412578583,
+      "weight": 0.01094353108567865,
+      "boundaries": [
+        0,
+        8,
+        12,
+        24,
+        42,
+        70,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1793,
+      "normalized_cost": 0.3658023178577423,
+      "weight": 0.010331797810180907,
+      "boundaries": [
+        0,
+        13,
+        21,
+        31,
+        42,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1567,
+      "normalized_cost": 0.3659951686859131,
+      "weight": 0.010306921608900331,
+      "boundaries": [
+        0,
+        12,
+        18,
+        33,
+        46,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1553,
+      "normalized_cost": 0.3664475679397583,
+      "weight": 0.010248800555229486,
+      "boundaries": [
+        0,
+        7,
+        18,
+        31,
+        43,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1512,
+      "normalized_cost": 0.36665037274360657,
+      "weight": 0.010222852134699567,
+      "boundaries": [
+        0,
+        11,
+        29,
+        41,
+        51,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1962,
+      "normalized_cost": 0.3670833110809326,
+      "weight": 0.010167678254829848,
+      "boundaries": [
+        0,
+        10,
+        15,
+        30,
+        46,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1056,
+      "normalized_cost": 0.370707631111145,
+      "weight": 0.009717320289604113,
+      "boundaries": [
+        0,
+        10,
+        22,
+        35,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1929,
+      "normalized_cost": 0.3716348707675934,
+      "weight": 0.009605341926477093,
+      "boundaries": [
+        0,
+        10,
+        18,
+        30,
+        42,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1872,
+      "normalized_cost": 0.37170514464378357,
+      "weight": 0.009596908073650148,
+      "boundaries": [
+        0,
+        10,
+        21,
+        39,
+        50,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1440,
+      "normalized_cost": 0.3746432065963745,
+      "weight": 0.009250847755124544,
+      "boundaries": [
+        0,
+        7,
+        21,
+        32,
+        46,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1167,
+      "normalized_cost": 0.37661463022232056,
+      "weight": 0.00902566694492458,
+      "boundaries": [
+        0,
+        12,
+        19,
+        30,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1245,
+      "normalized_cost": 0.37662115693092346,
+      "weight": 0.009024930626234643,
+      "boundaries": [
+        0,
+        15,
+        25,
+        36,
+        48,
+        69,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1212,
+      "normalized_cost": 0.3766779601573944,
+      "weight": 0.00901852483596041,
+      "boundaries": [
+        0,
+        8,
+        24,
+        36,
+        46,
+        59,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1710,
+      "normalized_cost": 0.3779813349246979,
+      "weight": 0.008872783808175314,
+      "boundaries": [
+        0,
+        11,
+        22,
+        32,
+        45,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1864,
+      "normalized_cost": 0.3786885738372803,
+      "weight": 0.008794689786706035,
+      "boundaries": [
+        0,
+        8,
+        17,
+        27,
+        33,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1690,
+      "normalized_cost": 0.3798407316207886,
+      "weight": 0.008668936628417976,
+      "boundaries": [
+        0,
+        8,
+        16,
+        27,
+        34,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1719,
+      "normalized_cost": 0.3804023265838623,
+      "weight": 0.008608294340652415,
+      "boundaries": [
+        0,
+        14,
+        22,
+        32,
+        46,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1192,
+      "normalized_cost": 0.3804864287376404,
+      "weight": 0.008599249394676869,
+      "boundaries": [
+        0,
+        8,
+        14,
+        30,
+        44,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1582,
+      "normalized_cost": 0.3839623034000397,
+      "weight": 0.00823362588134422,
+      "boundaries": [
+        0,
+        11,
+        22,
+        37,
+        49,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1230,
+      "normalized_cost": 0.38450363278388977,
+      "weight": 0.008178100158550757,
+      "boundaries": [
+        0,
+        16,
+        27,
+        39,
+        49,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1214,
+      "normalized_cost": 0.39028507471084595,
+      "weight": 0.007607935483318782,
+      "boundaries": [
+        0,
+        12,
+        25,
+        39,
+        47,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1782,
+      "normalized_cost": 0.39055541157722473,
+      "weight": 0.0075822700542125514,
+      "boundaries": [
+        0,
+        13,
+        23,
+        36,
+        44,
+        62,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1227,
+      "normalized_cost": 0.39255276322364807,
+      "weight": 0.007395307952875224,
+      "boundaries": [
+        0,
+        16,
+        25,
+        37,
+        46,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1385,
+      "normalized_cost": 0.39323630928993225,
+      "weight": 0.007332389214010221,
+      "boundaries": [
+        0,
+        16,
+        21,
+        36,
+        48,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1692,
+      "normalized_cost": 0.39617857336997986,
+      "weight": 0.007067615210177342,
+      "boundaries": [
+        0,
+        8,
+        14,
+        27,
+        41,
+        67,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1200,
+      "normalized_cost": 0.39866960048675537,
+      "weight": 0.006850935915202597,
+      "boundaries": [
+        0,
+        13,
+        22,
+        37,
+        50,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1334,
+      "normalized_cost": 0.39906007051467896,
+      "weight": 0.006817578823102457,
+      "boundaries": [
+        0,
+        13,
+        25,
+        37,
+        46,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2021,
+      "normalized_cost": 0.3993443548679352,
+      "weight": 0.006793395180165535,
+      "boundaries": [
+        0,
+        18,
+        26,
+        41,
+        49,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1944,
+      "normalized_cost": 0.39950796961784363,
+      "weight": 0.0067795156324526075,
+      "boundaries": [
+        0,
+        11,
+        20,
+        35,
+        44,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1198,
+      "normalized_cost": 0.4034923017024994,
+      "weight": 0.006450137882434971,
+      "boundaries": [
+        0,
+        12,
+        19,
+        29,
+        44,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1951,
+      "normalized_cost": 0.4063393771648407,
+      "weight": 0.006224624158737458,
+      "boundaries": [
+        0,
+        8,
+        19,
+        32,
+        47,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1488,
+      "normalized_cost": 0.41027572751045227,
+      "weight": 0.005925758437163926,
+      "boundaries": [
+        0,
+        11,
+        27,
+        39,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1984,
+      "normalized_cost": 0.4138396978378296,
+      "weight": 0.005667562074255526,
+      "boundaries": [
+        0,
+        15,
+        23,
+        33,
+        45,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1664,
+      "normalized_cost": 0.41683804988861084,
+      "weight": 0.005459076604363752,
+      "boundaries": [
+        0,
+        13,
+        26,
+        40,
+        49,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1217,
+      "normalized_cost": 0.4197823107242584,
+      "weight": 0.0052618169503634155,
+      "boundaries": [
+        0,
+        9,
+        21,
+        35,
+        47,
+        65,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1305,
+      "normalized_cost": 0.4241926372051239,
+      "weight": 0.004979588782928797,
+      "boundaries": [
+        0,
+        13,
+        20,
+        36,
+        49,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1556,
+      "normalized_cost": 0.4254378378391266,
+      "weight": 0.0049026815277609295,
+      "boundaries": [
+        0,
+        14,
+        24,
+        42,
+        48,
+        64,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1888,
+      "normalized_cost": 0.4276416599750519,
+      "weight": 0.0047694668601547035,
+      "boundaries": [
+        0,
+        12,
+        25,
+        36,
+        49,
+        63,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1315,
+      "normalized_cost": 0.4358038604259491,
+      "weight": 0.004306851056117474,
+      "boundaries": [
+        0,
+        15,
+        27,
+        40,
+        49,
+        68,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 2017,
+      "normalized_cost": 0.4476325511932373,
+      "weight": 0.0037148874776862712,
+      "boundaries": [
+        0,
+        8,
+        19,
+        34,
+        49,
+        66,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1155,
+      "normalized_cost": 0.45482322573661804,
+      "weight": 0.0033955473054260482,
+      "boundaries": [
+        0,
+        14,
+        26,
+        41,
+        51,
+        67,
+        76
+      ]
+    },
+    {
+      "reference_episode_index": 1020,
+      "normalized_cost": 0.45620107650756836,
+      "weight": 0.003337566079520161,
+      "boundaries": [
+        0,
+        12,
+        21,
+        35,
+        47,
+        65,
+        76
+      ]
+    }
+  ]
+}

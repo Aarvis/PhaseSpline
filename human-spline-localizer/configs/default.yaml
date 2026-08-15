@@ -3,6 +3,7 @@ paths:
   human_dataset_root: D:/pretrain_lehome_all_garment_data_z180
   robot_embedding_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/frame_embeddings
   robot_pairing_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/human_episode_pairings_uniform_seed032489
+  robot_local_window_root: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/local_raw_bspline_windows_n010
   human_bspline_root: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/fitted_bspline_splines
   output_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-spline-localizer/outputs/default_run
 
@@ -24,6 +25,11 @@ validation:
   per_category_ratio: 0.10
   min_episodes_per_category: 1
   max_episodes_per_category: null
+  unseen_validation:
+    enabled: true
+    prep_config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/lehome_robot_sim_spline_dataset_prep/unseen_val_prep/unseen_val_config.yaml
+    exact_match_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/prepared_exact_u/exact_frame_human_u_matches
+    pair_ids: []
 
 preprocessing:
   overwrite: false
@@ -35,7 +41,7 @@ preprocessing:
 
 model:
   width: 512
-  dropout: 0.10
+  dropout: 0.15
   human:
     coefficient_input_dim: 2048
     coefficient_projection_dim: 512
@@ -71,13 +77,14 @@ model:
     hidden_dim_1: 512
     hidden_dim_2: 128
   auxiliary:
-    checkpoint_hidden_dim: 256
-    progress_hidden_dim: 256
+    interval_prediction:
+      enabled: true
+      hidden_dim: 256
+      min_delta_u: 1.0e-4
 
 loss:
-  lambda_checkpoint: 0.3
-  lambda_progress: 0.2
-  progress_delta: 0.1
+  lambda_end: 0.5
+  end_delta: 0.1
 
 training:
   seed: 2027
@@ -97,7 +104,7 @@ training:
   gradient_clip_norm: 1.0
   scheduler: cosine
   warmup_steps: 1000
-  validation_frequency_steps: 2000
+  validation_frequency_steps: 1000
   train_log_frequency_steps: 100
   validation_log_frequency_steps: 200
   checkpoint_metric: val_total

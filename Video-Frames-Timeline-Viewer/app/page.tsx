@@ -138,6 +138,12 @@ type GarmentLabelTemplate = AnnotationDocument & {
   category_id?: string;
 };
 
+type GarmentTemplateDocument = {
+  templates?: GarmentLabelTemplate[];
+};
+
+type WorkflowMode = "dataset" | "manual";
+
 type AnnotationSegment = {
   segment_id: number;
   label: string;
@@ -216,6 +222,13 @@ function formatClock(seconds: number) {
   return [hours, minutes, wholeSeconds]
     .map((part) => String(part).padStart(2, "0"))
     .join(":") + `.${String(milliseconds).padStart(3, "0")}`;
+}
+
+function garmentTemplateLabel(template: GarmentLabelTemplate) {
+  const task = typeof template.task === "object" && template.task ? template.task as Record<string, unknown> : null;
+  return typeof task?.name === "string"
+    ? task.name
+    : String(template.category_id ?? "template");
 }
 
 function formatTimecode(frame: number, fps: number) {
@@ -447,9 +460,15 @@ export default function Home() {
   const [previousSaveStatus, setPreviousSaveStatus] = useState<SaveStatus>({ state: "idle", message: "No episode saved yet" });
   const [queuedEpisodeStatus, setQueuedEpisodeStatus] = useState("Next episode queue idle");
   const [preparedEpisodeQueue, setPreparedEpisodeQueue] = useState<PreparedQueueItem[]>([]);
+  const [workflowMode, setWorkflowMode] = useState<WorkflowMode>("dataset");
+  const [garmentTemplates, setGarmentTemplates] = useState<GarmentLabelTemplate[]>([]);
+  const [templateLoadError, setTemplateLoadError] = useState("");
+  const [manualCategoryId, setManualCategoryId] = useState("");
 
   const maxFrame = Math.max(0, totalFrames - 1);
   const progress = maxFrame > 0 ? currentFrame / maxFrame : 0;
+  const isDatasetMode = workflowMode === "dataset";
+  const isManualMode = workflowMode === "manual";
 
   useEffect(() => {
     currentFrameRef.current = currentFrame;
@@ -462,6 +481,38 @@ export default function Home() {
   useEffect(() => {
     preparedEpisodeQueueRef.current = preparedEpisodeQueue;
   }, [preparedEpisodeQueue]);
+
+  const loadGarmentTemplates = useCallback(async () => {
+    const response = await fetch("/garment-segment-labels.json");
+    if (!response.ok) throw new Error("Could not load garment-segment-labels.json.");
+    const templateDocument = await response.json() as GarmentTemplateDocument;
+    const templates = Array.isArray(templateDocument.templates) ? templateDocument.templates : [];
+    if (!templates.length) throw new Error("garment-segment-labels.json does not define any templates.");
+    setGarmentTemplates(templates);
+    setTemplateLoadError("");
+    setManualCategoryId((current) => {
+      if (current && templates.some((template) => template.category_id === current)) return current;
+      const shortsTemplate = templates.find((template) => template.category_id === "shorts");
+      return String(shortsTemplate?.category_id ?? templates[0].category_id ?? "");
+    });
+    return templates;
+  }, []);
+
+  const resolveGarmentTemplates = useCallback(async () => {
+    if (garmentTemplates.length) return garmentTemplates;
+    return loadGarmentTemplates();
+  }, [garmentTemplates, loadGarmentTemplates]);
+
+  useEffect(() => {
+    let cancelled = false;
+    void loadGarmentTemplates().catch((error) => {
+      if (cancelled) return;
+      setTemplateLoadError(error instanceof Error ? error.message : "Could not load garment label templates.");
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [loadGarmentTemplates]);
 
   const timelineTicks = useMemo(() => {
     if (!totalFrames) return [];
@@ -634,8 +685,10 @@ export default function Home() {
       }
 
       sourceFileRef.current = file;
+      setWorkflowMode("manual");
       setLoadError("");
       setIsPreparing(true);
+      setDatasetMessage("Preparing selected local video…");
       setMetadataStatus("Reading video frame metadata…");
       setIsPlaying(false);
       setCurrentFrame(0);
@@ -647,6 +700,8 @@ export default function Home() {
       setCodec("—");
       setFileName(file.name);
       setFileSize(file.size);
+      setDatasetEpisode(null);
+      setDatasetCheckpointSaved(false);
       setAnnotationLabels([]);
       setAnnotationSegments([]);
       setAnnotationBase(null);
@@ -661,6 +716,14 @@ export default function Home() {
       annotationRedoRef.current = [];
       if (videoUrl?.startsWith("blob:")) URL.revokeObjectURL(videoUrl);
       setVideoUrl(null);
+
+      if (isManualMode && manualCategoryId) {
+        try {
+          await applyGarmentTemplateByCategory(manualCategoryId, `${manualCategoryId} template`);
+        } catch (error) {
+          setAnnotationStatus(error instanceof Error ? error.message : "Could not load the selected category template.");
+        }
+      }
 
       try {
         const parsed = await parseMp4(file);
@@ -690,7 +753,7 @@ export default function Home() {
       setVideoUrl(URL.createObjectURL(file));
       setIsPreparing(false);
     },
-    [prepareCompatibleVideo, videoUrl],
+    [applyGarmentTemplateByCategory, isManualMode, manualCategoryId, prepareCompatibleVideo, videoUrl],
   );
 
   const onLoadedMetadata = () => {
@@ -826,6 +889,25 @@ export default function Home() {
     }
   };
 
+  async function applyGarmentTemplateByCategory(categoryId: string, sourceName?: string) {
+    const templates = await resolveGarmentTemplates();
+    const template = templates.find((candidate) => candidate.category_id === categoryId);
+    if (!template) throw new Error(`No label template is configured for ${categoryId}.`);
+    loadAnnotationDocument(template, sourceName ?? `${categoryId} template`);
+  }
+
+  const loadSelectedManualTemplate = useCallback(async () => {
+    if (!manualCategoryId) {
+      setAnnotationStatus("Choose a manual category first.");
+      return;
+    }
+    try {
+      await applyGarmentTemplateByCategory(manualCategoryId, `${manualCategoryId} template`);
+    } catch (error) {
+      setAnnotationStatus(error instanceof Error ? error.message : "Could not load the selected category template.");
+    }
+  }, [manualCategoryId, loadAnnotationDocument, resolveGarmentTemplates]);
+
   const applyDatasetEpisode = useCallback(async (episode: DatasetEpisode) => {
     if (!ANNOTATION_CATEGORY_IDS.has(episode.category_id)) {
       throw new Error(`This viewer is configured for Shorts, Top Long sleeve, and Top Short sleeve only. The helper returned '${episode.category_label}', so restart npm run dev to load the updated paired-dataset helper.`);
@@ -862,16 +944,11 @@ export default function Home() {
     annotationRedoRef.current = [];
 
     setMetadataStatus(`${episodeDatasetLabel} - ${episode.category_label} - dataset episode ${episode.episode_index}`);
-    const templateResponse = await fetch("/garment-segment-labels.json");
-    if (!templateResponse.ok) throw new Error("Could not load garment-segment-labels.json.");
-    const templateDocument = await templateResponse.json() as { templates?: GarmentLabelTemplate[] };
-    const template = templateDocument.templates?.find((candidate) => candidate.category_id === episode.category_id);
-    if (!template) throw new Error(`No label template is configured for ${episode.category_label}.`);
-    loadAnnotationDocument(template, `${episode.category_id} template`);
+    await applyGarmentTemplateByCategory(episode.category_id, `${episode.category_id} template`);
     setVideoUrl(episode.video_url);
     setDatasetMessage(`${episodeDatasetLabel} ${episode.category_label}: annotating episode ${String(episode.episode_index).padStart(6, "0")}.`);
     setIsPreparing(false);
-  }, [loadAnnotationDocument, videoUrl]);
+  }, [applyGarmentTemplateByCategory, videoUrl]);
 
   const cachePreparedEpisodeVideo = useCallback((item: PreparedQueueItem) => {
     if (item.browser_cached || item.episode.video_url.startsWith("blob:")) {
@@ -1005,51 +1082,6 @@ export default function Home() {
       pendingCompletedEpisodesRef.current = [];
       refillPreparedEpisodeQueue(result.session, result.episode);
       return;
-
-      const episode = result.episode;
-      if (!ANNOTATION_CATEGORY_IDS.has(episode.category_id)) {
-        throw new Error(`This viewer is configured for Shorts, Top Long sleeve, and Top Short sleeve only. The helper returned '${episode.category_label}', so restart npm run dev to load the updated paired-dataset helper.`);
-      }
-      sourceFileRef.current = null;
-      transcodeInFlightRef.current = false;
-      if (videoUrl?.startsWith("blob:")) URL.revokeObjectURL(videoUrl);
-      setVideoUrl(null);
-      setDatasetEpisode(episode);
-      const episodeDatasetLabel = episode.dataset_label ?? episode.dataset_id ?? "dataset";
-      setFileName(`${episodeDatasetLabel.toLowerCase()}_${episode.episode_stem}_top_rgb.mp4`);
-      setFileSize(episode.video_size);
-      setDuration(episode.frame_count / episode.fps);
-      setFps(episode.fps);
-      setTotalFrames(episode.frame_count);
-      setCurrentFrame(0);
-      setCurrentTime(0);
-      setResolution(`${episode.width} × ${episode.height}`);
-      setCodec("H264");
-      setIsPlaying(false);
-      setMetadataStatus(`${episode.category_label} · dataset episode ${episode.episode_index}`);
-      setAnnotationLabels([]);
-      setAnnotationSegments([]);
-      setAnnotationBase(null);
-      setActiveSegmentIndex(0);
-      setInteractionMode("scrub");
-      setAnnotationStatus("Loading the category checkpoint vocabulary…");
-      setAnnotationPreviewEnd(null);
-      setProgressToggles({});
-      setProgressControlPoints({});
-      setPendingProgressPoint(null);
-      annotationHistoryRef.current = [];
-      annotationRedoRef.current = [];
-
-      setMetadataStatus(`${episodeDatasetLabel} - ${episode.category_label} - dataset episode ${episode.episode_index}`);
-      const templateResponse = await fetch("/garment-segment-labels.json");
-      if (!templateResponse.ok) throw new Error("Could not load garment-segment-labels.json.");
-      const templateDocument = await templateResponse.json() as { templates?: GarmentLabelTemplate[] };
-      const template = templateDocument.templates?.find((candidate) => candidate.category_id === episode.category_id);
-      if (!template) throw new Error(`No label template is configured for ${episode.category_label}.`);
-      loadAnnotationDocument(template, `${episode.category_id} template`);
-      setVideoUrl(episode.video_url);
-      setDatasetMessage(`${episodeDatasetLabel} ${episode.category_label}: annotating episode ${String(episode.episode_index).padStart(6, "0")}.`);
-      setIsPreparing(false);
     } catch (error) {
       const message = error instanceof Error ? error.message : "Could not prepare the sampled episode.";
       setDatasetMessage(message);
@@ -1058,7 +1090,7 @@ export default function Home() {
     } finally {
       setDatasetBusy(false);
     }
-  }, [applyDatasetEpisode, datasetSession, loadAnnotationDocument, refillPreparedEpisodeQueue, videoUrl]);
+  }, [applyDatasetEpisode, applyGarmentTemplateByCategory, datasetSession, refillPreparedEpisodeQueue, videoUrl]);
 
   const startOrResumeDatasetSession = async () => {
     setDatasetBusy(true);
@@ -1552,9 +1584,12 @@ export default function Home() {
     const blob = new Blob([`${JSON.stringify(payload, null, 2)}\n`], { type: "application/json" });
     try {
       const picker = (window as unknown as { showSaveFilePicker?: LocalSavePicker }).showSaveFilePicker;
+      const localCategoryStem = datasetEpisode?.category_id ?? (isManualMode && manualCategoryId ? manualCategoryId : "manual");
+      const localVideoStem = fileName.replace(/\.[^/.]+$/, "") || "video";
+      const suggestedName = `${localVideoStem}_${localCategoryStem}_checkpoints.json`;
       if (picker) {
         const handle = await picker.call(window, {
-          suggestedName: "checkpoints.json",
+          suggestedName,
           types: [{ description: "Checkpoint JSON", accept: { "application/json": [".json"] } }],
         });
         const writable = await handle.createWritable();
@@ -1564,7 +1599,7 @@ export default function Home() {
         const url = URL.createObjectURL(blob);
         const link = document.createElement("a");
         link.href = url;
-        link.download = "checkpoints.json";
+        link.download = suggestedName;
         link.click();
         URL.revokeObjectURL(url);
       }
@@ -1829,6 +1864,14 @@ export default function Home() {
   }, [activeSegmentIndex, maxFrame, progressModels, totalFrames]);
 
   const datasetSessionComplete = datasetSession?.status === "complete";
+  const manualTemplateOptions = garmentTemplates
+    .map((template) => ({
+      id: String(template.category_id ?? ""),
+      label: garmentTemplateLabel(template),
+      labelCount: Array.isArray(template.labels) ? template.labels.length : 0,
+    }))
+    .filter((template) => template.id);
+  const selectedManualTemplate = garmentTemplates.find((template) => template.category_id === manualCategoryId) ?? null;
 
   return (
     <main
@@ -1887,13 +1930,13 @@ export default function Home() {
             </div>
           </div>
         )}
-        {datasetSession && (
+        {isDatasetMode && datasetSession && (
           <div className={`previous-save-status is-${previousSaveStatus.state}`} title={previousSaveStatus.path ?? previousSaveStatus.message}>
             <span>PREVIOUS SAVE</span>
             <strong>{previousSaveStatus.message}</strong>
           </div>
         )}
-        {datasetSession && (
+        {isDatasetMode && datasetSession && (
           <div className={`previous-save-status is-${preparedEpisodeQueue.length > 0 ? "saved" : "saving"}`} title={queuedEpisodeStatus}>
             <span>NEXT QUEUE</span>
             <strong>{preparedEpisodeQueue.length > 0 ? `${preparedEpisodeQueue.length}/${PREPARED_QUEUE_TARGET} ready` : queuedEpisodeStatus}</strong>
@@ -1906,7 +1949,7 @@ export default function Home() {
               Next episode <span className="button-glyph">→</span>
             </button>
           )}
-          <button className="secondary-button" onClick={() => inputRef.current?.click()}>
+          <button className="secondary-button" onClick={() => { setWorkflowMode("manual"); inputRef.current?.click(); }}>
             <span className="button-glyph">＋</span> Open video
           </button>
         </div>
@@ -1917,14 +1960,24 @@ export default function Home() {
           className={`empty-stage ${isPreparing ? "is-preparing" : ""}`}
         >
           <div className="drop-illustration"><span className="upload-glyph">↑</span></div>
-          <p className="eyebrow">LEHOME DATASET ANNOTATION</p>
-          <h2>{isPreparing ? "Preparing an episode…" : datasetSessionComplete ? "Sampling session complete" : "Annotate sampled episodes"}</h2>
+          <div className="home-mode-switch" aria-label="Annotation workflow mode">
+            <button className={isDatasetMode ? "is-active" : ""} onClick={() => setWorkflowMode("dataset")}>Paired dataset mode</button>
+            <button className={isManualMode ? "is-active" : ""} onClick={() => setWorkflowMode("manual")}>Manual video mode</button>
+          </div>
+          <p className="eyebrow">{isDatasetMode ? "LEHOME DATASET ANNOTATION" : "MANUAL VIDEO ANNOTATION"}</p>
+          <h2>{isPreparing
+            ? (isDatasetMode ? "Preparing an episode…" : "Preparing a local video…")
+            : isDatasetMode
+              ? (datasetSessionComplete ? "Sampling session complete" : "Annotate sampled episodes")
+              : "Annotate a local video"}</h2>
           <p className="empty-copy">
             {isPreparing
               ? datasetMessage
-              : loadError || datasetMessage}
+              : loadError || (isDatasetMode
+                ? datasetMessage
+                : (templateLoadError || "Choose a garment category, open a video, annotate the timeline, then save the output JSON locally."))}
           </p>
-          {datasetInfo?.available && !datasetSessionComplete && !isPreparing && (
+          {isDatasetMode && datasetInfo?.available && !datasetSessionComplete && !isPreparing && (
             <div className="dataset-launch-card">
               <div className="dataset-source-list">
                 {datasetInfo.datasets?.map((dataset) => (
@@ -1945,13 +1998,42 @@ export default function Home() {
               <small>Only Shorts, Top Long sleeve, and Top Short sleeve episodes without a saved temporal checkpoint are eligible. The session alternates Human then Sim inside each category.</small>
             </div>
           )}
-          {!isPreparing && (
-            <button className="secondary-button standalone-video-button" onClick={() => inputRef.current?.click()}>
+          {isManualMode && !isPreparing && (
+            <div className="dataset-launch-card manual-launch-card">
+              <label className="manual-template-picker">
+                <span>Segment label category</span>
+                <select
+                  value={manualCategoryId}
+                  onChange={(event) => setManualCategoryId(event.target.value)}
+                  disabled={!manualTemplateOptions.length}
+                >
+                  {manualTemplateOptions.map((template) => (
+                    <option key={template.id} value={template.id}>
+                      {template.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              {selectedManualTemplate && (
+                <div className="manual-template-summary">
+                  <span>Loaded from garment-segment-labels.json</span>
+                  <strong>{garmentTemplateLabel(selectedManualTemplate)}</strong>
+                  <small>{Array.isArray(selectedManualTemplate.labels) ? selectedManualTemplate.labels.length : 0} labels</small>
+                </div>
+              )}
+              <button className="primary-button" onClick={() => inputRef.current?.click()} disabled={!manualTemplateOptions.length}>
+                <span className="button-glyph">▶</span>Open video for manual annotation
+              </button>
+              <small>Manual mode uses the selected category vocabulary from garment-segment-labels.json and saves the completed checkpoints JSON locally.</small>
+            </div>
+          )}
+          {!isPreparing && isDatasetMode && (
+            <button className="secondary-button standalone-video-button" onClick={() => { setWorkflowMode("manual"); inputRef.current?.click(); }}>
               Open a standalone video instead
             </button>
           )}
           {isPreparing && <div className="conversion-progress" aria-label="Converting video"><span /><span /><span /></div>}
-          {datasetSessionComplete && datasetSession && (
+          {isDatasetMode && datasetSessionComplete && datasetSession && (
             <div className="session-complete-summary">{datasetSession.completed_count} of {datasetSession.sampled_count} sampled episodes saved</div>
           )}
         </section>
@@ -2032,6 +2114,23 @@ export default function Home() {
                   <div className="annotation-actions">
                     <button onClick={() => annotationInputRef.current?.click()}>Load JSON</button>
                     <button onClick={() => void loadSampleLabels()}>Use sample labels</button>
+                    {!datasetEpisode && isManualMode && (
+                      <>
+                        <label className="manual-template-inline">
+                          <span>Category</span>
+                          <select value={manualCategoryId} onChange={(event) => setManualCategoryId(event.target.value)}>
+                            {manualTemplateOptions.map((template) => (
+                              <option key={template.id} value={template.id}>
+                                {template.label}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <button onClick={() => void loadSelectedManualTemplate()} disabled={!manualCategoryId}>
+                          Use category labels
+                        </button>
+                      </>
+                    )}
                     <button onClick={clearAnnotations} disabled={!annotationLabels.length}>Clear boundaries</button>
                     <button className="save-checkpoints" onClick={() => void saveCheckpoints()} disabled={!annotationComplete || datasetCheckpointSaved || datasetBusy}>
                       {datasetCheckpointSaved ? "Checkpoint saved" : datasetEpisode ? "Save episode checkpoint" : "Save checkpoints.json"}

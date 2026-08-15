@@ -1,0 +1,18 @@
+{
+  "category_id": "pants",
+  "episode_index": 519,
+  "prompt_id": "temp_pants_000519",
+  "video_filename": "pants_episode_000519_top_view.mp4",
+  "selection_mode": "range_fallback",
+  "checkpoint_path": null,
+  "source_video_file": null,
+  "task_name": null,
+  "task_garment_type": "pants",
+  "supports_predicted_width": false,
+  "supports_fixed_future_frames": true,
+  "fps": 23.000005483628627,
+  "frame_count": 204,
+  "frame_index_start": 0,
+  "frame_index_end": 203,
+  "parquet_path": "D:\\pretrain_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000519.parquet"
+}

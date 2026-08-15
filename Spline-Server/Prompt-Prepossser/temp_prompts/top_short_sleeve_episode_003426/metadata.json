@@ -1,0 +1,18 @@
+{
+  "category_id": "top_short_sleeve",
+  "episode_index": 3426,
+  "prompt_id": "temp_top_short_sleeve_003426",
+  "video_filename": "top_short_sleeve_episode_003426_top_view.mp4",
+  "selection_mode": "category_range",
+  "checkpoint_path": null,
+  "source_video_file": null,
+  "task_name": null,
+  "task_garment_type": "top_short_sleeve",
+  "supports_predicted_width": false,
+  "supports_fixed_future_frames": true,
+  "fps": 23.000005483628627,
+  "frame_count": 224,
+  "frame_index_start": 0,
+  "frame_index_end": 223,
+  "parquet_path": "D:\\pretrain_lehome_all_garment_data_z180\\data\\chunk-003\\episode_003426.parquet"
+}

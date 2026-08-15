@@ -1,0 +1,11 @@
+{
+  "pair_id": "pants_pair_000",
+  "category_id": "pants",
+  "robot_episode_index": 127,
+  "human_episode_index": 519,
+  "robot_episode_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\pants\\robot_sim\\pants_episode_000127",
+  "human_episode_dir": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\pants\\human\\pants_episode_000519",
+  "num_frames": 274,
+  "num_pairings_per_frame": 1,
+  "output_npz_path": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Unseen-validation\\prepared_exact_u\\human_episode_pairings\\pants\\pants_pair_000\\robot_episode_000127\\human_episode_pairings.npz"
+}

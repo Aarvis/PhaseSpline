@@ -1,0 +1,52 @@
+{
+  "phase_bin_count": 400,
+  "prompt_bank_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Spline-Server\\prompt_bank",
+  "prompts": [
+    {
+      "category_id": "pants",
+      "frame_count": 204,
+      "prompt_id": "pants_prompt_000",
+      "reference_top_view_video_filename": "top_view_reference.mp4",
+      "relative_dir": "pants_prompt_000",
+      "saved_reference_top_view_video": true,
+      "source_type": "dataset_episode",
+      "supports_fixed_future_frames": true,
+      "supports_predicted_width": true
+    },
+    {
+      "category_id": "shorts",
+      "frame_count": 89,
+      "prompt_id": "shorts_prompt_000",
+      "reference_top_view_video_filename": "top_view_reference.mp4",
+      "relative_dir": "shorts_prompt_000",
+      "saved_reference_top_view_video": true,
+      "source_type": "dataset_episode",
+      "supports_fixed_future_frames": true,
+      "supports_predicted_width": true
+    },
+    {
+      "category_id": "top_long_sleeve",
+      "frame_count": 64,
+      "prompt_id": "top_long_prompt_000",
+      "reference_top_view_video_filename": "top_view_reference.mp4",
+      "relative_dir": "top_long_prompt_000",
+      "saved_reference_top_view_video": true,
+      "source_type": "dataset_episode",
+      "supports_fixed_future_frames": true,
+      "supports_predicted_width": true
+    },
+    {
+      "category_id": "top_short_sleeve",
+      "frame_count": 76,
+      "prompt_id": "top_short_prompt_000",
+      "reference_top_view_video_filename": "top_view_reference.mp4",
+      "relative_dir": "top_short_prompt_000",
+      "saved_reference_top_view_video": true,
+      "source_type": "dataset_episode",
+      "supports_fixed_future_frames": true,
+      "supports_predicted_width": true
+    }
+  ],
+  "reference_top_view_video_filename": "top_view_reference.mp4",
+  "save_reference_top_view_video": true
+}

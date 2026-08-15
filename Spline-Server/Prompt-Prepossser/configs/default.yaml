@@ -1,0 +1,66 @@
+paths:
+  prompt_bank_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Spline-Server/prompt_bank
+  human_dataset_root: D:/pretrain_lehome_all_garment_data_z180
+  human_bspline_root: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/fitted_bspline_splines
+  human_frame_embedding_root: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/frame_embeddings
+  human_embedder_config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/lehome_human_spline_generation/configs/default.yaml
+  human_embedder_checkpoint_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/lehome_human_spline_generation/outputs/visual_vae_joint_full_epoch/checkpoints/final.pt
+  human_embedding_normalization_path: D:/pretrain_lehome_all_garment_data_z180/embeddings/human_visual_vae_joint_full_epoch/frame_embeddings/embedding_normalization.npz
+
+prompt_bank:
+  overwrite: true
+  device: cuda
+  amp: true
+  phase_bin_count: 400
+  save_reference_top_view_video: true
+  reference_video_filename: top_view_reference.mp4
+  default_video_fps: 24.0
+  video_batch_size: 64
+  initial_internal_knots: 8
+  max_internal_knots: 350
+  endpoint_weight: 1000.0
+  min_knot_spacing_frames: 1
+  epsilon_latent_rmse: 0.2
+  epsilon_cosine_distance: 0.1
+  epsilon_state_rmse: 1.0
+
+prompts:
+  - prompt_id: pants_prompt_000
+    category_id: pants
+    source:
+      type: dataset_episode
+    human_episode_index: 000519
+
+  - prompt_id: shorts_prompt_000
+    category_id: shorts
+    source:
+      type: dataset_episode
+    human_episode_index: 001886
+
+  - prompt_id: top_long_prompt_000
+    category_id: top_long_sleeve
+    source:
+      type: dataset_episode
+    human_episode_index: 002465
+
+  - prompt_id: top_short_prompt_000
+    category_id: top_short_sleeve
+    source:
+      type: dataset_episode
+    human_episode_index: 003426
+  # Example dataset prompt:
+  # - prompt_id: shorts_prompt_000
+  #   category_id: shorts
+  #   source:
+  #     type: dataset_episode
+  #   human_episode_index: 1018
+  #
+  # Example raw video prompt:
+  # - prompt_id: top_long_prompt_video_000
+  #   category_id: top_long_sleeve
+  #   source:
+  #     type: video_file
+  #   video_path: D:/path/to/top_long_prompt.mp4
+  #   fps: 30.0
+  #   frame_stride: 1
+  #   max_frames: null

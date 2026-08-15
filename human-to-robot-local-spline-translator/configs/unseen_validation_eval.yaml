@@ -1,0 +1,23 @@
+base_config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-to-robot-local-spline-translator/configs/default.yaml
+
+unseen_eval:
+  checkpoint_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/inference-weights-prompts/translator/final.pt
+  unseen_prep_config_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/lehome_robot_sim_spline_dataset_prep/unseen_val_prep/unseen_val_config.yaml
+  exact_match_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/Unseen-validation/prepared_exact_u/exact_frame_human_u_matches
+  embedding_normalization_path: E:/Lehome-Dataset/lehome_round_2_dataset/sim_dataset/robot_sim_ft_lehome_all_garment_data_z180/embeddings/robot_sim_multiview_vae_joint_full_visual_epoch/frame_embeddings/embedding_normalization.npz
+  state_normalization_path: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/inference-weights-prompts/translator/state_normalization.json
+  output_root: D:/LeHome-Challenge/Lehome-Spline-ICRA2027/human-to-robot-local-spline-translator/outputs/unseen_validation_eval_default_run_n010
+  interval_mode: fixed_future_robot_frames #exact_gt
+  fixed_future_robot_frames: 10
+  pair_ids: []
+  batch_size: 16
+  num_workers: 0
+  pin_memory: true
+  persistent_workers: false
+  device: cuda
+  amp: true
+  teacher_forcing_alpha: 0.0
+  compressor_gradient_gamma: 0.0
+  human_cache_capacity: 8
+  robot_cache_capacity: 8
+  save_pair_npz: true

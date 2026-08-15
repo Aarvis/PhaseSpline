@@ -1,0 +1,24 @@
+{
+  "robot_sim_dataset_root": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180",
+  "output_root": "D:\\LeHome-Challenge\\Lehome-Spline-ICRA2027\\Spline-Server\\Prompt-Prepossser\\temp_robot_sim_unseen_eval",
+  "seed": 64,
+  "selected_categories": [
+    "pants"
+  ],
+  "num_prompts": 1,
+  "prompts": [
+    {
+      "category_id": "pants",
+      "episode_index": 127,
+      "selection_mode": "category_range_random",
+      "video_filename": "pants_episode_000127_top_view.mp4",
+      "supports_predicted_width": false,
+      "supports_fixed_future_frames": true,
+      "fps": 30.000028610256777,
+      "frame_count": 274,
+      "frame_index_start": 0,
+      "frame_index_end": 273,
+      "parquet_path": "E:\\Lehome-Dataset\\lehome_round_2_dataset\\sim_dataset\\robot_sim_ft_lehome_all_garment_data_z180\\data\\chunk-000\\episode_000127.parquet"
+    }
+  ]
+}

@@ -14,7 +14,6 @@ from tqdm.auto import tqdm
 
 from .config import save_resolved_config
 from .data import (
-    STATE_COLUMN,
     HumanEpisodeFeatures,
     RobotEpisodeFeatures,
     as_path,
@@ -46,7 +45,6 @@ class InferencePaths:
     localizer_output_root: Path
     human_cache_root: Path
     state_norm_path: Path
-    category_metadata_path: Path
     inference_output_root: Path
     resolved_config_path: Path
     run_summary_path: Path
@@ -63,6 +61,10 @@ class InferenceSettings:
     max_episodes: int | None
     human_cache_capacity: int
     episode_filter: tuple[int, ...]
+
+
+def _interval_prediction_enabled(config: dict[str, Any]) -> bool:
+    return bool(config["model"]["auxiliary"].get("interval_prediction", {}).get("enabled", False))
 
 
 def _effective_config(runtime_config: dict[str, Any], checkpoint_config: dict[str, Any] | None) -> dict[str, Any]:
@@ -96,7 +98,6 @@ def _resolve_paths(config: dict[str, Any]) -> InferencePaths:
         localizer_output_root=localizer_output_root,
         human_cache_root=localizer_output_root / str(preprocessing["human_cache_dirname"]),
         state_norm_path=localizer_output_root / str(preprocessing["state_norm_filename"]),
-        category_metadata_path=localizer_output_root / str(preprocessing["category_metadata_filename"]),
         inference_output_root=inference_output_root,
         resolved_config_path=inference_output_root / "resolved_inference_config.yaml",
         run_summary_path=inference_output_root / "run_summary.json",
@@ -141,12 +142,6 @@ def _load_state_norm(config: dict[str, Any], paths: InferencePaths, valid_episod
     info = read_dataset_info(paths.sim_dataset_root)
     state_dims = resolve_state_dims(config, info)
     return compute_state_normalization(paths.sim_dataset_root, valid_episode_ids, state_dims, paths.state_norm_path)
-
-
-def _load_category_metadata(path: Path) -> dict[str, Any]:
-    if not path.exists():
-        raise FileNotFoundError(f"Missing category metadata from training output: {path}")
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _ensure_output_episode_dir(path: Path, overwrite: bool) -> None:
@@ -250,7 +245,6 @@ def _build_batch(
     robot_history_embeddings_all: np.ndarray,
     robot_history_states_all: np.ndarray,
     robot_history_mask_all: np.ndarray,
-    category_index: int,
     human_cache: EpisodeLRUCache,
     paths: InferencePaths,
 ) -> tuple[dict[str, torch.Tensor], list[int]]:
@@ -286,7 +280,6 @@ def _build_batch(
         human_basis[batch_index, :, :length] = torch.from_numpy(item.basis_200)
         human_mask[batch_index, :length] = True
 
-    category_tensor = torch.full((batch_size,), fill_value=int(category_index), dtype=torch.int64)
     batch = {
         "robot_history_embeddings": torch.from_numpy(robot_history_embeddings_all[row_indices].astype(np.float32, copy=False)),
         "robot_history_states": torch.from_numpy(robot_history_states_all[row_indices].astype(np.float32, copy=False)),
@@ -299,7 +292,6 @@ def _build_batch(
         "human_greville_phase": human_greville,
         "human_basis_200": human_basis,
         "human_mask": human_mask,
-        "category_index": category_tensor,
     }
     return batch, human_episode_ids
 
@@ -331,10 +323,8 @@ def export_predicted_human_u(
         categories,
         skip_missing=bool(effective_config["data"]["skip_missing_robot_episodes"]),
     )
-    category_metadata = _load_category_metadata(paths.category_metadata_path)
-    category_order = [str(value) for value in category_metadata["category_order"]]
-    category_to_index = {category_id: index for index, category_id in enumerate(category_order)}
-    valid_episode_ids = [episode for category_id in category_order for episode in valid_robot_episodes.get(category_id, [])]
+    category_order = [str(category.category_id) for category in categories]
+    valid_episode_ids = [episode for category in categories for episode in valid_robot_episodes.get(category.category_id, [])]
     if settings.episode_filter:
         selected = set(settings.episode_filter)
         valid_episode_ids = [episode for episode in valid_episode_ids if episode in selected]
@@ -353,11 +343,9 @@ def export_predicted_human_u(
         overwrite=False,
     )
 
-    checkpoint_class_counts = [int(value) for value in category_metadata["checkpoint_class_counts"]]
     model = GlobalSplineLocalizer(
         config=effective_config,
         state_dim=len(state_norm["state_dims"]),
-        checkpoint_class_counts=checkpoint_class_counts,
     )
     model.load_state_dict(payload["model"])
     torch_device = torch.device(settings.device)
@@ -372,6 +360,7 @@ def export_predicted_human_u(
     history_stride = int(effective_config["data"]["history_stride"])
     verify_alignment = bool(effective_config["data"]["verify_alignment"])
     human_cache = EpisodeLRUCache(capacity=settings.human_cache_capacity)
+    interval_enabled = _interval_prediction_enabled(effective_config)
 
     run_summary = {
         "checkpoint_path": str(settings.checkpoint_path),
@@ -380,6 +369,7 @@ def export_predicted_human_u(
         "num_episodes": int(len(valid_episode_ids)),
         "batch_size": int(settings.batch_size),
         "amp": bool(amp_enabled),
+        "interval_prediction_enabled": bool(interval_enabled),
         "phase_bin_count": int(effective_config["data"]["phase_bin_count"]),
         "history_length": int(history_length),
         "history_stride": int(history_stride),
@@ -402,7 +392,6 @@ def export_predicted_human_u(
             num_frames = int(pairing_frame_indices.shape[0])
             num_pairings = int(paired_human_episode_indices.shape[1])
             category = category_for_robot_episode(episode_index, categories)
-            category_index = int(category_to_index[category.category_id])
 
             normalized_states = ((robot_episode.states[:, state_dims].astype(np.float32) - state_mean) / state_std).astype(np.float32, copy=False)
             history_positions, history_valid_mask = _history_positions_and_mask(num_frames, history_length, history_stride)
@@ -415,11 +404,11 @@ def export_predicted_human_u(
 
             predicted_u = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
             predicted_bin_index = np.full((num_frames, num_pairings), fill_value=-1, dtype=np.int32)
-            predicted_checkpoint_index = np.full((num_frames, num_pairings), fill_value=-1, dtype=np.int32)
-            predicted_progress = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
             predicted_c_max = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
             predicted_entropy = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
             predicted_margin = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
+            predicted_human_end_u = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
+            predicted_delta_u = np.full((num_frames, num_pairings), fill_value=np.nan, dtype=np.float32)
 
             inner = tqdm(range(0, flat_rows.shape[0], settings.batch_size), desc=f"episode_{episode_index:06d}", unit="batch", leave=False)
             for start in inner:
@@ -433,7 +422,6 @@ def export_predicted_human_u(
                     robot_history_embeddings_all,
                     robot_history_states_all,
                     robot_history_mask_all,
-                    category_index,
                     human_cache,
                     paths,
                 )
@@ -441,8 +429,6 @@ def export_predicted_human_u(
                 with autocast(device_type=torch_device.type, enabled=amp_enabled):
                     outputs = model(**batch)
                 u_hat = outputs["u_hat"].detach().cpu().to(torch.float32).numpy()
-                checkpoint_argmax = outputs["checkpoint_logits"].argmax(dim=-1).detach().cpu().to(torch.int32).numpy()
-                progress_hat = outputs["progress"].detach().cpu().to(torch.float32).numpy()
                 c_max = outputs["c_max"].detach().cpu().to(torch.float32).numpy()
                 entropy = outputs["entropy"].detach().cpu().to(torch.float32).numpy()
                 margin = outputs["margin"].detach().cpu().to(torch.float32).numpy()
@@ -450,29 +436,33 @@ def export_predicted_human_u(
 
                 predicted_u[batch_rows, batch_slots] = u_hat
                 predicted_bin_index[batch_rows, batch_slots] = bin_index
-                predicted_checkpoint_index[batch_rows, batch_slots] = checkpoint_argmax
-                predicted_progress[batch_rows, batch_slots] = progress_hat
                 predicted_c_max[batch_rows, batch_slots] = c_max
                 predicted_entropy[batch_rows, batch_slots] = entropy
                 predicted_margin[batch_rows, batch_slots] = margin
+
+                if interval_enabled and "u_end_hat" in outputs and "delta_u_hat" in outputs:
+                    predicted_human_end_u[batch_rows, batch_slots] = outputs["u_end_hat"].detach().cpu().to(torch.float32).numpy()
+                    predicted_delta_u[batch_rows, batch_slots] = outputs["delta_u_hat"].detach().cpu().to(torch.float32).numpy()
 
             arrays = {
                 "frame_indices": pairing_frame_indices.astype(np.int32, copy=False),
                 "paired_human_episode_indices": paired_human_episode_indices.astype(np.int32, copy=False),
                 "predicted_human_u": predicted_u,
                 "predicted_human_bin_index": predicted_bin_index,
-                "predicted_checkpoint_index": predicted_checkpoint_index,
-                "predicted_progress": predicted_progress,
                 "predicted_c_max": predicted_c_max,
                 "predicted_entropy": predicted_entropy,
                 "predicted_margin": predicted_margin,
             }
+            if interval_enabled:
+                arrays["predicted_human_end_u"] = predicted_human_end_u
+                arrays["predicted_delta_u"] = predicted_delta_u
             metadata = {
                 "episode_index": int(episode_index),
                 "category_id": category.category_id,
                 "num_frames": int(num_frames),
                 "num_pairings_per_frame": int(num_pairings),
                 "checkpoint_path": str(settings.checkpoint_path),
+                "interval_prediction_enabled": bool(interval_enabled),
                 "phase_bin_count": int(effective_config["data"]["phase_bin_count"]),
             }
             _save_episode_output(
